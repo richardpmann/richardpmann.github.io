@@ -1,0 +1,63 @@
+Index of datasets for Math 3823, last updated 26 January 2016
+
+Naming convention: The name of each dataset  ends in .txt since it is just a
+text file.  Note that the first line of the dataset contains the names
+of the variables (and so should be read into R using the command
+"read.table" with the option "header=T").  For example here are the first
+few lines of birthwt.txt
+
+sex age weight
+1 40 2968
+1 38 2795
+1 40 3163
+
+Description of the datasets:
+
+birthwt.txt
+   birthweight example from Dobson and Barnett, p 24
+   col 1: sex -- sex (1 = male, 2 = female)
+   col 2: age -- age in weeks
+   col 3: weight -- birthweight in grams
+   n = 24 observations
+
+beetle.txt
+   beetle mortality example from Dobson and Barnett, p 127
+   col 1: dose -- log dosage 
+   col 2: total --  no of insects at each dose
+   col 3: died -- no killed
+   n = 8 observations
+
+melanoma.txt
+  malignant melanoma data from Dobson and Barnett, p 172
+  col 1: type -- tumour type = 1,2,3,4
+  col 2: site -- site = 1,2,3
+  col 3: count  -- numbers of patients in each category
+
+leuk-wbc.txt
+  leukaemia failure time and white blood count data, from Cox and Oakes, pp7-9
+  also from Dobson and Barnett, p 204 
+  (but WBC is divided by 1000 in D&B version)
+  col 1: ag -- AG status (pos = 1, neg = 2)
+  col 2: wbc -- WBC (white blood count)
+  col 3: time -- failure time (in weeks)
+
+chd.txt
+  coronary heart disease data
+  col 1: r -- no of  subjects diagnosed with coronary heart disease
+  col 2: n -- no of subjects in each group
+  col 3: chol  -- serum cholesterol in mg/100cc
+                 1= <200, 2= 200-219, 3=220-259, 4=260+
+  col 4: bp -- blood pressure in mm mercury
+                  1= <127, 2=127-146, 3=147-166, 4=167+
+
+engine.txt
+  engine wear data from S Wood, p 126
+  col 1: size -- sizes of 19 Volvo engines
+  col 2: wear -- engine wear index on these engines
+
+ulcer.txt 
+  ulcer data from Dobson and Barnett, p 174
+  col 1: count -- number of cases for each combination of factors
+  col 2: cc -- (1=case; 2=control)
+  col 3: aspirin -- (1=non-user; 2=user)
+  col 4:  ulcer --  (1=gastric; 2=duodenal)
