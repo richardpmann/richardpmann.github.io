@@ -1,0 +1,26 @@
+Addendum to "Additional component the practical" on Handout 4 for Level 5.
+
+1. The version of R on the computer clusters seems to have a problem
+with the library "mgcv".  If, in R, the command
+
+library(mgcv)
+
+does not work, then issue the following command in R (once only)
+
+install.packages("n:/lucs-h13/userlib/userlib/stalib3/rlib/3.1/mgcv_1.8-12.zip",repos=NULL,contriburl=NULL)
+
+You may be asked two questions about creating a personal library --- answer 
+yes to both questions.
+
+Now the library(mgcv) command should work.
+
+2. After fitting a generalized additive model and storing the fitted model
+in "out", say, the information in out$sp takes two forms:
+
+a. If the value of the smoothing parameter sp is specified in the
+generalized additive model (as it is in the bottom half of page 2 in
+the handout with sp=1), then out$sp contains no useful information.
+
+b. If the value of sp is not specified in the generalized additive
+model, then out$sp contains the value of the smoothing parameter.
+

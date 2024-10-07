@@ -1,0 +1,41 @@
+---
+title: "Datasets"
+author: "Author: Robert G Aykroyd"
+date: "Published: January 17, 2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## MATH3823 Datasets
+
+::: callout-important
+You are reminded of the information in the Lecture Notes:
+
+Unless otherwise stated, data files will be available online at: rgaykroyd.github.io/MATH3823/Datasets/*filename.ext*, where *filename.ext* is the stated filename with extension.
+:::
+
+In Exercise 1.1, you can access the file here: [beetle.txt](https://rgaykroyd.github.io/MATH3823/Datasets/beetle.txt) but also it can be read-in directly from within R using:
+
+```{r}
+beetle = read.table("https://rgaykroyd.github.io/MATH3823/Datasets/beetle.txt", header=T)
+```
+
+In Exercise 1.5, you can access the file here: [physics_from_data.csv](https://rgaykroyd.github.io/MATH3823/Datasets/physics_from_data.csv) but also it can be read-in directly from within R using: 
+
+```{r}
+physics = read.csv("https://rgaykroyd.github.io/MATH3823/Datasets/physics_from_data.csv", header=T)
+```
+
+In Exercise 2.4, you can access the file here: [barley.csv](https://rgaykroyd.github.io/MATH3823/Datasets/barley.csv) but also it can be read-in directly from within R using: 
+
+```{r}
+barley = read.csv("https://rgaykroyd.github.io/MATH3823/Datasets/barley.csv", header=T)
+```
+
+
+::: callout-important
+Please note that this level of guidance will not be given routinely and hence please follow the equivalent approach using the general folder address and specific file name. 
+:::
