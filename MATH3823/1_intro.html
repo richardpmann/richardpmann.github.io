@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MATH3823 Generalised Linear Models - 1&nbsp; Introduction</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./2_linearmodels.html" rel="next">
+<link href="./0_preface.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="webex.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH3823 Generalised Linear Models</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0_preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_linearmodels.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_GLM-Theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GLM Theory</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_GLM-Fitting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GLM Estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_logisticmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modelling Proportions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_loglinearmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loglinear Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_extendedloglinearmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Extensions to Loglinear models</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1.1</span> Overview</a></li>
+  <li><a href="#motivating-example" id="toc-motivating-example" class="nav-link" data-scroll-target="#motivating-example"><span class="header-section-number">1.2</span> Motivating example</a></li>
+  <li><a href="#focus-on-correlation-quiz" id="toc-focus-on-correlation-quiz" class="nav-link" data-scroll-target="#focus-on-correlation-quiz">Focus on correlation quiz</a></li>
+  <li><a href="#revision-of-least-squares-estimation" id="toc-revision-of-least-squares-estimation" class="nav-link" data-scroll-target="#revision-of-least-squares-estimation"><span class="header-section-number">1.3</span> Revision of least-squares estimation</a></li>
+  <li><a href="#sec-typevariables" id="toc-sec-typevariables" class="nav-link" data-scroll-target="#sec-typevariables"><span class="header-section-number">1.4</span> Types of variables</a></li>
+  <li><a href="#focus-on-data-type-quiz" id="toc-focus-on-data-type-quiz" class="nav-link" data-scroll-target="#focus-on-data-type-quiz">Focus on data type quiz</a></li>
+  <li><a href="#sec-exercises1" id="toc-sec-exercises1" class="nav-link" data-scroll-target="#sec-exercises1"><span class="header-section-number">1.5</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-introduction" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="hidden">
+<p><span class="math display">\[
+\def\b#1{\mathbf{#1}}
+\]</span></p>
+</div>
+<p></p>
+<section id="overview" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1.1</span> Overview</h2>
+<p>In previous modules you have studied linear models with a normally distributed error term, such as simple linear regression, multiple linear regression and ANOVA for normally distributed observations. In this module we will study <strong>generalised</strong> linear models.</p>
+<p>Outline of the module:</p>
+<ol type="1">
+<li>Revision of linear models with normal errors.</li>
+<li>Introduction to generalised linear models, GLMs.</li>
+<li>Logistic regression models.</li>
+<li>Loglinear models, including contingency tables.</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This module will make extensive use of <span class="math inline">\(\mathbf{R}\)</span> and hence it is very important that you are comfortable with its use. If you need some revision, then material is available on Minerva under <em>RStudio Support</em>.</p>
+</div>
+</div>
+<p>The purpose of a generalised linear model is to describe the dependence of a <em>response</em> variable <span class="math inline">\(y\)</span> on a set of <span class="math inline">\(p\)</span> <em>explanatory</em> variables <span class="math inline">\(\b{x}=(x_1, x_2, \ldots, x_p)\)</span> where, conditionally on <span class="math inline">\(\b{x}\)</span>, observation <span class="math inline">\(y\)</span> has a distribution which is <strong>not necessarily</strong> normal. Note that the normal distribution situation is a special case of the general framework and we will study that in the next Chapter.</p>
+<p>Please be aware that in this learning material we may use lowercase letters, for example <span class="math inline">\(y\)</span> or <span class="math inline">\(y_i,\)</span> to denote both observed values or random variables, which is being considered should be clear from the context.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This module will make extensive use of many basic ideas from statistics. If you need some revision, then see <em>Appendix A: Basic material</em> on Minerva under <em>Basic Pre-requisite Material</em>.</p>
+</div>
+</div>
+</section>
+<section id="motivating-example" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="motivating-example"><span class="header-section-number">1.2</span> Motivating example</h2>
+<p><a href="#tbl-beetle-data">Table&nbsp;<span>1.1</span></a> shows data<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> on the number of beetles killed by five hours of exposure to 8 different concentrations of gaseous carbon disulphide.</p>
+<div id="tbl-beetle-data" class="anchored">
+<table class="table">
+<caption>Table&nbsp;1.1: Numbers of beetles killed by five hours of exposure to 8 different concentrations of gaseous carbon disulphide</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><p>Dose</p>
+<p><span class="math inline">\(x_i\)</span></p></th>
+<th style="text-align: center;"><p>No.&nbsp;of beetle</p>
+<p><span class="math inline">\(m_i\)</span></p></th>
+<th style="text-align: center;"><p>No.&nbsp;killed</p>
+<p><span class="math inline">\(y_i\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1.6907</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1.7242</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1.7552</td>
+<td style="text-align: center;">62</td>
+<td style="text-align: center;">18</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1.7842</td>
+<td style="text-align: center;">56</td>
+<td style="text-align: center;">28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1.8113</td>
+<td style="text-align: center;">63</td>
+<td style="text-align: center;">52</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1.8369</td>
+<td style="text-align: center;">59</td>
+<td style="text-align: center;">53</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1.8610</td>
+<td style="text-align: center;">62</td>
+<td style="text-align: center;">61</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1.8839</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">60</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="#fig-beetle-fitted-1">Figure&nbsp;<span>1.1 (a)</span></a> shows the same data with a linear regression line superimposed. Although this line goes close to the plotted points, we can see some fluctuations around it. More seriously, this is a stupid model: it would predict a mortality rate of greater than 100% at a dose of 1.9 units, and a negative mortality rate at 1.65 units!</p>
+<div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>beetle <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"https://richardpmann.com/MATH3823/Datasets/beetle.txt"</span>, <span class="at">header=</span>T)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>dose <span class="ot">=</span> beetle<span class="sc">$</span>dose</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>mortality <span class="ot">=</span> beetle<span class="sc">$</span>died<span class="sc">/</span>beetle<span class="sc">$</span>total</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dose, mortality, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">"blue"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="fl">1.65</span>, <span class="fl">1.90</span>), <span class="at">xlab =</span><span class="st">"Dose"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">1.1</span>),  <span class="at">ylab=</span><span class="st">"Mortality"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a linear model</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>lm.fit <span class="ot">=</span> <span class="fu">lm</span>(mortality <span class="sc">~</span> dose)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lm.fit, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a logisitc model</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dose, mortality, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">"blue"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="fl">1.65</span>, <span class="fl">1.90</span>), <span class="at">xlab =</span><span class="st">"Dose"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">1.1</span>),  <span class="at">ylab=</span><span class="st">"Mortality"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">cbind</span>(beetle<span class="sc">$</span>died, beetle<span class="sc">$</span>total<span class="sc">-</span>beetle<span class="sc">$</span>died)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>glm.fit <span class="ot">=</span> <span class="fu">glm</span>(y <span class="sc">~</span> dose, <span class="at">family=</span><span class="fu">binomial</span>(<span class="at">link=</span><span class="st">'logit'</span>))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>output.dose <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">1.6</span>,<span class="fl">1.95</span>,<span class="fl">0.001</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>fitted <span class="ot">=</span> <span class="fu">predict</span>(glm.fit, <span class="fu">data.frame</span>(<span class="at">dose=</span>output.dose), <span class="at">type=</span><span class="st">"response"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(output.dose, fitted, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="fig-beetle-fitted" class="cell quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-beetle-fitted-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_intro_files/figure-html/fig-beetle-fitted-1.png" class="img-fluid figure-img" data-ref-parent="fig-beetle-fitted" width="672"></p>
+<figcaption class="figure-caption">(a) Linear model</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-beetle-fitted-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_intro_files/figure-html/fig-beetle-fitted-2.png" class="img-fluid figure-img" data-ref-parent="fig-beetle-fitted" width="672"></p>
+<figcaption class="figure-caption">(b) Logistic model</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1.1: Beetle mortality rates with fitted dose- response curves.</figcaption><p></p>
+</figure>
+</div>
+</div>
+<p>A more sensible dose–response relationship for the beetle mortality data might be based on the <em>logistic</em> function (to be defined later), as plotted in <a href="#fig-beetle-fitted-2">Figure&nbsp;<span>1.1 (b)</span></a>. The resulting curve is a closer, more-sensible, fit. Later in this module we will see how this curve was fitted using maximum likelihood estimation for an appropriate generalised linear model.</p>
+<p>This is an example of a dose-response experiment which are widely used in medical and pharmaceutical situations.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Warning of potentially sensitive material.</strong> For further information on dose-response experiments see, for example, <a href="https://www.britannica.com/science/dose-response-relationship">www.britannica.com/science/dose-response-relationship</a>.</p>
+</div>
+</div>
+</section>
+<section id="focus-on-correlation-quiz" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="focus-on-correlation-quiz">Focus on correlation quiz</h2>
+<p>Test your knowledge recall and comprehension to reinforce idea of linear relationships and correlation.</p>
+<div class="webex-box">
+<div class="webex-check">
+<p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
+<ol type="1">
+<li><p>The diastolic blood pressure and the weight of patients attending a heart health clinic at the Leeds General Infirmary. <select class="webex-select"><option value="blank"></option><option value="answer">positive correlation</option><option value="">uncorrelated</option><option value="">negative correlation</option><option value="">other</option></select></p></li>
+<li><p>The daily stock market closing prices of British Telecom and Virgin Media shares on the London Stock Exchange. <select class="webex-select"><option value="blank"></option><option value="answer">positive correlation</option><option value="">uncorrelated</option><option value="">negative correlation</option><option value="">other</option></select></p></li>
+<li><p>The daily rainfall and hours of sunshine collected at a weather monitoring station in the Pennines of Yorkshire. <select class="webex-select"><option value="blank"></option><option value="">positive correlation</option><option value="">uncorrelated</option><option value="answer">negative correlation</option><option value="">other</option></select></p></li>
+<li><p>The number of road accidents occurring at a busy roundabout and the UK Retail Prices Index. <select class="webex-select"><option value="blank"></option><option value="">positive correlation</option><option value="answer">uncorrelated</option><option value="">negative correlation</option><option value="">other</option></select></p></li>
+</ol>
+</div>
+<div class="webex-solution">
+<button>
+Click here to see explanations
+</button>
+<ol type="1">
+<li><p>It is well documented that people who are over-weight (or at least high BMI) are more likely to have high blood pressure. This is true for systolic and diastolic blood pressure as well as for men and women. It is not certain if the relationship will be linear, but it will lead to a strong positive correlation value. This is likely to be a causal relationship, excess weight causes high blood pressure.</p></li>
+<li><p>Although these two companies are in the same business sectors, technology and entertainment, it is unlikely that direct competition will be the main factor in the relative behaviour – if it were, then we might expect a negative correlation, that is one does well if the other does badly. Instead, they are both likely to be driven by the same economic and social trends. This is not a causal relationship but both are being driven by an (unseen) third variable. It does, however, lead to a correlation.</p></li>
+<li><p>Although both weather features, rainfall and sun, can happen at the same time – perhaps leading to a rainbow – and there are very many cases when neither occurs – for example a cloudy but dry day – there is a general pattern that it will not rain when it is sunny and it will not be sunny when it rains. This leads to a negative correlation and a moderate value is likely even if the relationship is not linear. Again, this is not a causal relationship but is being driven, perhaps, by the presence of clouds.</p></li>
+<li><p>It is hard to imagine that there will be a relationship between the number of road accidents and an inflation measure, hence a value of correlation close to zero – though do not expect to ever get a value of exactly zero. It is not completely, inconceivable that the number of road accidents will be higher when the economy is active, but this is unlikely to lead to a substantial correlation value – if you know otherwise, let me know!</p></li>
+</ol>
+</div>
+</div>
+<div class="webex-box">
+<div class="webex-check">
+<p>From each of the following scatter plots, choose from the drop down list which correlation value is <strong>most likely</strong>.</p>
+<ol start="5" type="1">
+<li>What is the most likely correlation for the data below? <select class="webex-select"><option value="blank"></option><option value="">-1.0</option><option value="">-0.7</option><option value="">-0.3</option><option value="">0.0</option><option value="">+0.3</option><option value="answer">+0.7</option><option value="">+1.0</option></select><img src="1_intro_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672">6. What is the most likely correlation for the data below? <select class="webex-select"><option value="blank"></option><option value="">-1.0</option><option value="answer">-0.7</option><option value="">-0.3</option><option value="">0.0</option><option value="">+0.3</option><option value="">+0.7</option><option value="">+1.0</option></select><img src="1_intro_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672">7. What is the most likely correlation for the data below? <select class="webex-select"><option value="blank"></option><option value="">-1.0</option><option value="">-0.7</option><option value="answer">-0.3</option><option value="">0.0</option><option value="">+0.3</option><option value="">+0.7</option><option value="">+1.0</option></select><img src="1_intro_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672">8. What is the most likely correlation for the data below? <select class="webex-select"><option value="blank"></option><option value="">-1.0</option><option value="">-0.7</option><option value="">-0.3</option><option value="">0.0</option><option value="answer">+0.3</option><option value="">+0.7</option><option value="">+1.0</option></select><img src="1_intro_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid" width="672">9. What is the most likely correlation for the data below? <select class="webex-select"><option value="blank"></option><option value="">-1.0</option><option value="">-0.7</option><option value="">-0.3</option><option value="answer">0.0</option><option value="">+0.3</option><option value="">+0.7</option><option value="">+1.0</option></select><img src="1_intro_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid" width="672">10. What is the most likely correlation for the data below? <select class="webex-select"><option value="blank"></option><option value="answer">-1.0</option><option value="">-0.7</option><option value="">-0.3</option><option value="">0.0</option><option value="">+0.3</option><option value="">+0.7</option><option value="">+1.0</option></select><img src="1_intro_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid" width="672"></li>
+</ol>
+</div>
+<div class="webex-solution">
+<button>
+Click here to see explanations
+</button>
+<ol start="5" type="1">
+<li><p>Imagine dividing the plot by horizontal and vertical lines at the respective mean values. There would be a majority of points in the top-right and bottom-left indicating a positive correlation, but there are still some on the other quadrants. Hence, +1 is too high and 0.3 is too low, but would be suitable if the points were closer to a line or more dispersed, respectively. For information, the exact value is 0.70.</p></li>
+<li><p>Again, imagine dividing the plot by horizontal and vertical lines at the respective mean values. This time the majority of points would be in the top-left and bottom-right quadrants, and there is moderate spread. A value -1 is too extreme and -0.3 is too close to zero, but would be suitable if the points were closer to a line or more dispersed, respectively. For information, the exact value is -0.60.</p></li>
+<li><p>A similar situation to Question 6, but there is noticeably more spread. Although the majority of points are in the top-left and bottom-right quadrants there are substantial numbers in the other quadrants. It would be inaccurate to say that this shows uncorrelated variables as there is a definite negative slope to the pattern. For information, the exact value is -0.30.</p></li>
+<li><p>This is a difficult one as there is a clear relationship, but it is quadratic rather than linear. For information, the exact value is 0.30. Perhaps without the accompanying graph, this correlation value would be misleading.</p></li>
+<li><p>Dividing the plot by horizontal and vertical lines at the respective mean values leaves very similar numbers of points in al four quadrants. This indicates that the correlation will be close to zero – here is no relationship. For information, the exact value is 0.01.</p></li>
+<li><p>Almost all of the points are in the top-left and bottom-right quadrants indicating a negative correlation. The points are very close to the linear and hence a value close to -1 is likely – such extreme cases are rare. For information, the exact value is -0.995.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="revision-of-least-squares-estimation" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="revision-of-least-squares-estimation"><span class="header-section-number">1.3</span> Revision of least-squares estimation</h2>
+<p>Suppose that we have <span class="math inline">\(n\)</span> paired data values <span class="math inline">\((x_1, y_1),\dots, (x_n, y_n)\)</span> and that we believe these are related by a linear model</p>
+<p><span class="math display">\[
+y_i = \alpha+\beta x_i +\epsilon_i
+\]</span></p>
+<p>for all <span class="math inline">\(i\in \{1, 2,\dots,n\}\)</span>, where <span class="math inline">\(\epsilon_1,\dots,\epsilon_n\)</span> are independent and identically distributed (iid) with <span class="math inline">\(\mbox{E}[\epsilon_i]=0\)</span> and <span class="math inline">\(\mbox{Var}[\epsilon_i]=\sigma^2\)</span>. The aim will be to find values of the model parameters, <span class="math inline">\(\alpha, \beta \text{ and } \sigma^2\)</span> using the data. Specifically, we will estimate <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> using the values which minimize the residual sum of squares (RSS)</p>
+<p><span id="eq-RSS"><span class="math display">\[
+RSS(\alpha, \beta) = \sum_{i=1}^n \left(y_i-(\alpha+\beta x_i)\right)^2.
+\tag{1.1}\]</span></span></p>
+<p>This measures how close the data points are around the regression line and hence the resulting estimates, <span class="math inline">\(\hat\alpha\)</span> and <span class="math inline">\(\hat\beta\)</span>, will give us a fitted regression line which is <em>closest</em> to the data.</p>
+<p><a href="#fig-regression2">Figure&nbsp;<span>1.2</span></a> illustrates this process. The data points are fixed but we are free to choose values for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, that is to move the line up and down and to rotate it as needed. In general, the data points, however, do not sit exactly on any line. For any values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> the value on the line <span class="math inline">\(y=\alpha+\beta x\)</span> can be calculated and the discrepancy, as measured in the vertical direction, is defined as the residual, <span class="math inline">\(r_i=y_i-\left(\alpha+\beta x_i\right)\)</span>. Then, the residual sum of squares is formed as the sum of the squares of these individual residuals.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-regression2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_intro_files/figure-html/fig-regression2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1.2: Diagram showing linear regression method</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>It can be shown that <a href="#eq-RSS">Equation&nbsp;<span>1.1</span></a> takes its minimum when the parameters are given by</p>
+<p><span id="eq-simple_estimation"><span class="math display">\[
+\hat\alpha = \bar y -\hat\beta\bar x, \quad \mbox{and} \quad
+\hat\beta = \frac{s_{xy}}{s^2_x}
+\tag{1.2}\]</span></span></p>
+<p>where <span class="math inline">\(\bar x\)</span> and <span class="math inline">\(\bar y\)</span> are the sample means,</p>
+<p><span class="math display">\[
+s_{xy}=\frac{1}{n-1}\sum_{i=1}^n (x_i-\bar x)(y_i-\bar y)
+\]</span></p>
+<p>is the sample covariance and</p>
+<p><span class="math display">\[
+s^2_x = \frac{1}{n-1} \sum_{i=1}^n (x_i-\bar x)^2
+\]</span></p>
+<p>is the sample variance of the <span class="math inline">\(x\)</span> values. It can be shown that these estimators are unbiased, that is <span class="math inline">\(\mbox{E}[\hat\alpha]=\alpha\)</span> and <span class="math inline">\(\mbox{E}[\hat\beta]=\beta\)</span> – see <a href="#sec-exercises1"><span>Section&nbsp;1.5</span></a>.</p>
+<p>The fitted regression lines is then given by <span class="math inline">\(\hat y = \hat \alpha +\hat \beta x\)</span>, the fitted values by <span class="math inline">\(\hat y_i = \hat \alpha +\hat \beta x_i\)</span>, and the model residuals by <span class="math inline">\(r_i= \hat \epsilon_i= y_i-\hat y_i\)</span> for all <span class="math inline">\(i\in \{1,\dots,n\}.\)</span></p>
+<p>To complete the model fitting, we also estimate the error variance, <span class="math inline">\(\sigma^2\)</span>, using <span id="eq-simple-variance"><span class="math display">\[
+\hat \sigma^2 = \frac{1}{n-2} \sum _{i=1}^n r_i^2.
+\tag{1.3}\]</span></span></p>
+<p>Note that, by construction, <span class="math inline">\(\bar r=0\)</span> and, further, it can be shown that <span class="math inline">\(\hat \sigma^2\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span>, that is <span class="math inline">\(\mbox{E}[\hat\sigma^2]=\sigma^2\)</span>.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">=</span> <span class="fu">mean</span>(dose)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ybar <span class="ot">=</span> <span class="fu">mean</span>(mortality)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>s2x <span class="ot">=</span> <span class="fu">var</span>(dose)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sxy <span class="ot">=</span> <span class="fu">cov</span>(dose, mortality)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>betahat <span class="ot">=</span> sxy<span class="sc">/</span>s2x</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>alphahat <span class="ot">=</span> ybar<span class="sc">-</span>betahat<span class="sc">*</span>xbar</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>s2hat <span class="ot">=</span> <span class="fu">sum</span>((mortality<span class="sc">-</span>alphahat<span class="sc">-</span>betahat<span class="sc">*</span>dose)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="fu">length</span>(dose)<span class="sc">-</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Returning to the above beetle data example, we have <span class="math inline">\(\hat\alpha=\)</span>-8.947843, <span class="math inline">\(\hat\beta=\)</span> 5.324937, and <span class="math inline">\(\hat \sigma^2 =\)</span> 0.0075151.</p>
+<p>We will interpret the output later, but in <span class="math inline">\(\b{R}\)</span>, the fitting can be done with a single command with corresponding fitting output from a second command:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lm.fit <span class="ot">=</span> <span class="fu">lm</span>(mortality <span class="sc">~</span> dose)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = mortality ~ dose)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.10816 -0.06063  0.00263  0.05119  0.12818 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -8.9478     0.8717  -10.27 4.99e-05 ***
+dose          5.3249     0.4857   10.96 3.42e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.08669 on 6 degrees of freedom
+Multiple R-squared:  0.9524,    Adjusted R-squared:  0.9445 
+F-statistic: 120.2 on 1 and 6 DF,  p-value: 3.422e-05</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You should have met <span class="math inline">\(\b{R}\)</span> output like this in previous statistics modules, but if you need some revision then see <em>Appendix-C: Background to Analysis of Variance</em> on Minerva under <em>Basic Pre-requisite Material</em>.</p>
+</div>
+</div>
+</section>
+<section id="sec-typevariables" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-typevariables"><span class="header-section-number">1.4</span> Types of variables</h2>
+<p>The way a variable enters a model will depends on its type. The most common five types of variable are:</p>
+<ol type="1">
+<li>Quantitative
+<ol type="a">
+<li>Continuous: for example, height; weight; duration. Real valued. Note that although recorded data is rounded it is still usually best regarded as continuous.</li>
+<li>Count (discrete): for example, number of children in a family; accidents at a road junction; number of items sold. Non-negative and integer-valued.</li>
+</ol></li>
+<li>Qualitative
+<ol type="a">
+<li>Ordered categorical (ordinal): for example, severity of illness (Mild/ Moderate/Severe); degree classification (first/ upper-second/ lower-second/ third).</li>
+<li>Unordered categorical (nominal):
+<ul>
+<li>Dichotomous (binary): two categories: for example sex (M/ F); agreement (Yes/ No); coin toss (Head/ Tail).</li>
+<li>Polytomous (also known as polychotomous): more than two categories: for example blood group (A/ B/ O); eye colour (Brown/ Blue/ Green).</li>
+</ul></li>
+</ol></li>
+</ol>
+<p>Note that although dichotomous is clearly a special case of polytomous, making the distinction is usually worthwhile as it often leads to a simplified modelling and testing approach.</p>
+</section>
+<section id="focus-on-data-type-quiz" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="focus-on-data-type-quiz">Focus on data type quiz</h2>
+<div class="webex-box">
+<div class="webex-check">
+<p>Test your knowledge recall and comprehension to reinforce ideas ready for later in the module</p>
+<p>For each of the following situations what is the <strong>most appropriate</strong> data type: nominal, ordinal, discrete, or continuous?</p>
+<ol type="1">
+<li><p>The eye colour of 100 patients visiting the Yorkshire Cancer Research Centre, for example, grey, green, brown, blue…. <select class="webex-select"><option value="blank"></option><option value="answer">nominal</option><option value="">ordinal</option><option value="">discrete</option><option value="">continuous</option></select></p></li>
+<li><p>The nationality of students at the University of Leeds, for example, British, Chinese, Greek, Indian…. <select class="webex-select"><option value="blank"></option><option value="answer">nominal</option><option value="">ordinal</option><option value="">discrete</option><option value="">continuous</option></select></p></li>
+<li><p>The five-star ratings submitted by 50 customers on TripAdvisor for the Leeds Queens Hotel, for example 1 star, 2 star,… 5 star. <select class="webex-select"><option value="blank"></option><option value="">nominal</option><option value="answer">ordinal</option><option value="">discrete</option><option value="">continuous</option></select></p></li>
+<li><p>The diastolic blood pressure of 20 male and 20 female patients attending a heart health clinic at the Leeds General Infirmary in a study to investigate differences between men and women, for example, 80 mm Hg, 130 mm Hg,… <select class="webex-select"><option value="blank"></option><option value="">nominal</option><option value="">ordinal</option><option value="">discrete</option><option value="answer">continuous</option></select></p></li>
+<li><p>The daily stock market closing price of British Telecom shares on the London Stock Exchange over a year to study the change over time, for example, 114.75p, 115.10p,… <select class="webex-select"><option value="blank"></option><option value="">nominal</option><option value="">ordinal</option><option value="">discrete</option><option value="answer">continuous</option></select></p></li>
+<li><p>The January monthly rainfall collected since 1961 at a weather monitoring station in the Pennines of Yorkshire, for example, 8 mm , 12 mm,… <select class="webex-select"><option value="blank"></option><option value="">nominal</option><option value="">ordinal</option><option value="">discrete</option><option value="answer">continuous</option></select></p></li>
+<li><p>The level of satisfaction of 100 randomly chosen voters with the policies of a political party, for example, agree, fully agree, neither agree nor disagree, disagree, and fully disagree. <select class="webex-select"><option value="blank"></option><option value="">nominal</option><option value="answer">ordinal</option><option value="">discrete</option><option value="">continuous</option></select></p></li>
+<li><p>The number of new people following the <em>TheRoyalFamily</em> twitter page per day over a year, for example 459, 700,… to study the change due to a royal wedding. <select class="webex-select"><option value="blank"></option><option value="">nominal</option><option value="">ordinal</option><option value="answer">discrete</option><option value="">continuous</option></select></p></li>
+<li><p>The number of road accidents occurring per month, at a busy roundabout over a 10-year period to study the change over time, for example, 0, 1, 2,… <select class="webex-select"><option value="blank"></option><option value="">nominal</option><option value="">ordinal</option><option value="answer">discrete</option><option value="">continuous</option></select></p></li>
+<li><p>The number of Scottish strawberries in 50 randomly selected boxes bought from ASDA supermarket, for example, 50, 58, 68,… <select class="webex-select"><option value="blank"></option><option value="">nominal</option><option value="">ordinal</option><option value="answer">discrete</option><option value="">continuous</option></select></p></li>
+</ol>
+</div>
+<div class="webex-solution">
+<button>
+Click here to see explanations
+</button>
+<ol type="1">
+<li>Eye colour is qualitative and can take any one of an unordered set of categories. Although the eye colours are categories, there is no clear ordering to the colours.</li>
+<li>Nationality is qualitative and can take any one of an unordered set of categories. Although the nationality are categories, there is no clear ordering to the countries.</li>
+<li>The rating is qualitative and can take any one of set of categories but the categories are clearly ordered, 5 star is better than 4 start etc. Although the ratings are represented by integers, there is no reason why the difference between 1 and 2 stars has the same interpretation as between 4 and 5 stars and hence it cannot be discrete.</li>
+<li>Although the recorded values might take only integer values, blood pressure is a measurement and could take be any real number.</li>
+<li>Share price is a measurement and could be any real number, even though in practice it will be rounded.</li>
+<li>Rainfall is a measurement and although the recorded values might take only integer values, rainfall could be any real number.</li>
+<li>Satisfaction score is qualitative and can take any one of set of categories but the categories are clearly ordered, fully agree is better than agree etc. Although the scores could be represented by numerical values, e.g.&nbsp;1,2,3,4,5, there is no reason why the difference between 1 and 2 has the same interpretation as between 4 and 5 and hence it is not discrete.</li>
+<li>The number of people is a quantitative count which is limited to the non-negative integers. The variable is discrete.</li>
+<li>The number of accidents is a quantitative count, being limited to the non-negative integers and hence is discrete.</li>
+<li>The number of strawberries is a quantitative a count which is limited to the non-negative integers. The variable is discrete.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="sec-exercises1" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="sec-exercises1"><span class="header-section-number">1.5</span> Exercises</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Unless otherwise stated, data files will be available online at: richardpmann.com/MATH3823/Datasets/<em>filename.ext</em>, where <em>filename.ext</em> is the stated filename with extension. For example, for the first exercise:<br>
+beetle = read.table(“https://richardpmann.com/MATH3823/Datasets/beetle.txt”, header=T)</p>
+</div>
+</div>
+<div class="webex-box">
+1.1 Consider again the beetle data in <a href="#tbl-beetle-data">Table&nbsp;<span>1.1</span></a>. Perform the calculations by hand and then check the answers using <span class="math inline">\(\b{R}\)</span> – a copy of the data is available in the file beetle.txt. Finally plot the fitted regression line on a scatter plot of the data.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>See the code chunk used to produce <a href="#fig-beetle-fitted">Figure&nbsp;<span>1.1</span></a>.</p>
+</div>
+<p>1.2 Consider the following synthetic data:</p>
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;"><span class="math inline">\(i=1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(i=2\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(i=3\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(i=4\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(i=5\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(i=6\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(i=7\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(i=8\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(x_i\)</span></td>
+<td style="text-align: center;">-1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2.5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(y_i\)</span></td>
+<td style="text-align: center;">-2.8</td>
+<td style="text-align: center;">-1.1</td>
+<td style="text-align: center;">7.2</td>
+<td style="text-align: center;">8.0</td>
+<td style="text-align: center;">8.9</td>
+<td style="text-align: center;">9.2</td>
+<td style="text-align: center;">14.8</td>
+<td style="text-align: center;">24.7</td>
+</tr>
+</tbody>
+</table>
+Plot the data to check that a linear model is suitable and then fit a linear regression model. Do you think that the fitted model can be reliably used to predict the values of <span class="math inline">\(y\)</span> when <span class="math inline">\(x=5\)</span> and <span class="math inline">\(x=10\)</span>? Justify your answers.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Which is more reliable prediction for a value within the range of the data (interpolation) or outside the range of the data (extrapolation)?</p>
+</div>
+1.3 Starting from <a href="#eq-RSS">Equation&nbsp;<span>1.1</span></a>, derive the estimation equations given in <a href="#eq-simple_estimation">Equation&nbsp;<span>1.2</span></a>. Show that <span class="math inline">\(\hat\alpha\)</span> and <span class="math inline">\(\hat\beta\)</span> are unbiased estimators of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. What can be said about <span class="math inline">\(\hat\sigma^2\)</span> as an estimator of <span class="math inline">\(\sigma^2\)</span>?
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>For unbiasedness of intercept and slope check your MATH1712 lecture notes. For the latter, there is a careful theoretical proof about the variance parameter, but here only an intuitive explanation is expected.</p>
+</div>
+<p>1.4 The <em>Brownlee’s Stack Loss Plant Data</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> is already available in <span class="math inline">\(\mathbf{R}\)</span>, with background details on the help page, <span class="math inline">\(\texttt{?stackloss}\)</span>.</p>
+<p>After plotting all pairs of variables, which of <span class="math inline">\(\texttt{Air.Flow}\)</span>, <span class="math inline">\(\texttt{Water.Temp}\)</span> and <span class="math inline">\(\texttt{Acid.Conc}\)</span> do you think could be used to model <span class="math inline">\(\texttt{stack.loss}\)</span> using a linear regression? Justify your answer.</p>
+Perform a simple linear regression with using <span class="math inline">\(\texttt{stack.loss}\)</span> as the response variable and your chosen variable as the explanatory variable. Add the fitted regression line to a scatter plot of the data and comment.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>You already met this example in MATH1712 – check your lecture note for guidance.</p>
+</div>
+<p>1.5 In an experiment conducted by de Silva et al.&nbsp;in 2020<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> data was obtained to investigate falling objects and gravity, as first consider by Galileo and Newton. A copy of the data is available in the file physics_from_data.csv.</p>
+Suppose that we wish to develop a method to predict the maximum Reynolds number from a single explanatory variable. Which of the variables do you think helps explain Reynolds number the best? Why do you think this?
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Read the data into <span class="math inline">\(\b{R}\)</span> and perform a simple linear regression of the maximum Reynolds number as the response variable and, in turn, each of the other variables as the explanatory variable. Plot the data, with and add the corresponding fitted linear models.</p>
+</div>
+</div>
+<!-- ::: {.callout-note appearance="default"} -->
+<!-- [Exercise 1 Solutions can be found here.](https://richardpmann.com/MATH3823/Solutions_1.html) -->
+<!-- ::: -->
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Dobson and Barnett, 3rd edn, p.127<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Brownlee, K. A. (1960, 2nd ed.&nbsp;1965) <em>Statistical Theory and Methodology in Science and Engineering</em>. New York: Wiley. pp.&nbsp;491–500.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>de Silva BM, Higdon DM, Brunton SL, Kutz JN. Discovery of Physics From Data: Universal Laws and Discrepancies. Front Artif Intell. 2020 Apr 28;3:25. doi: 10.3389/frai.2020.00025. PMID: 33733144; PMCID: PMC7861345.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./0_preface.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./2_linearmodels.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

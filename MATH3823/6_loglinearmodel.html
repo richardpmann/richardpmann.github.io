@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MATH3823 Generalised Linear Models - 6&nbsp; Loglinear Models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./7_extendedloglinearmodel.html" rel="next">
+<link href="./5_logisticmodel.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="webex.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./6_loglinearmodel.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loglinear Models</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH3823 Generalised Linear Models</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0_preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_linearmodels.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_GLM-Theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GLM Theory</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_GLM-Fitting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GLM Estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_logisticmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modelling Proportions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_loglinearmodel.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loglinear Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_extendedloglinearmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Extensions to Loglinear models</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">6.1</span> Overview</a></li>
+  <li><a href="#motivating-examples" id="toc-motivating-examples" class="nav-link" data-scroll-target="#motivating-examples"><span class="header-section-number">6.2</span> Motivating examples</a>
+  <ul class="collapse">
+  <li><a href="#sec-melanoma" id="toc-sec-melanoma" class="nav-link" data-scroll-target="#sec-melanoma"><span class="header-section-number">6.2.1</span> Malignant melanoma</a></li>
+  <li><a href="#sec-flucount" id="toc-sec-flucount" class="nav-link" data-scroll-target="#sec-flucount"><span class="header-section-number">6.2.2</span> Flu vaccine</a></li>
+  </ul></li>
+  <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">6.3</span> Maximum likelihood estimation</a></li>
+  <li><a href="#model-fitting-in-r" id="toc-model-fitting-in-r" class="nav-link" data-scroll-target="#model-fitting-in-r"><span class="header-section-number">6.4</span> Model fitting in <strong>R</strong></a>
+  <ul class="collapse">
+  <li><a href="#malignant-melanoma" id="toc-malignant-melanoma" class="nav-link" data-scroll-target="#malignant-melanoma"><span class="header-section-number">6.4.1</span> Malignant melanoma</a></li>
+  <li><a href="#flu-vaccine" id="toc-flu-vaccine" class="nav-link" data-scroll-target="#flu-vaccine"><span class="header-section-number">6.4.2</span> Flu vaccine</a></li>
+  </ul></li>
+  <li><a href="#multi-way-contingency-tables" id="toc-multi-way-contingency-tables" class="nav-link" data-scroll-target="#multi-way-contingency-tables"><span class="header-section-number">6.5</span> Multi-way contingency tables</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">6.6</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loglinear Models</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="overview" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">6.1</span> Overview</h2>
+<p>In this chapter, we deal with data sets in which the response variable <span class="math inline">\(y\)</span> is a count and the explanatory variables are all factors – i.e. qualitative variables. Initially we assume <span class="math inline">\(y\)</span> has a Poisson distribution.</p>
+<p>See Chapter 9 of Dobson and Barnett (2008). See also Agresti (1996) <em>An introduction to categorical data analysis</em>.</p>
+<p>We assume a generalised linear model with</p>
+<ul>
+<li>responses (counts) having independent Poisson distributions;</li>
+<li>a logarithmic link function (hence the name <em>log-linear model</em>).</li>
+</ul>
+<p>Consider, for example, the two-way contingency table in <a href="#tbl-twoway">Table&nbsp;<span>6.1</span></a>}:</p>
+<div id="tbl-twoway" class="anchored">
+<table class="table">
+<caption>Table&nbsp;6.1: A two-way contingency table with <span class="math inline">\(k_1\)</span> rows and <span class="math inline">\(k_2\)</span> columns, where each entry <span class="math inline">\(y_{ij}\)</span> is a count.</caption>
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;"><span class="math inline">\(\dots\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\dots\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(k_2\)</span></th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(y_{11}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{1j}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{1k_2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{1+}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(i\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{i1}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{1j}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{ik_2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{i+}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(k_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{k_11}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{k_12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{1j}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{k_2k_2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{1k_1}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center;"><span class="math inline">\(y_{+1}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{+2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{1j}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{+k_2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{++}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span> of <a href="#tbl-twoway">Table&nbsp;<span>6.1</span></a>} we assume <span class="math display">\[
+Y_{ij} \sim \text{Po}(\lambda_{ij})
+\]</span> where <span id="eq-2waymodel"><span class="math display">\[
+\log \lambda_{ij} = \mu + \alpha_i + \beta_j + (\alpha \beta)_{ij}.
+\tag{6.1}\]</span></span> Here <span class="math inline">\(\mu\)</span> is called the <em>main effect</em>; <span class="math inline">\(\alpha_i\)</span> is a <em>row effect</em>; <span class="math inline">\(\beta_j\)</span> is a <em>column effect</em>; and <span class="math inline">\((\alpha \beta)_{ij}\)</span> denotes an <em>interaction effect</em> parameter. Some or all of these effects must be present in the model, with constraints to ensure that the model is identifiable – this is sometimes refered ot as the <em>identifiability</em> or <em>aliasing problem</em>. Generally, <strong>R</strong> function automatically sets the first level of each effect to zero to achieve model identification. Thus, for the two-way model, <span class="math display">\[
+\alpha_1 = 0, \quad \beta_1 = 0, \quad
+(\alpha \beta)_{11}=(\alpha \beta)_{1j}=(\alpha \beta)_{k_1}=0.
+\]</span></p>
+</section>
+<section id="motivating-examples" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="motivating-examples"><span class="header-section-number">6.2</span> Motivating examples</h2>
+<section id="sec-melanoma" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="sec-melanoma"><span class="header-section-number">6.2.1</span> Malignant melanoma</h3>
+<p>The data in <a href="#tbl-melanomacount1">Table&nbsp;<span>6.2</span></a> are from a study of 400 patients with malignant melanoma, a particular form of skin cancer (see Dobson and Barnett, p.172). For each tumour, its type and site were recorded. The data in <a href="#tbl-melanomacount1">Table&nbsp;<span>6.2</span></a> comprise the numbers of tumours <span class="math inline">\(y\)</span> in each combination of site and tumour-type. This is a two-way <em>contingency table</em>. We want to know how melanoma frequency depends on site and type.</p>
+<div id="tbl-melanomacount1" class="anchored">
+<table class="table">
+<caption>Table&nbsp;6.2: Melanoma counts by type and site.</caption>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th style="text-align: center;">Head</th>
+<th style="text-align: center;">Trunk</th>
+<th style="text-align: center;">Extremities</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hutchinson’s melanotic freckle</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">34</td>
+</tr>
+<tr class="even">
+<td>Superficial spreading melanoma</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">54</td>
+<td style="text-align: center;">115</td>
+<td style="text-align: center;">185</td>
+</tr>
+<tr class="odd">
+<td>Nodular</td>
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">73</td>
+<td style="text-align: center;">125</td>
+</tr>
+<tr class="even">
+<td>Indeterminate</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">28</td>
+<td style="text-align: center;">56</td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td style="text-align: center;">68</td>
+<td style="text-align: center;">106</td>
+<td style="text-align: center;">226</td>
+<td style="text-align: center;">400</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tbl-melanomapercent1" class="anchored">
+<table class="table">
+<caption>Table&nbsp;6.3: Percentages across columns within rows for melanoma data.</caption>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th style="text-align: center;">Head</th>
+<th style="text-align: center;">Trunk</th>
+<th style="text-align: center;">Extremities</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hutchinson’s melanotic freckle</td>
+<td style="text-align: center;">64.7</td>
+<td style="text-align: center;">5.9</td>
+<td style="text-align: center;">29.4</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="even">
+<td>Superficial spreading melanoma</td>
+<td style="text-align: center;">8.6</td>
+<td style="text-align: center;">29.2</td>
+<td style="text-align: center;">62.2</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="odd">
+<td>Nodular</td>
+<td style="text-align: center;">15.2</td>
+<td style="text-align: center;">26.4</td>
+<td style="text-align: center;">58.4</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="even">
+<td>Indeterminate</td>
+<td style="text-align: center;">19.6</td>
+<td style="text-align: center;">30.4</td>
+<td style="text-align: center;">50.0</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td style="text-align: center;">17.0</td>
+<td style="text-align: center;">26.5</td>
+<td style="text-align: center;">56.5</td>
+<td style="text-align: center;">100</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tbl-melanomapercent2" class="anchored">
+<table class="table">
+<caption>Table&nbsp;6.4: Percentages across rows within columns for melanoma data.</caption>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th style="text-align: center;">Head</th>
+<th style="text-align: center;">Trunk</th>
+<th style="text-align: center;">Extremities</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hutchinson’s melanotic freckle</td>
+<td style="text-align: center;">32.4</td>
+<td style="text-align: center;">1.9</td>
+<td style="text-align: center;">4.4</td>
+<td style="text-align: center;">8.5</td>
+</tr>
+<tr class="even">
+<td>Superficial spreading melanoma</td>
+<td style="text-align: center;">23.5</td>
+<td style="text-align: center;">50.9</td>
+<td style="text-align: center;">50.9</td>
+<td style="text-align: center;">46.3</td>
+</tr>
+<tr class="odd">
+<td>Nodular</td>
+<td style="text-align: center;">27.9</td>
+<td style="text-align: center;">31.1</td>
+<td style="text-align: center;">32.3</td>
+<td style="text-align: center;">31.3</td>
+</tr>
+<tr class="even">
+<td>Indeterminate</td>
+<td style="text-align: center;">16.2</td>
+<td style="text-align: center;">16.0</td>
+<td style="text-align: center;">12.4</td>
+<td style="text-align: center;">14.0</td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td style="text-align: center;">100.0</td>
+<td style="text-align: center;">99.9</td>
+<td style="text-align: center;">100.0</td>
+<td style="text-align: center;">100.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Although we have two factors, and , that we may use as predictors, standard ANOVA regression methods are inappropriate here as the dependent variable is not continuous but is instead a count. We will use <em>log-linear regression</em>, a type of generalised linear model, to analyse these data.</p>
+<p><a href="#tbl-melanomapercent1">Table&nbsp;<span>6.3</span></a> shows row and <a href="#tbl-melanomapercent2">Table&nbsp;<span>6.4</span></a> column percentages for these data. For example, 15.2% of nodular melanomas occurred in the head and neck, 26.4% in the trunk, and 58.4% in the extremities. Compare this to the equivalent figures for Hutchinson’s melanotic freckles: 64.7%, 5.9%, and 29.4% - strikingly different. So different types of melanomas are more likely to occur in different locations.</p>
+</section>
+<section id="sec-flucount" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="sec-flucount"><span class="header-section-number">6.2.2</span> Flu vaccine</h3>
+<p>The data in <a href="#tbl-flucount">Table&nbsp;<span>6.5</span></a> are from a randomised controlled trial in which 73 patients were randomised into two groups (see Dobson and Barnett, 2008, p.173). The treatment group was given a flu vaccine, while the control group was given a placebo. Levels of an antibody (HIA) were measured after 6 weeks and classified into three groups: Low, Moderate, and High.</p>
+<div id="tbl-flucount" class="anchored">
+<table class="table">
+<caption>Table&nbsp;6.5: Antibody responses to flu vaccine from a randomised controlled trial.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Group</th>
+<th style="text-align: center;">Low</th>
+<th style="text-align: center;">Moderate</th>
+<th style="text-align: center;">High</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Placebo</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Vaccine</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center;">31</td>
+<td style="text-align: center;">26</td>
+<td style="text-align: center;">16</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Is the pattern of response the same for each treatment group? The percentages in <a href="#tbl-flupercent1">Table&nbsp;<span>6.6</span></a> suggest not - row percentages indicate lower responses in the placebo group.</p>
+<div id="tbl-flupercent1" class="anchored">
+<table class="table">
+<caption>Table&nbsp;6.6: Percentages across rows within columns for antibody responses to flu vaccine.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Group</th>
+<th style="text-align: center;">Low</th>
+<th style="text-align: center;">Moderate</th>
+<th style="text-align: center;">High</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Placebo</td>
+<td style="text-align: center;">65.8</td>
+<td style="text-align: center;">21.1</td>
+<td style="text-align: center;">13.2</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Vaccine</td>
+<td style="text-align: center;">17.1</td>
+<td style="text-align: center;">51.4</td>
+<td style="text-align: center;">31.4</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center;">42.4</td>
+<td style="text-align: center;">35.6</td>
+<td style="text-align: center;">22.0</td>
+<td style="text-align: center;">100</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tbl-flupercent2" class="anchored">
+<table class="table">
+<caption>Table&nbsp;6.7: Percentages across rows within columns for antibody responses to flu vaccine.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Group</th>
+<th style="text-align: center;">Low</th>
+<th style="text-align: center;">Moderate</th>
+<th style="text-align: center;">High</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Placebo</td>
+<td style="text-align: center;">80.6</td>
+<td style="text-align: center;">30.8</td>
+<td style="text-align: center;">31.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Vaccine</td>
+<td style="text-align: center;">19.4</td>
+<td style="text-align: center;">69.2</td>
+<td style="text-align: center;">68.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">100</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="maximum-likelihood-estimation" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">6.3</span> Maximum likelihood estimation</h2>
+<p>Recall that for each cell <span class="math inline">\(Y_{ij} \sim \text{Po}(\lambda_{ij})\)</span> so <span class="math inline">\(\mbox{E}[Y_{ij}]= \lambda_{ij}\)</span>. However, we estimate <span class="math inline">\(\hat{\lambda}_{ij} = y_{ij}\)</span> only for the <em>saturated model</em> given by <a href="#eq-2waymodel">Equation&nbsp;<span>6.1</span></a>. In general, for non-saturated models, the estimate <span class="math inline">\(\hat\lambda_{ij} \ne y_{ij}\)</span>.</p>
+<p>Consider the independence model for a 2-way table, that is where <span class="math inline">\((\alpha \beta)_{ij} = 0\)</span> for all <span class="math inline">\(i,j\)</span>. Here, <span id="eq-loglinear"><span class="math display">\[
+\log \lambda_{ij} = \mu +\alpha_i + \beta_j \tag{6.2}\]</span></span> and <span class="math inline">\(y_{ij}\)</span> is the observed count for cell <span class="math inline">\((i,j)\)</span>, so the likelihood is given by <span class="math display">\[
+L(\lambda; y)
+=  \prod_{i,j} \frac{e^{-\lambda_{ij}} \lambda_{ij}^{y_{ij}}}{y_{ij}!}
+\]</span> and the log-likelihood is <span class="math display">\[
+l(\lambda; y)
+=  \sum_{i,j} \left\{ y_{ij} \log \lambda_{ij} - \lambda_{ij} -
+    \log y_{ij}!\right\}.
+\]</span> Next, using <a href="#eq-loglinear">Equation&nbsp;<span>6.2</span></a>, gives <span class="math display">\[
+l(\lambda; y) =  \sum_{i,j} \left\{ y_{ij} (\mu + \alpha_i + \beta_j)
+    - \exp(\mu + \alpha_i + \beta_j)  - \log y_{ij}! \right\}
+\]</span> which can be re-written as <span id="eq-twowayloglik"><span class="math display">\[
+l(\lambda; y)   =  \mu y_{++} + \sum_i \alpha_i y_{i+} + \sum_j \beta_j y_{+ j}
+    - e^{\mu} \left(\sum_i e^{\alpha_i}\right) \left(\sum_j e^{\beta_j}
+    \right) - \sum_{ij} \log y_{ij}!.
+\tag{6.3}\]</span></span></p>
+<p>The maximum likelihood estimates of the model parameters are obtained in the usual way. Differentiating <a href="#eq-twowayloglik">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\mu\)</span> and setting the result to zero gives, at the MLE, <span id="eq-muest"><span class="math display">\[
+y_{++} = e^{\hat{\mu}} \left(\sum_i e^{\hat{\alpha}_i}\right)
+\left(\sum_j e^{\hat{\beta}_j}\right).
+\tag{6.4}\]</span></span></p>
+<p>Differentiating <a href="#eq-twowayloglik">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\alpha_i\)</span> (where <span class="math inline">\(i \ne 1\)</span> because <span class="math inline">\(\alpha_1=0\)</span> to avoid an identifiability problem) and setting the result to zero gives, at the MLE, <span id="eq-alphaest"><span class="math display">\[
+y_{i+} = e^{\widehat{\mu}}  e^{\widehat{\alpha}_i} \left(\sum_j e^{\widehat{\beta}_j}\right).  \notag \\
+% = \sum_j \widehat{\lambda_{ij}} = \widehat{\lambda}_{i+} ~~~~(i \not= 1).
+\tag{6.5}\]</span></span> Differentiating <a href="#eq-twowayloglik">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\beta_j\)</span> (where <span class="math inline">\(j \not= 1\)</span> because <span class="math inline">\(\beta_1=0\)</span>) and setting the result to zero gives, at the MLE, <span id="eq-betaest"><span class="math display">\[
+y_{+j} = e^{\widehat{\mu}}  e^{\widehat{\beta}_j} \left(\sum_i e^{\widehat{\alpha}_i}\right).
+\tag{6.6}\]</span></span> Then <span id="eq-two-way.mle"><span class="math display">\[
+\frac{y_{i+}\ y_{+j}}{y_{++}} = e^{\widehat{\mu}+\widehat{\alpha}_i+\widehat{\beta}_j}  
+= \widehat{\lambda}_{ij}.  
+\tag{6.7}\]</span></span> It follows that <span class="math display">\[
+\widehat{\lambda}_{i+} = y_{i+} \quad
+\widehat{\lambda}_{+j} = y_{+j} \quad  
+\widehat{\lambda}_{++} = y_{++}.  
+\]</span></p>
+<p>Thus, the total fitted count in row <span class="math inline">\(i\)</span> is identical to the total observed count in row <span class="math inline">\(i\)</span>. Further, the total fitted count in column <span class="math inline">\(j\)</span> is equal to the total observed count in column <span class="math inline">\(j\)</span> and the total fitted count equals the total observed count.</p>
+</section>
+<section id="model-fitting-in-r" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="model-fitting-in-r"><span class="header-section-number">6.4</span> Model fitting in <strong>R</strong></h2>
+<section id="malignant-melanoma" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="malignant-melanoma"><span class="header-section-number">6.4.1</span> Malignant melanoma</h3>
+<p>Consider an analysis of Melanoma data introduced in <a href="#sec-melanoma"><span>Section&nbsp;6.2.1</span></a>.</p>
+<p>To test the independence of <span class="math inline">\(\texttt{Type}\)</span> and <span class="math inline">\(\texttt{Size}\)</span>, we fit the model <span class="math display">\[
+\texttt{Count} \sim \texttt{Type} + \texttt{Site}
+\]</span> assuming Poisson counts and a logarithmic link function, using the commands:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>melanoma <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"https://richardpmann.com/MATH3823/Datasets/melanoma.txt"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>mcount <span class="ot">=</span> melanoma<span class="sc">$</span>count</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>type<span class="ot">=</span> melanoma<span class="sc">$</span>type</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>site <span class="ot">=</span> melanoma<span class="sc">$</span>site</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>type.F <span class="ot">=</span> <span class="fu">as.factor</span>(type)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>site.F <span class="ot">=</span> <span class="fu">as.factor</span>(site)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>glm1 <span class="ot">=</span> <span class="fu">glm</span>(mcount <span class="sc">~</span> type.F <span class="sc">+</span> site.F, <span class="at">family=</span><span class="st">'poisson'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = mcount ~ type.F + site.F, family = "poisson")
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   1.7544     0.2040   8.600  &lt; 2e-16 ***
+type.F2       1.6940     0.1866   9.079  &lt; 2e-16 ***
+type.F3       1.3020     0.1934   6.731 1.68e-11 ***
+type.F4       0.4990     0.2174   2.295  0.02173 *  
+site.F2       0.4439     0.1554   2.857  0.00427 ** 
+site.F3       1.2010     0.1383   8.683  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 295.203  on 11  degrees of freedom
+Residual deviance:  51.795  on  6  degrees of freedom
+AIC: 122.91
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
+<p>We see that the residual deviance for this model is <span class="math inline">\(51.795\)</span> on <span class="math inline">\(6\)</span> degrees of freedom. If the model is true, the residual deviance will have an approximate <span class="math inline">\(\chi^2\)</span> distribution on <span class="math inline">\(6\)</span> degrees of freedom. If the model is not true, the residual deviance will probably be too large to correspond to this distribution. Thus we calculate the <span class="math inline">\(p\)</span>-value in the upper tail of the <span class="math inline">\(\chi^2_6\)</span> distribution, which can be computed using the command:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="fl">51.795</span>,<span class="dv">6</span>,<span class="at">lower.tail=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.050465e-09</code></pre>
+</div>
+</div>
+<p>This strongly indicates that the independence model is inadequate. Therefore, unless we can spot alternative simplifications, we will have to use the saturated model.</p>
+<p>We can look at residuals from the model see where the departures from independence occur. The largest residual is for Hutchinson’s freckle on the head and neck, which occurs more often than would be expected under independence.</p>
+<p>For the saturated model, <span class="math inline">\(\widehat{\lambda}_{ij} = y_{ij}\)</span>. In this example, <span class="math inline">\(\sum_{ij} \widehat{\lambda}_{ij} = \sum_{ij} y_{ij} = 400\)</span>, so the probability of a tumour being in category <span class="math inline">\((i,j)\)</span> is <span class="math inline">\(y_{ij}/400\)</span> — just the observed proportions.</p>
+<p>Note that in <a href="#tbl-melanomacount1">Table&nbsp;<span>6.2</span></a> we have a total of <span class="math inline">\(y_{++} = 400\)</span> observations. If the data were truly Poisson, this would be a suspiciously round number. In reality, this total was fixed by design, so we should take into account the fact that <span class="math inline">\(y_{++} = 400\)</span> and fit a more suitable model, such as the <em>multinomial</em> model which we will meet in the next chapter.</p>
+<p>Overdispersion can occur for the Poisson model, just as in the binomial case – see <a href="5_logisticmodel.html#sec-overdispersion"><span>Section&nbsp;5.3</span></a>. This is called <em>extra-Poisson</em> variation. The <span class="math inline">\(\texttt{glm}\)</span> function in <strong>R</strong> can take this into account by including an extra parameter <span class="math inline">\(\tau\)</span> in the model using <span class="math inline">\(\texttt{family=quasipoisson()}\)</span>.</p>
+</section>
+<section id="flu-vaccine" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="flu-vaccine"><span class="header-section-number">6.4.2</span> Flu vaccine</h3>
+<p>There is no saved data file for this example – recall it is very small - and so define R variables for the <span class="math inline">\(\texttt{count}\)</span>, <span class="math inline">\(\texttt{response}\)</span> (perhaps not a good name as it may be confusing but it seems the correct description from the context) and <span class="math inline">\(\texttt{drug}\)</span> used. Don’t forget to declare the explanatory variables as factors.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the data</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>count <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">6</span>,<span class="dv">18</span>,<span class="dv">11</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>response <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"L"</span>,<span class="st">"M"</span>,<span class="st">"H"</span>, <span class="st">"L"</span>,<span class="st">"M"</span>,<span class="st">"H"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>drug <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"P"</span>,<span class="st">"P"</span>,<span class="st">"P"</span>,<span class="st">"V"</span>,<span class="st">"V"</span>,<span class="st">"V"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>response.F <span class="ot">=</span> <span class="fu">as.factor</span>(response)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>drug.F <span class="ot">=</span> <span class="fu">as.factor</span>(drug)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Now fit the first model, here consider the saturated model with main effects and interaction.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">##########################################</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a log-linear model - saturated model</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>glm.fit0 <span class="ot">=</span> <span class="fu">glm</span>(count <span class="sc">~</span> response.F <span class="sc">*</span> drug.F, <span class="at">family=</span>poisson)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.fit0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = count ~ response.F * drug.F, family = poisson)
+
+Coefficients:
+                    Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)          1.60944    0.44721   3.599  0.00032 ***
+response.FL          1.60944    0.48990   3.285  0.00102 ** 
+response.FM          0.47000    0.57009   0.824  0.40969    
+drug.FV              0.78846    0.53936   1.462  0.14379    
+response.FL:drug.FV -2.21557    0.70539  -3.141  0.00168 ** 
+response.FM:drug.FV  0.02247    0.68663   0.033  0.97389    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 2.3807e+01  on 5  degrees of freedom
+Residual deviance: 4.6629e-15  on 0  degrees of freedom
+AIC: 37.128
+
+Number of Fisher Scoring iterations: 3</code></pre>
+</div>
+</div>
+<p>Even though the model is a perfect fit – the fitted values are exactly the data values (check next) we see that <span class="math inline">\(\texttt{response.F="M"}\)</span> is not significantly different to the baseline <span class="math inline">\(\texttt{response.F="H"}\)</span> and also that <span class="math inline">\(\texttt{drug.F="V"}\)</span> is not significantly different to <span class="math inline">\(\texttt{drug.F="P"}\)</span>.</p>
+<p>Let’s check the fitted values:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(glm.fit0, <span class="at">type=</span><span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> 1  2  3  4  5  6 
+25  8  5  6 18 11 </code></pre>
+</div>
+</div>
+<p>where we see that, indeed, they are the same as the data.</p>
+<p>The Null deviance is <span class="math inline">\(23.807\)</span> and follows a <span class="math inline">\(\chi^2\)</span> distribution on <span class="math inline">\(5\)</span> degrees of freedom (under the Null hypothesis). This has a p-value of <!-- round(pchisq(23.807, 5, lower.tail=F),5) ---> <span class="math inline">\(p&lt;0.001\)</span> which is highly significant and hence the null model is not adequate.</p>
+<p>We cannot test the saturated model as it fits perfectly.</p>
+<p>Next let’s try a reduced model with the interaction removed:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">##########################################</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model without interaction</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>glm.fit1 <span class="ot">=</span> <span class="fu">glm</span>(count <span class="sc">~</span> response.F <span class="sc">+</span> drug.F, <span class="at">family=</span>poisson)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = count ~ response.F + drug.F, family = poisson)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  2.11972    0.27408   7.734 1.04e-14 ***
+response.FL  0.66140    0.30783   2.149   0.0317 *  
+response.FM  0.48551    0.31774   1.528   0.1265    
+drug.FV     -0.08224    0.23428  -0.351   0.7256    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 23.807  on 5  degrees of freedom
+Residual deviance: 18.643  on 2  degrees of freedom
+AIC: 51.771
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
+<p>The <span class="math inline">\(\texttt{response.F="M"}\)</span> is again not significantly different to the baseline <span class="math inline">\(\texttt{response.F="H"}\)</span> and <span class="math inline">\(\texttt{drug.F="V"}\)</span> is not significantly different to <span class="math inline">\(\texttt{drug.F="P"}\)</span>.</p>
+<p>The model deviance is <span class="math inline">\(18.643\)</span> following a <span class="math inline">\(\chi^2_2\)</span> distribution with corresponding p-value of <span class="math inline">\(p &lt;0.001\)</span>. <!-- round(pchisq(18.643, 2, lower.tail=F),5) ---> This is highly significant suggesting that this and any model without an interaction term is unlikely to be adequate.</p>
+<p>Let use return to a model with interaction, and let’s try merging response <span class="math inline">\(\texttt{response.F="M"}\)</span> and <span class="math inline">\(\texttt{"H"}\)</span> – calling them <span class="math inline">\(\texttt{"HM"}\)</span> (I chose this name so that alphabetically it would be first just as <span class="math inline">\(\texttt{"H"}\)</span> was first):</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Medium response not significant</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge response M with response H -- to response HM</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>response2 <span class="ot">=</span> response</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>response2[response<span class="sc">==</span><span class="st">"H"</span>] <span class="ot">=</span> <span class="st">"HM"</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>response2[response<span class="sc">==</span><span class="st">"M"</span>] <span class="ot">=</span> <span class="st">"HM"</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>response2.F <span class="ot">=</span> <span class="fu">as.factor</span>(response2)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>glm.fit2 <span class="ot">=</span> <span class="fu">glm</span>(count <span class="sc">~</span> response2.F<span class="sc">*</span>drug.F, <span class="at">family=</span>poisson)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm.fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = count ~ response2.F * drug.F, family = poisson)
+
+Coefficients:
+                     Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)            1.8718     0.2774   6.749 1.49e-11 ***
+response2.FL           1.3471     0.3419   3.940 8.17e-05 ***
+drug.FV                0.8023     0.3338   2.404   0.0162 *  
+response2.FL:drug.FV  -2.2295     0.5640  -3.953 7.71e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 23.807  on 5  degrees of freedom
+Residual deviance:  2.405  on 2  degrees of freedom
+AIC: 35.533
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>Interestingly all terms in this model are significant but let’s check the overall goodness of fit.</p>
+<p>The model deviance is <span class="math inline">\(2.405\)</span> following a <span class="math inline">\(\chi^2_2\)</span> distribution with corresponding p-value of <span class="math inline">\(p=0.3\)</span>. <!-- round(pchisq(2.405, 2, lower.tail=F),5) ---> This is non-significant suggesting that this model is a good fit to the data.</p>
+<p>The fitted values are:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(glm.fit2, <span class="at">type=</span><span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   1    2    3    4    5    6 
+25.0  6.5  6.5  6.0 14.5 14.5 </code></pre>
+</div>
+</div>
+<p>and the residuals (which I have rounded for display purposes):</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">residuals</span>(glm.fit2, <span class="at">type=</span><span class="st">"response"</span>),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   1    2    3    4    5    6 
+ 0.0  1.5 -1.5  0.0  3.5 -3.5 </code></pre>
+</div>
+</div>
+<p>The fitted values are a good fit to the data and hence, of course, the residuals are not too large.</p>
+<p>The overall conclusion is that the model with response and drug, and their interaction, but with the merging of response levels H and M is an appropriate model. This indicates that the vaccine does have an effect on the antibody response but that it does not influence whether that is a medium or high response.</p>
+</section>
+</section>
+<section id="multi-way-contingency-tables" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="multi-way-contingency-tables"><span class="header-section-number">6.5</span> Multi-way contingency tables</h2>
+<p>We can generalize the model notation introduced in <a href="#eq-2waymodel">Equation&nbsp;<span>6.1</span></a> to accommodate multi-way contingency tables; that is tables of counts indexed by multiple factors. For example, for a 3-way table of cell counts <span class="math inline">\(y_{ijk}\)</span>, the saturated model would be written: <span class="math display">\[
+Y_{ijk} \sim \text{Po}(\lambda_{ijk})
+\]</span> where <span class="math display">\[
+\log \lambda_{ijk} =
+\mu + \alpha_i + \beta_j +\gamma_k
++ (\alpha \beta)_{ij}
++ (\alpha\gamma)_{ik}
++ (\beta \gamma)_{jk}
++ (\alpha \beta \gamma)_{ijk}.
+\]</span> Here, <span class="math inline">\(\alpha_i\)</span>, <span class="math inline">\(\beta_j\)</span> and <span class="math inline">\(\gamma_j\)</span> are <em>main effects</em>; <span class="math inline">\((\alpha \beta)_{ij}\)</span>, <span class="math inline">\((\alpha\gamma)_{ik}\)</span>, and <span class="math inline">\((\beta \gamma)_{jk}\)</span> are two-way <em>interaction effects</em>; and <span class="math inline">\((\alpha \beta \gamma)_{ijk}\)</span> is a <em>three-way interaction</em>.</p>
+<p>This approach is easily extended to tables of any number of factors. Note, however, that not all terms need be present in a model, thought 3-way or higher-order interactions might sometimes be required.</p>
+<p>A <em>hierarchical</em> model is one in which each term in the model is accompanied by all lower-order terms. For example, including the term <span class="math inline">\((\alpha\beta\gamma)_{ijk}\)</span> would require inclusion of each of the terms <span class="math inline">\(\alpha_i, \beta_j, \gamma_k, (\alpha\beta)_{ij}, (\alpha\gamma)_{ik}, (\beta\gamma)_{jk}\)</span>. We will be concerned only with <em>hierarchical</em> contingency table models. Non-hierarchical models are sometimes appropriate, depending on the nature of the factors involved, but hierarchical models are more generally applicable and easier to interpret.</p>
+</section>
+<section id="exercises" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">6.6</span> Exercises</h2>
+<div class="webex-box">
+<p>6.1 Overdispersion is an occasional problem when fitting generalised linear models with a known scale parameter in situations where there is unexplained variation. In this exercise we illustrate the problem in Poisson regression. The starting point is the observation that if <span class="math inline">\(Y \sim P(\lambda)\)</span>, then <span class="math inline">\(\mbox{E}[Y] = \lambda\)</span> and <span class="math inline">\(\mbox{Var}[Y] = \lambda\)</span>.</p>
+<ol type="a">
+<li><p>Consider joint random variables <span class="math inline">\((X,Y)\)</span> where <span class="math inline">\(X\)</span> takes two possible values with equal probabilities, <span class="math inline">\(Pr(X=1) = Pr(X=2) = 1/2\)</span>.</p>
+<p>Suppose the conditional distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> is Poisson, <span class="math display">\[\begin{equation*} \label{eq:pmix}
+Y|(X=1) \sim P(\lambda_1), \quad Y|(X=2) \sim P(\lambda_2), \quad \quad \quad (*)
+\end{equation*}\]</span> where <span class="math inline">\(\lambda_1 &lt; \lambda_2\)</span>. Let <span class="math inline">\(\lambda = (\lambda_1 + \lambda_2)/2\)</span> denote the average value. Thus the marginal distribution of <span class="math inline">\(Y\)</span> is a mixture of two Poisson distributions. Show that <span class="math display">\[\begin{equation*}
+\mbox{E}[Y] = \lambda, \quad \mbox{Var}[Y] = \lambda + (\lambda_1 - \lambda_2)^2/4,
+\end{equation*}\]</span> that is, although the mean of <span class="math inline">\(Y\)</span> is the same under the mixture (or conditional Poisson) model as under the Poisson model, the variance is larger.</p>
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Start with the definition of expectation as a weighted average of the conditional expectations. Then, for the variance, apply a similar result to find the expectation of the square.</p>
+</div></li>
+<li><p>This phenomenon might be observed in data as follows. Let <span class="math inline">\(n=60\)</span> and let an explanatory variable <span class="math inline">\(x_i\)</span> take the value <span class="math inline">\(x_i=1\)</span> for <span class="math inline">\(i=1, \ldots, 30\)</span> and <span class="math inline">\(x_i=2\)</span> for <span class="math inline">\(i=31, \ldots, 60\)</span>. Suppose that the observations <span class="math inline">\(y_i | x_i\)</span> come from the above conditional Poisson model <span class="math inline">\((*)\)</span>.</p>
+<p>Consider fitting the following two models in R with Poisson errors and a log link function: <span class="math display">\[\begin{equation*}
+\text{(i)} ~~ y \sim 1, \quad \quad \text{(ii)} ~~ y \sim x.
+\end{equation*}\]</span></p>
+<p>Since model (ii) is the correct model, it should yield a good fit to the data. But if the experimenter does not know about the variable <span class="math inline">\(x\)</span>, it will only be feasible to fit model (i). Let <span class="math inline">\(\overline{Y}\)</span> and <span class="math inline">\(S^2\)</span> denote the sample mean and variance of the <span class="math inline">\(Y_i, \ i=1,\ldots,60\)</span>. Show that <span class="math display">\[\begin{equation*}
+\mbox{E}[\overline{Y}] = \lambda, \quad
+\mbox{E}[S^2] = \lambda +
+\frac{60}{59}(\lambda_1 - \lambda_2)^2/4.
+\end{equation*}\]</span></p>
+<p>Hence show that the Pearson <span class="math inline">\(\chi^2\)</span> goodness of fit statistic for model (i) will indicate a poorly fitting model if <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span> are far apart.</p>
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>For the expectation of the sample variance, first find the expectation of the square of the sample mean. Next, note that the Pearson goodness of fit statistics depends on the ratio of the sample variance divided by the sample mean. Under the conditional Poisson model the variance would be larger but the mean unchanged, hence the statistics gets bigger and so will be further into the upper tail.</p>
+</div></li>
+<li><p>This example is very simple, but overdispersion can occur much more widely. Why is overdisperson not a problem for generalised linear models in which the response distribution includes a scale parameter?</p>
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>In the Poisson, and the Binomial, the problem is caused by the mean and variance being defined by the same model parameter.</p>
+</div></li>
+</ol>
+<p>6.2 (From Dobson &amp; Barnett, p 163) This question should be done in a computer package such as R. You should think carefully about which variables, if any, to condition on in your analysis: HOME = 1,2,3, CONTACT = 1,2, or SATISFACTION = 1,2,3.</p>
+<p>The data relate to an investigation into satisfaction with housing conditions in Copenhagen. Residents of selected areas living in rented houses built between 1960 and 1968 were questioned about their satisfaction and their degree of contact with other residents. The data were tabulated by type of housing. Investigate the associations between satisfaction, contact with other residents and type of housing.</p>
+<p><strong>Low Contact:</strong></p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Satisfaction:</th>
+<th>Low</th>
+<th>Medium</th>
+<th>High</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tower blocks</td>
+<td>65</td>
+<td>54</td>
+<td>100</td>
+</tr>
+<tr class="even">
+<td>Apartments</td>
+<td>130</td>
+<td>76</td>
+<td>111</td>
+</tr>
+<tr class="odd">
+<td>Houses</td>
+<td>67</td>
+<td>48</td>
+<td>62</td>
+</tr>
+</tbody>
+</table>
+<p><strong>High Contact:</strong></p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Satisfaction:</th>
+<th>Low</th>
+<th>Medium</th>
+<th>High</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tower blocks</td>
+<td>34</td>
+<td>47</td>
+<td>100</td>
+</tr>
+<tr class="even">
+<td>Apartments</td>
+<td>141</td>
+<td>116</td>
+<td>191</td>
+</tr>
+<tr class="odd">
+<td>Houses</td>
+<td>130</td>
+<td>105</td>
+<td>104</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li>Produce appropriate tables of percentages to gain initial insights into the data; for example, percentages in each contact level by type of housing and level of satisfaction, or percentages in each level of satisfaction by contact and type of housing.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Consider many 2x2 tables for separate levels of the third variable, Each time re-scaling to create rows or columns, as appropriate, summing to 100%.</p>
+</div></li>
+<li>Using e.g.&nbsp;R, fit various log-linear models to investigate interactions between the variables.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Define your own variables and make sure the explanatory variables are converted to factor. Including the three-way interaction would lead to the saturated model – why? – and hence only consider pair-wise two-way interactions (as well as the variables separately).</p>
+</div></li>
+<li>For some model that fits (at least moderately) well, calculate the Pearson residuals and use them to find where the largest discrepancies are between the observed and expected values.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Use the residuals command with type=“pearson”</p>
+</div></li>
+</ol>
+</div>
+<p><br>
+</p>
+<!-- ::: {.callout-note appearance="default"} -->
+<!-- [Exercise 6 Solutions can be found here.](https://richardpmann.com/MATH3823/Solutions_6.html) -->
+<!-- ::: -->
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./5_logisticmodel.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modelling Proportions</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./7_extendedloglinearmodel.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Extensions to Loglinear models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

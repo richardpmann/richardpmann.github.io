@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Richard P Mann">
-<meta name="dcterms.date" content="2025-01-06">
 
-<title>MATH3823 Generalised Linear Models</title>
+<title>MATH3823 Generalised Linear Models - Overview</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./0_preface.html" rel="next">
+<link href="./1_intro.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -63,8 +62,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="webex.css">
 </head>
@@ -78,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Weekly schedule</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./0_preface.html">Overview</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -105,13 +102,13 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Weekly schedule</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./0_preface.html" class="sidebar-item-text sidebar-link">
+  <a href="./0_preface.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
@@ -167,7 +164,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#weekly-schedule" id="toc-weekly-schedule" class="nav-link active" data-scroll-target="#weekly-schedule">Weekly schedule</a></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#generative-ai-usage-within-this-module" id="toc-generative-ai-usage-within-this-module" class="nav-link" data-scroll-target="#generative-ai-usage-within-this-module">Generative AI usage within this module</a></li>
+  <li><a href="#official-module-description" id="toc-official-module-description" class="nav-link" data-scroll-target="#official-module-description">Official Module Description</a>
+  <ul class="collapse">
+  <li><a href="#module-summary" id="toc-module-summary" class="nav-link" data-scroll-target="#module-summary">Module summary</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
+  <li><a href="#syllabus" id="toc-syllabus" class="nav-link" data-scroll-target="#syllabus">Syllabus</a></li>
+  <li><a href="#university-module-catalogue" id="toc-university-module-catalogue" class="nav-link" data-scroll-target="#university-module-catalogue">University Module Catalogue</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -176,26 +181,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">MATH3823 Generalised Linear Models</h1>
+<h1 class="title"><span id="sec-preface" class="quarto-section-identifier">Overview</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Richard P Mann </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">January 6, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -203,236 +196,62 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<div class="hidden">
-<p><span class="math display">\[
-\def\b#1{\mathbf{#1}}
-\]</span></p>
-</div>
-<section id="weekly-schedule" class="level1 unnumbered">
-<h1 class="unnumbered">Weekly schedule</h1>
-<p>Items will be added here week-by-week and so keep checking when you need up-to-date information on what you should be doing.</p>
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 11 (6 - 10 May) -->
-<!-- Revision and examination preparation. -->
-<!-- Please do not forget that the examination this year is **closed-book** and all questions and you will be expected to attempt all questions. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 10 (29 April - 3 May) -->
-<!-- -   **Before next Lecture:** Prepare for Exercises. -->
-<!-- -   **Lecture on  Tuesday:** Selected Exercises from Chapter 6. -->
-<!-- -   **Lecture on Thursday:** Selected Exercises from Chapter 5. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 9 (22 - 26 April) -->
-<!-- - Submit your Computer Practical report on-time! -->
-<!-- -   **Before next Lecture:**  -->
-<!-- Re-read *Chapter 6: Log-linear Models*. -->
-<!-- -   **Lecture on  Tuesday:** Start *Chapter 7: Extensions to Loglinear models*. -->
-<!-- -   **Lecture on Thursday:** Complete *Chapter 7: Extensions to Loglinear models*. -->
-<!-- -   **Weekly feedback:**  Check any previous Exercises and solutions not completed. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Advanced notice -->
-<!-- Please note that I will not be available after Friday 22 March until Monday 22 April. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Assessed Practical -->
-<!-- -   **Module Assessment:** Set on 12 March with submission deadline 23 April (that is after the break). You will be expected to write a short report based on an RStudio practical. -->
-
-<!-- -   **Computer classes:** Supervised session on 19/20 March -- check your timetable. -->
-<!-- - **Generative AI usage within this module:** The assessments for this module fall in the red category for using Generative AI which means you must not use Generative AI tools. The purpose and format of the assessments makes it inappropriate or impractical for AI tools to be used. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 8 (18 - 22 March) -->
-<!-- -   **Before next Lecture:**  -->
-<!-- Re-read Chapters 4 and 5 ready for practical. -->
-<!-- -   **Lecture on  Tuesday:** Start *Chapter 6: Loglinear Modelling* with *Sections 6.1-6.3*. -->
-<!-- -   **Computer Practical on Tuesday:**  Work on Assessed Practical.  -->
-<!-- -   **Computer Practical on Wednesday:**  Work on Assessed Practical.  -->
-<!-- -   **Lecture on Thursday:** Complete *Chapter 6: Loglinear Modelling* with *Section 6.4-6.5*. -->
-<!-- -   **Weekly feedback:**  Start Exercises for Chapter 6 and check answers with solutions. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 7 (11 - 15 March) -->
-<!-- -   **Before next Lecture:**  -->
-<!-- Re-read *Chapter 5: Sections 5.1-5.3*. -->
-<!-- -   **Lecture on  Tuesday:** Complete *Chapter 5:* by looking at *Section 5.5 - Application to dose-response experiments*.  -->
-<!-- -   **Lecture on Thursday:**  Consider selected Exercises from previous Chapters and discuss Assessed Practical. If time start *Chapter 6: Log-linear Modelling*. -->
-<!-- -   **Weekly feedback:**  Complete Exercises for Chapter 5. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 6 (4 - 8 March) -->
-<!-- -   **Before next Lecture:**  -->
-<!-- Re-read *Chapter 4: Sections 4.1-4.2*. -->
-<!-- -   **Lecture on  Tuesday:** Complete *Chapter 4* with   -->
-<!-- *Sections: 4.3 Model deviance, 4.4 Model Residuals & 4.5 Fitting GLMs in R* -->
-<!-- -   **Lecture on Thursday:** Start *Chapter 5:  Modelling Proportions* with *Sections 5.1 & 5.2*. -->
-<!-- -   **Weekly feedback:**  Complete Chapter 4 Exercises. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 5 (26 February - 1 March) -->
-<!-- -   **Before next Lecture:** Re-read all of *Chapter 3*. -->
-
-<!-- -   **Computer Practical:** Either on Tuesday or Wednesday, attend supervised computer class -- see your timetable. For information see *Week 5 Computer Practical* folder on Minerva. -->
-<!-- -   **Lecture on  Tuesday:** Start *Chapter 4* by covering *Section 4.1: The identically distributed case*. -->
-<!-- -   **Lecture on Thursday:** Continue *Chapter 4* with *Section 4.2: The general case*. -->
-<!-- -   **Weekly feedback:**  Check your answers on Chapter 3 Exercises with online solutions. Start Chapter 4 Exercises. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 4 (19 - 23 February) -->
-<!-- -   **Before next Lecture:**  -->
-<!-- Be confident with all material up to, and including,  -->
-<!-- *Section 3.2: The GLM structure*. -->
-<!-- -   **Lecture on  Tuesday:**  -->
-<!-- We will cover *Section 3.3: The random part of a GLM*, *Section 3.4: Moments of exponential-family distributions* and, if time permits, *Sections 3.5: The systematic part of the model*. -->
-<!-- -   **Lecture on Thursday:** Complete Chapter 3 by covering *Section 3.6: The link function*. Then, we will consider selected Exercises from *Section 3.7*. -->
-<!-- -   **Weekly feedback:**  Complete Exercises in *Chapter 3*. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 3 (12 - 16 February) -->
-<!-- -   **Before next Lecture:**  -->
-<!-- Please re-read *Section 2.5: Model shorthand notation* and *Section 2.6 Fitting linear models in R*, and -->
-<!-- read *Section 2.7: Ethics in statistics and data science*. -->
-<!-- -   **Lecture on Tuesday:** We will start Chapter 3 with -->
-<!-- *Section 3.1: Motivating examples* and *Section 3.2: The GLM structure* -->
-<!-- -   **Before next Lecture:** Please re-read *Sections 3.1* and *3.2* carefully. -->
-<!-- -   **Lecture on Thursday:** CANCELLED due to illness. -->
-<!-- -   **Weekly feedback:** Complete the first two Chapter 3 Quizzes and start the Exercises in *Section 3.7*. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 2 (5 - 9 February) -->
-<!-- -   **Before next Lecture:**  -->
-<!-- Please re-read *Section 2.1: Overview* and *Section 2.2: Linear models*, and -->
-<!-- read *Section 2.3: Types of normal linear model*. -->
-<!-- -   **Lecture on Tuesday:** We will cover  -->
-<!-- *Section 2.4: Matrix representation of linear models* and briefly -->
-<!-- *Section 2.5: Model shorthand notation*. -->
-<!-- -   **Before next Lecture:** Please re-read *Sections 2.4* and *2.5* carefully. -->
-<!-- -   **Lecture on Thursday:** We will cover *Section 2.6: Fitting linear models in R* then discuss selected Exercises from Chapters 1 and 2.  -->
-<!-- -   **Weekly feedback:** Complete the Chapter 2 Quizzes and complete the Exercises in *Section 2.8*. -->
-<!-- ::: -->
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- ## Week 1 (29 January - 2 February) -->
-<!-- -   **Before first Lecture:** Please read the *Overview*. -->
-<!-- -   **Lecture on Tuesday:** We will briefly cover all material in *Chapter: Introduction*. -->
-<!-- -   **Before next Lecture:** Please re-read *Chapter 1* carefully, especially any sections not covered in Lectures. -->
-<!-- -   **Lecture on Thursday:** Start *Chapter 2: Essentials of Normal Linear Models* with *Section 2.1: Overview* & *Section 2.2: Linear models*. -->
-<!-- -   **Weekly feedback:** Complete the Chapter 1 Quizzes and self-study the Exercises in *Section 1.5*. If you have time, start Exercises in *Section 2.8*. -->
-<!-- ::: -->
-<div class="callout callout-style-default callout-note callout-titled">
+<section id="preface" class="level2">
+<h2 class="anchored" data-anchor-id="preface">Preface</h2>
+<p>These lecture notes are produced for the University of Leeds module <em>MATH3823 - Generalised Linear Models</em> for the academic year 2024-25. Please note that this material also forms part of the module <em>MATH5824 - Generalised Linear and Additive Models</em>. They are based on the lecture notes used previously for this module and I am grateful to the previous module leader Robert Aykroyd for sharing his notes and the considerable effort he made in developing these. A PDF version will be made available on the University of Leeds Minerva system. This will be my first year teaching this module, so I encourage you to offer feedback that can be used to improve the content throughout the semester.</p>
+<p>RP Mann, Leeds, January 6, 2025</p>
+<p><br>
+</p>
+</section>
+<section id="generative-ai-usage-within-this-module" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="generative-ai-usage-within-this-module">Generative AI usage within this module</h2>
+<p>The assessments for this module fall in the red category for using Generative AI which means you must not use Generative AI tools. The purpose and format of the assessments makes it inappropriate or impractical for AI tools to be used.</p>
+<p><br>
+</p>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Provisional Weekly Lecture Schedule<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<table class="table">
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Week 1</td>
-<td style="text-align: left;">Chapter 1</td>
-<td>All</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"></td>
-<td style="text-align: left;">Chapter 2</td>
-<td>Sections 2.1-2.2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Week 2</td>
-<td style="text-align: left;"></td>
-<td>Sections 2.3-2.7</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"></td>
-<td style="text-align: left;">Exercises</td>
-<td>Chapter 1 &amp; 2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Week 3</td>
-<td style="text-align: left;">Chapter 3</td>
-<td>Sections 3.1-3.4</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Week 4</td>
-<td style="text-align: left;"></td>
-<td>Sections 3.5-3.6</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"></td>
-<td style="text-align: left;">Exercises</td>
-<td>Chapter 3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Week 5</td>
-<td style="text-align: left;">Chapter 4</td>
-<td>Sections 4.1-4.2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Week 6</td>
-<td style="text-align: left;"></td>
-<td>Sections 4.3-4.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"></td>
-<td style="text-align: left;">Chapter 5</td>
-<td>Sections 5.1-5.3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Week 7</td>
-<td style="text-align: left;"></td>
-<td>Sections 5.4-5.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"></td>
-<td style="text-align: left;">Exercises</td>
-<td>Chapters 3 &amp; 4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Week 8</td>
-<td style="text-align: left;">Chapter 6</td>
-<td>All</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Easter</td>
-<td style="text-align: left;"></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Week 9</td>
-<td style="text-align: left;">Chapter 7</td>
-<td>Sections 7.1-7.2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Week 10</td>
-<td style="text-align: left;"></td>
-<td>Sections 7.3-7.4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"></td>
-<td style="text-align: left;">Exercises</td>
-<td>Chapter 6 &amp; 7</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Week 11</td>
-<td style="text-align: left;">Revision</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p><strong>Statistical ethics and sensitive data<br>
+</strong>Please note that from time to time we will be using data sets from situations which some might perceive as sensitive. All such data sets will, however, be derived from real-world studies which appear in textbooks or in scientific journals. The daily work of many statisticians involves applying their professional skills in a wide variety of situations and as such it is important to include a range of commonly encountered examples in this module. Whenever possible, sensitive topics will be signposted in advance. If you feel that any examples may be personally upsetting then, if possible, please contact the module lecturer in advance. If you are significantly effected by any of these situations, then you can seek support from the <a href="https://students.leeds.ac.uk/info/100001/counselling">Student Counselling and Wellbeing service</a>.</p>
 </div>
 </div>
+<p><br>
+</p>
+</section>
+<section id="official-module-description" class="level1 unnumbered">
+<h1 class="unnumbered">Official Module Description</h1>
+<section id="module-summary" class="level2">
+<h2 class="anchored" data-anchor-id="module-summary">Module summary</h2>
+<p>Linear regression is a tremendously useful statistical technique but is very limited. Generalised linear models extend linear regression in many ways - allowing us to analyse more complex data sets. In this module we will see how to combine continuous and categorical predictors, analyse binomial response data and model count data.</p>
+</section>
+<section id="objectives" class="level2">
+<h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
+<p>On completion of this module, students should be able to:</p>
+<ol type="a">
+<li>carry out regression analysis with generalised linear models including the use of link functions;</li>
+<li>understand the use of deviance in model selection;</li>
+<li>appreciate the problems caused by overdispersion;</li>
+<li>fit and interpret the special cases of log linear models and logistic regression;</li>
+<li>use a statistical package with real data to fit these models to data and to write a report giving and interpreting the results.</li>
+</ol>
+</section>
+<section id="syllabus" class="level2">
+<h2 class="anchored" data-anchor-id="syllabus">Syllabus</h2>
+<p>Generalised linear model; probit model; logistic regression; log linear models.</p>
+</section>
+<section id="university-module-catalogue" class="level2">
+<h2 class="anchored" data-anchor-id="university-module-catalogue">University Module Catalogue</h2>
+<p>For any further details, please see <a href="https://webprod3.leeds.ac.uk/catalogue/dynmodules.asp?Y=202425&amp;M=MATH-3823">MATH3823 Module Catalogue page</a></p>
 
 
 </section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Some sections will be left as <em>directed reading,</em> but please note that material in all sections is examinable.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->
@@ -877,10 +696,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Weekly schedule</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./0_preface.html" class="pagination-link">
-        <span class="nav-page-text">Overview</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./1_intro.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
