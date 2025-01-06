@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MATH5824 Generalised Linear and Additive Models - 1&nbsp; Non-parametric Modelling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./2_basicdefinitions.html" rel="next">
+<link href="./0_preface.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="webex.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_introduction.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Non-parametric Modelling</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH5824 Generalised Linear and Additive Models</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0_preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_introduction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Non-parametric Modelling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_basicdefinitions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Splines</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_interpolating.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Interpolating Splines</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_smoothing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Smoothing Splines</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_smoothingparameter.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Choosing the Smoothing Parameter</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_smoothinginpractice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">General Additive Models</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1.1</span> Introduction</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">1.2</span> Motivation</a></li>
+  <li><a href="#focus-on-polynomials-quiz" id="toc-focus-on-polynomials-quiz" class="nav-link" data-scroll-target="#focus-on-polynomials-quiz">Focus on polynomials quiz</a></li>
+  <li><a href="#sec-genmodelling" id="toc-sec-genmodelling" class="nav-link" data-scroll-target="#sec-genmodelling"><span class="header-section-number">1.3</span> General modelling approaches</a>
+  <ul class="collapse">
+  <li><a href="#parametric-models" id="toc-parametric-models" class="nav-link" data-scroll-target="#parametric-models">Parametric models</a></li>
+  <li><a href="#non-parametric-models" id="toc-non-parametric-models" class="nav-link" data-scroll-target="#non-parametric-models">Non-parametric models</a></li>
+  <li><a href="#piecewise-polynomial-models" id="toc-piecewise-polynomial-models" class="nav-link" data-scroll-target="#piecewise-polynomial-models">Piecewise polynomial models</a></li>
+  </ul></li>
+  <li><a href="#sec-exercises1" id="toc-sec-exercises1" class="nav-link" data-scroll-target="#sec-exercises1"><span class="header-section-number">1.4</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-nonparametric" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Non-parametric Modelling</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="hidden">
+<p><span class="math display">\[
+\def\b#1{\mathbf{#1}}
+\]</span></p>
+</div>
+<section id="introduction" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<p>In the Level 3 component of this module, we extend the simple linear regression model to the generalised linear model which can cope with non-normally distributed response variables, in particular data following binomial and Poisson distributions. However, we still just use linear functions of the predictor variables. A further extension of the linear model is the generalised additive model. Here, we no longer insist on the predictor variables affecting the response via a linear function of the predictors, but allow the response to depend on a more general smooth function of the predictor. In the Level 5 component of this module, we study splines and their use in interpolating and smoothing the effects of explanatory variables in the generalised linear models of the Level 3 component of this module (see separate Lecture Notes accompanying MATH3823). Towards the end of the material, we will learn that the fitting of generalised additive models is a straightforward extension of what is learnt in MATH3823.</p>
+<p>Outline of the additional material in MATH5824 compared to MATH3823:</p>
+<ol type="1">
+<li>Interpolating and smoothing splines.</li>
+<li>Cross-validation and fitting splines to data.</li>
+<li>The generalised additive model.</li>
+</ol>
+</section>
+<section id="motivation" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="motivation"><span class="header-section-number">1.2</span> Motivation</h2>
+<p><a href="#tbl-coalseemdata">Table&nbsp;<span>1.1</span></a> reports on the depth of a coal seam determined by drilling bore holes at regular intervals along a line. The depth <span class="math inline">\(y\)</span> at location <span class="math inline">\(x=6\)</span> is missing: could we estimate it?</p>
+<div id="tbl-coalseemdata" class="anchored">
+<table class="table">
+<caption>Table&nbsp;1.1: Coal-seam depths (in metres) below the land surface at intervals of 1 km along a linear transect.</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Location, <span class="math inline">\(x\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="even">
+<td>Depth, <span class="math inline">\(y\)</span></td>
+<td style="text-align: center;">-90</td>
+<td style="text-align: center;">-95</td>
+<td style="text-align: center;">-140</td>
+<td style="text-align: center;">-120</td>
+<td style="text-align: center;">-100</td>
+<td style="text-align: center;">-75</td>
+<td style="text-align: center;">NA</td>
+<td style="text-align: center;">-130</td>
+<td style="text-align: center;">-110</td>
+<td style="text-align: center;">-105</td>
+<td style="text-align: center;">-50</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="#fig-plotCoalseemregress">Figure&nbsp;<span>1.1</span></a> plots these data, superimposed with predictions from several polynomial regression models.</p>
+<div id="fig-plotCoalseemregress" class="cell quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotCoalseemregress-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotCoalseemregress-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672"></p>
+<figcaption class="figure-caption">(a) Constant model</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotCoalseemregress-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotCoalseemregress-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672"></p>
+<figcaption class="figure-caption">(b) Linear model</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotCoalseemregress-3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotCoalseemregress-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672"></p>
+<figcaption class="figure-caption">(c) Quadratic model</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotCoalseemregress-4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotCoalseemregress-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672"></p>
+<figcaption class="figure-caption">(d) Cubic model</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1.1: The coal-seam data superimposed with predictions from polynomial regression models.</figcaption><p></p>
+</figure>
+</div>
+<p>Each of these models would predict a different value for the missing observation <span class="math inline">\(y_6.\)</span> We do not know the accuracy of the depth measurements, so in principle any of these curves could be correct. Clearly, the residual variance is largest for the constant-depth model in <a href="#fig-plotCoalseemregress-1">Figure&nbsp;<span>1.1 (a)</span></a>, and smallest for the cubic polynomial in <a href="#fig-plotCoalseemregress-3">Figure&nbsp;<span>1.1 (c)</span></a> – the residual sums of squares are: 6252.5, 5773.05, 4489.84, 4242.89. However, none of these models produces a convincingly good fit. Moreover, these models are not particularly believable, since we know that geological pressures exerted over very long periods of time cause the landscape and its underlying layers of rock to undulate and fracture. This suggests we need a different strategy.</p>
+<p>Next, consider the simulated example in <a href="#fig-plotpeicewise">Figure&nbsp;<span>1.2</span></a>. At first look we might be happy with the fitted curves in <a href="#fig-plotpeicewise-1">Figure&nbsp;<span>1.2 (a)</span></a> or <a href="#fig-plotpeicewise-2">Figure&nbsp;<span>1.2 (b)</span></a>. The data, however, are created with a <em>change-point</em> at <span class="math inline">\(x=0.67\)</span> where the relationship changes from linear with slope <span class="math inline">\(0.6\)</span> to a constant value of <span class="math inline">\(0.75\)</span>. This description is completely lost with these two models.</p>
+<div id="fig-plotpeicewise" class="cell quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotpeicewise-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotpeicewise-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672"></p>
+<figcaption class="figure-caption">(a) Linear model</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotpeicewise-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotpeicewise-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672"></p>
+<figcaption class="figure-caption">(b) Quadratic model</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotpeicewise-3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotpeicewise-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672"></p>
+<figcaption class="figure-caption">(c) Piecewise linear model</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotpeicewise-4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotpeicewise-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672"></p>
+<figcaption class="figure-caption">(d) Cubic smoothing spline</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1.2: Simulated data superimposed with predictions from various models.</figcaption><p></p>
+</figure>
+</div>
+<p><a href="#fig-plotpeicewise-3">Figure&nbsp;<span>1.2 (c)</span></a> shows the result of fitting one linear function to the data below <span class="math inline">\(0.67\)</span> and a second linear function above. Clearly, this fits well but it has assumed that the change-point location is known – which is unrealistic. Finally, <a href="#fig-plotpeicewise-4">Figure&nbsp;<span>1.2 (d)</span></a> shows a fitted <em>cubic smoothing spline</em> to the data – we will studies these models later. This shows an excellent fit and leads to appropriate conclusions. That is, the relationship is approximately linear for small values, then there is a rapid increase, and finally a near constant value for high values. Of course, this is not exactly as the true relationship with a discontinuity at <span class="math inline">\(x=0.67\)</span> but it would definitely suggest something extreme occurs between about <span class="math inline">\(0.6\)</span> to <span class="math inline">\(0.7\)</span>. Full details will follow later, but the cubic spline fits local cubic polynomials which are constrained to create a continuous curve.</p>
+<p>Now returning to the coal seam data. <a href="#fig-plotCoalseemspline">Figure&nbsp;<span>1.3</span></a> shows the data again, superimposed with predictions from methods which are not constrained to produce such smooth curves.</p>
+<div id="fig-plotCoalseemspline" class="cell quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotCoalseemspline-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotCoalseemspline-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672"></p>
+<figcaption class="figure-caption">(a) Constant interpolating spline</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotCoalseemspline-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotCoalseemspline-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672"></p>
+<figcaption class="figure-caption">(b) Linear interpolating spline</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotCoalseemspline-3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotCoalseemspline-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672"></p>
+<figcaption class="figure-caption">(c) Cubic interpolating spline</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-plotCoalseemspline-4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="1_introduction_files/figure-html/fig-plotCoalseemspline-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672"></p>
+<figcaption class="figure-caption">(d) Cubic smoothing spline</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1.3: The coal-seam data superimposed with predictions from various spline models.</figcaption><p></p>
+</figure>
+</div>
+<p>The simplest method, <em>constant-spline interpolation</em>, assumes that the dependent variable remains constant between successive observations, with the result shown in <a href="#fig-plotCoalseemspline-1">Figure&nbsp;<span>1.3 (a)</span></a>. However, the discontinuities in this model make it quite unreliable. A better method, whose results are shown in <a href="#fig-plotCoalseemspline-2">Figure&nbsp;<span>1.3 (b)</span></a>, is <em>linear-spline interpolation</em>, which fits a straight line between successive observations. Even so, this method produces discontinuities in the <em>gradient</em> at each data point. A better method still, shown in <a href="#fig-plotCoalseemspline-3">Figure&nbsp;<span>1.3 (c)</span></a>, is <em>cubic spline interpolation</em>, which fits a cubic polynomial between successive data points such that both the gradient and the curvature at each data point is continuous.</p>
+<p>A feature of all these interpolation methods is that they fit the data exactly. Is this a good thing? The final method assumes that there may be some measurement error in the observations, which justifies fitting a smoother cubic spline than the cubic interpolating spline, but as we see in <a href="#fig-plotCoalseemspline-4">Figure&nbsp;<span>1.3 (d)</span></a> which does not reproduce the data points exactly. Is this a bad thing? We will see during this module how to construct and evaluate these curves. Here, the results are presented only for motivation.</p>
+</section>
+<section id="focus-on-polynomials-quiz" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="focus-on-polynomials-quiz">Focus on polynomials quiz</h2>
+<p>Test your knowledge recall and comprehension to reinforce basic ideas about continuity and differentiability.</p>
+<div class="webex-box">
+<div class="webex-check">
+<ol type="1">
+<li><p>Which of the predicted curves in Figure 1.3 are continous? <select class="webex-select"><option value="blank"></option><option value="">None of the models</option><option value="">Model (a) only</option><option value="">Models (c) and (d) only</option><option value="answer">All models</option></select></p></li>
+<li><p>Which of the predicted curves in Figure 1.3 have a continous first derivative? <select class="webex-select"><option value="blank"></option><option value="">None of the models</option><option value="">Model (b) only</option><option value="answer">Models (c) and (d) only</option><option value="">All models</option></select></p></li>
+<li><p>Which of the predicted curves in Figure 1.3 have a continous second derivative? <select class="webex-select"><option value="blank"></option><option value="">None of the models</option><option value="">Model (b) only</option><option value="answer">Models (c) and (d) only</option><option value="">All models</option></select></p></li>
+<li><p>Which of the predicted curves in Figure 1.3 have a continous third derivative? <select class="webex-select"><option value="blank"></option><option value="">None of the models</option><option value="">Model (b) only</option><option value="answer">Models (c) and (d) only</option><option value="">All models</option></select></p></li>
+<li><p>Which of the predicted curves in Figure 1.3 has the highest residual sum of squares? <select class="webex-select"><option value="blank"></option><option value="">None of the models</option><option value="">Model (a)</option><option value="">Model (b)</option><option value="">Model (c)</option><option value="answer">Model (d)</option><option value="">All model</option></select></p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="sec-genmodelling" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-genmodelling"><span class="header-section-number">1.3</span> General modelling approaches</h2>
+<p>We wish to model the dependence of a response variable <span class="math inline">\(y\)</span> on an explanatory variable <span class="math inline">\(x\)</span>, where <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> are both continuous. We observe <span class="math inline">\(y_i\)</span> at each time <span class="math inline">\(x_i,\)</span> for <span class="math inline">\(i=1,\ldots, n\)</span>, where the observation locations are ordered: <span class="math inline">\(x_1 &lt; x_2 &lt; \ldots &lt;x_n\)</span>. We imagine that the <span class="math inline">\(y\)</span>’s are noisy versions of a smooth function of <span class="math inline">\(x\)</span>, say <span class="math inline">\(f(x)\)</span>. That is, <span id="eq-smoothregression"><span class="math display">\[
+y_i = f(x_i) + \epsilon_i,
+\tag{1.1}\]</span></span> where the <span class="math inline">\(\{\epsilon_i\}\)</span> are i.i.d: <span id="eq-normalerror"><span class="math display">\[
+\epsilon_i \sim \mathrm{N}(0,\sigma^2).
+\tag{1.2}\]</span></span> We suppose we do not know the correct form of function <span class="math inline">\(f\)</span>: how can we estimate it?</p>
+<p>It is useful to divide modelling approaches into two broad types: parametric and non-parametric.</p>
+<section id="parametric-models" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="parametric-models">Parametric models</h3>
+<p>By far the most common parametric model is simple linear regression, for example, <span class="math inline">\(f(x) = \alpha + \beta x\)</span>, where parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are to be estimated. This is, of course, the simplest example of the polynomial model family, <span class="math inline">\(f(x) = \alpha + \beta x + \gamma x^2 +\cdots + \omega \; x^p\)</span>, where <span class="math inline">\(p\)</span> is the <em>order</em> of the polynomial and where all of <span class="math inline">\(\alpha, \beta, \gamma, \dots, \omega\)</span> are to be estimated. This has as special cases: quadratic, cubic, quartic, and quintic polynomials models. Also common are exponential models, for example <span class="math inline">\(f(x) = \alpha e^{-\beta x}\)</span>, where <span class="math inline">\(\alpha,\beta\)</span> are to be estimated – do not confuse this with the exponential probability density function.</p>
+<p>Note that the polynomial models are all linear functions <em>of the parameters</em>. They are standard forms in regression modelling, as studied in MATH3714 (Linear regression and Robustness) and MATH3823 (Generalised linear models). The exponential model, however, is an example of a model which is non-linearly in the parameters – it is an example of a <em>non-linear regression model</em>.</p>
+<p>Although very many parametric models exist, they are all somewhat inflexible in their description of <span class="math inline">\(f\)</span>. They cannot accommodate arbitrary fluctuations in <span class="math inline">\(f(x)\)</span> over <span class="math inline">\(x\)</span> because they contain only a small number of parameters (degrees-of-freedom).</p>
+</section>
+<section id="non-parametric-models" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="non-parametric-models">Non-parametric models</h3>
+<p>In such models, <span class="math inline">\(f\)</span> is assumed to be a smooth function of <span class="math inline">\(x\)</span>, but otherwise we do not know what <span class="math inline">\(f\)</span> looks like. A <em>smooth function</em> <span class="math inline">\(f\)</span> is such that <span class="math inline">\(f(x_i)\)</span> is close to <span class="math inline">\(f(x_j)\)</span> whenever <span class="math inline">\(x_i\)</span> is close to <span class="math inline">\(x_j\)</span>. To characterise and fit <span class="math inline">\(f\)</span> we will use an approach based on <em>splines</em>. In practice, different approaches to characterizing and fitting smooth <span class="math inline">\(f\)</span> lead to similar fits to the data. The spline approach fits neatly with normal and generalised linear models (NLMs and GLMs), but so do other approaches (for example, kernel smoothing and wavelets). Methods of fitting <span class="math inline">\(f\)</span> based on kernel smoothing and the Nadaraya–Watson estimator are studied in the Level 5 component of MATH5714 (Linear regression, robustness and smoothing) where the choice of bandwidth in kernel methods is analogous to the choice of smoothing parameter value in spline smoothing.</p>
+</section>
+<section id="piecewise-polynomial-models" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="piecewise-polynomial-models">Piecewise polynomial models</h3>
+<p>A common problem with low-order polynomials is that they can often fit well for part of the data but have unappealing features elsewhere. For example, although none of the models in <a href="#fig-plotCoalseemregress">Figure&nbsp;<span>1.1</span></a> fit the data at all well, we might imagine that three short linear segments might be a good fit to the coal-seam data. Also, the piecewise linear model was a good description of the data in <a href="#fig-plotpeicewise-3">Figure&nbsp;<span>1.2 (c)</span></a>. This suggests that local polynomial models might be useful. In some situation, for example when we know that the function <span class="math inline">\(f\)</span> is continuous, jumps in the fitted model, as in <a href="#fig-plotpeicewise-3">Figure&nbsp;<span>1.2 (c)</span></a>, are unacceptable. Alternatively, we may require differentiability of <span class="math inline">\(f\)</span>. Such technical issues lead to the use of <em>splines,</em> which is introduced in the next chapter.</p>
+</section>
+</section>
+<section id="sec-exercises1" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-exercises1"><span class="header-section-number">1.4</span> Exercises</h2>
+<div class="webex-box">
+1.1 Consider the first three models fitted in <a href="#fig-plotCoalseemregress">Figure&nbsp;<span>1.1</span></a> and let the data be denoted, <span class="math inline">\(\{(x_i, y_i): i=1,2,\dots, n\}\)</span>. These three models can be written <span class="math display">\[\begin{align*}
+(a) \quad &amp;  y = \alpha +\epsilon\\
+(b) \quad &amp;  y = \alpha +\beta x+\epsilon\\
+(c) \quad &amp;  y = \alpha +\beta x + \gamma x^2 +\epsilon
+\end{align*}\]</span> where <span class="math inline">\(\epsilon\)</span> represents normally distributed random error. Use the principle of least squares, or otherwise, to obtain estimates of the model parameters.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>For each, start by defining the residual sum of squares (RSS), <span class="math inline">\(RSS=\sum (y_i - \hat{y}_i)^2\)</span> where, in turn (a) <span class="math inline">\(\hat{y}_i= \alpha\)</span>, (b) <span class="math inline">\(\hat{y}_i= \alpha+\beta x_i\)</span>, (c) <span class="math inline">\(\hat{y}_i= \alpha+\beta x_i+\gamma x_i^2\)</span>. Then, find he parameter values which minimise the RSS by (possibly partial) differentiation.</p>
+</div>
+1.2 Discuss possible approaches to fitting an exponential model, <span class="math inline">\(y=\alpha e^{\beta x},\)</span> to data. Note that no actual algebraic derivation, nor numerical coded algorithm is expect.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>There is more than one approach. Can least squares be used? Could a simple transformation of the data and the fitted model make solving the problem easier? Is there an algebraic solution? Is there a purely numerical solution?</p>
+</div>
+1.3 In <a href="#fig-plotpeicewise-3">Figure&nbsp;<span>1.2 (c)</span></a>, discuss how you might fit a two-part linear model for the case where the change-point is <em>unknown</em>. Note that no actual algebraic derivation, nor numerical coded algorithm is expect.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>With many similar problems, imaging breaking the problem down into steps. If you know the location of the change-point then what should you do? Can you then try different possible change-point locations?</p>
+</div>
+1.4 Discuss the four fitted models in <a href="#fig-plotCoalseemspline">Figure&nbsp;<span>1.3</span></a>. Can you give positive and negative properties of each model? Which do you think is best and which worst? Do you think which is best/worst, depends on the data? Justify your answers.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Don’t get too stuck on the data used here, but think of general issues: ease of use, reliability of the data, is there error with the data or is it very reliable? What if the response it discrete?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://rgaykroyd.github.io/MATH5824/Solutions_1.html">Exercise 1 Solutions can be found here.</a></p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./0_preface.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./2_basicdefinitions.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Splines</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
