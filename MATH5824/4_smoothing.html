@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MATH5824 Generalised Linear and Additive Models - 4&nbsp; Smoothing Splines</title>
+<title>4&nbsp; Smoothing Splines – MATH5824 Generalised Linear and Additive Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,14 +96,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="webex.css">
 </head>
@@ -108,13 +142,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4_smoothing.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Smoothing Splines</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4_smoothing.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Smoothing Splines</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -123,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MATH5824 Generalised Linear and Additive Models</a> 
@@ -187,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -222,7 +256,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <div class="hidden">
 <p><span class="math display">\[
@@ -231,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="overview" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
-<p>In <a href="1_introduction.html#sec-genmodelling"><span>Section&nbsp;1.3</span></a> we described a general statistical model with a response variable <span class="math inline">\(y\)</span> and an explanatory variable <span class="math inline">\(x\)</span>. We observe <span class="math inline">\(y_i\)</span> at each location <span class="math inline">\(x_i,\)</span> for <span class="math inline">\(i=1,\ldots, n\)</span>. We imagined that the <span class="math inline">\(y\)</span>’s are noisy versions of a smooth function of <span class="math inline">\(t\)</span>, say <span class="math inline">\(f(\cdot)\)</span> where the errors follow a normal distribution with constant variance. That is <span class="math display">\[
+<p>In <a href="1_introduction.html#sec-genmodelling" class="quarto-xref"><span>Section 1.3</span></a> we described a general statistical model with a response variable <span class="math inline">\(y\)</span> and an explanatory variable <span class="math inline">\(x\)</span>. We observe <span class="math inline">\(y_i\)</span> at each location <span class="math inline">\(x_i,\)</span> for <span class="math inline">\(i=1,\ldots, n\)</span>. We imagined that the <span class="math inline">\(y\)</span>’s are noisy versions of a smooth function of <span class="math inline">\(t\)</span>, say <span class="math inline">\(f(\cdot)\)</span> where the errors follow a normal distribution with constant variance. That is <span class="math display">\[
 y_i = f(x_i) + \epsilon_i, \quad
 \epsilon_i \sim \mathrm{N}(0,\sigma^2),
 \]</span> for <span class="math inline">\(i=1,\ldots,n\)</span>, where <span class="math inline">\(f\)</span> is smooth, the <span class="math inline">\(\epsilon_i\)</span> are i.i.d., and <span class="math inline">\(f\)</span> and <span class="math inline">\(\sigma^2\)</span> are unknown.<br>
@@ -239,77 +275,109 @@ The log-likelihood for this situation is: <span id="eq-loglik"><span class="math
 l(f; \mathbf{y})
 = -\frac{1}{2\sigma^2} \sum_{i=1}^n \left(y_i - f(x_i)\right)^2 - n \log \sigma
 \tag{4.1}\]</span></span> and we wish to estimate <span class="math inline">\(f\)</span> for a given data set <span class="math inline">\(\mathbf{y}=\{y_1,\dots, y_n\}\)</span>. With no constraints on <span class="math inline">\(f\)</span>, the log-likelihood would be maximised by setting <span class="math inline">\(f(x_i)=y_i\)</span> for all <span class="math inline">\(i\)</span>, and we would estimate the noise variance as <span class="math inline">\(\hat{\sigma}^2=0\)</span>. This takes no account of randomness in the data and <span class="math inline">\(f\)</span> would in general need to be quite wiggly to achieve this fit.</p>
-<p><a href="#fig-interpsmooth-1">Figure&nbsp;<span>4.1 (a)</span></a> shows such an interpolation of noisy data. This would be of little use for explanation, interpolation or prediction.</p>
-<div id="fig-interpsmooth" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-interpsmooth-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-interpsmooth-1.png" class="img-fluid figure-img" data-ref-parent="fig-interpsmooth" width="672"></p>
-<figcaption class="figure-caption">(a) Interpolating spline</figcaption>
+<p><a href="#fig-interpsmooth-1" class="quarto-xref">Figure&nbsp;<span>4.1 (a)</span></a> shows such an interpolation of noisy data. This would be of little use for explanation, interpolation or prediction.</p>
+<div id="fig-interpsmooth" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interpsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-interpsmooth" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-interpsmooth-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-interpsmooth-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-interpsmooth-1.png" class="img-fluid figure-img" data-ref-parent="fig-interpsmooth" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-interpsmooth-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Interpolating spline
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-interpsmooth-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-interpsmooth-2.png" class="img-fluid figure-img" data-ref-parent="fig-interpsmooth" width="672"></p>
-<figcaption class="figure-caption">(b) Smoothing spline</figcaption>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-interpsmooth" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-interpsmooth-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-interpsmooth-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-interpsmooth-2.png" class="img-fluid figure-img" data-ref-parent="fig-interpsmooth" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-interpsmooth-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Smoothing spline
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4.1: Comparison of interpolating and smoothing methods applied to a noisy dat set.</figcaption><p></p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interpsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Comparison of interpolating and smoothing methods applied to a noisy dat set.
+</figcaption>
 </figure>
 </div>
-<p>We do not expect, or even want, the fitted function <span class="math inline">\(f\)</span> to pass exactly through the data points <span class="math inline">\(\{(x_i,y_i), i=1,\dots,n\}\)</span>, but merely to lie close to them. We would rather trade-off goodness-of-fit against smoothness of <span class="math inline">\(f\)</span>. <a href="#fig-interpsmooth-2">Figure&nbsp;<span>4.1 (b)</span></a> shows a smoothing spline fit to the same data. This is much better as there is a clear explanation of the relationship, it could be used reasonably well for interpolation and prediction.</p>
+<p>We do not expect, or even want, the fitted function <span class="math inline">\(f\)</span> to pass exactly through the data points <span class="math inline">\(\{(x_i,y_i), i=1,\dots,n\}\)</span>, but merely to lie close to them. We would rather trade-off goodness-of-fit against smoothness of <span class="math inline">\(f\)</span>. <a href="#fig-interpsmooth-2" class="quarto-xref">Figure&nbsp;<span>4.1 (b)</span></a> shows a smoothing spline fit to the same data. This is much better as there is a clear explanation of the relationship, it could be used reasonably well for interpolation and prediction.</p>
 </section>
 <section id="the-penalised-least-squares-criterion" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="the-penalised-least-squares-criterion"><span class="header-section-number">4.2</span> The penalised least-squares criterion</h2>
-<p>Noting that maximizing <a href="#eq-loglik">Equation&nbsp;<span>4.1</span></a> is equivalent to minimizing the residual sum of squares: <span class="math inline">\(\sum_{i=1}^n \left(y_i - f(x_i)\right)^2\)</span>, we can achieve this trade-off by minimizing a <em>penalised</em> sum of squared residuals: <span id="eq-rlambdaf"><span class="math display">\[
+<p>Noting that maximizing <a href="#eq-loglik" class="quarto-xref">Equation&nbsp;<span>4.1</span></a> is equivalent to minimizing the residual sum of squares: <span class="math inline">\(\sum_{i=1}^n \left(y_i - f(x_i)\right)^2\)</span>, we can achieve this trade-off by minimizing a <em>penalised</em> sum of squared residuals: <span id="eq-rlambdaf"><span class="math display">\[
 R_\nu(f,\lambda) = \sum_{i=1}^n \left(y_i - f(x_i)\right)^2 + \lambda J_\nu(f),
-\tag{4.2}\]</span></span> where <span class="math inline">\(J_\nu(f)\)</span>, as first defined in <a href="3_interpolating.html#eq-jnuf">Equation&nbsp;<span>3.8</span></a>, penalizes the roughness of <span class="math inline">\(f\)</span>. The <em>smoothing parameter</em> <span class="math inline">\(\lambda\geq 0\)</span> controls the severity of this penalty. For now we will assume <span class="math inline">\(\lambda\)</span>, which absorbs the <span class="math inline">\(\sigma^2\)</span> in <a href="#eq-loglik">Equation&nbsp;<span>4.1</span></a>, is known.</p>
-<p><a href="#fig-smoothlambda">Figure&nbsp;<span>4.2</span></a> shows example smoothing spline fits using a range of smoothing parameters, <span class="math inline">\(\lambda\)</span>. In <a href="#fig-smoothlambda-1">Figure&nbsp;<span>4.2 (a)</span></a> the fit is essentially a straight line, perhaps <a href="#fig-smoothlambda-2">Figure&nbsp;<span>4.2 (b)</span></a> and <a href="#fig-smoothlambda-3">Figure&nbsp;<span>4.2 (c)</span></a> show acceptable fits. <a href="#fig-smoothlambda-4">Figure&nbsp;<span>4.2 (d)</span></a>, with a very small <span class="math inline">\(\lambda\)</span> value is close to an interpolating spline fit and is clearly unacceptable.</p>
-<div id="fig-smoothlambda" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-smoothlambda-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-smoothlambda-1.png" class="img-fluid figure-img" data-ref-parent="fig-smoothlambda" width="672"></p>
-<figcaption class="figure-caption">(a) Very strong smoothing</figcaption>
+\tag{4.2}\]</span></span> where <span class="math inline">\(J_\nu(f)\)</span>, as first defined in <a href="3_interpolating.html#eq-jnuf" class="quarto-xref">Equation&nbsp;<span>3.8</span></a>, penalizes the roughness of <span class="math inline">\(f\)</span>. The <em>smoothing parameter</em> <span class="math inline">\(\lambda\geq 0\)</span> controls the severity of this penalty. For now we will assume <span class="math inline">\(\lambda\)</span>, which absorbs the <span class="math inline">\(\sigma^2\)</span> in <a href="#eq-loglik" class="quarto-xref">Equation&nbsp;<span>4.1</span></a>, is known.</p>
+<p><a href="#fig-smoothlambda" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> shows example smoothing spline fits using a range of smoothing parameters, <span class="math inline">\(\lambda\)</span>. In <a href="#fig-smoothlambda-1" class="quarto-xref">Figure&nbsp;<span>4.2 (a)</span></a> the fit is essentially a straight line, perhaps <a href="#fig-smoothlambda-2" class="quarto-xref">Figure&nbsp;<span>4.2 (b)</span></a> and <a href="#fig-smoothlambda-3" class="quarto-xref">Figure&nbsp;<span>4.2 (c)</span></a> show acceptable fits. <a href="#fig-smoothlambda-4" class="quarto-xref">Figure&nbsp;<span>4.2 (d)</span></a>, with a very small <span class="math inline">\(\lambda\)</span> value is close to an interpolating spline fit and is clearly unacceptable.</p>
+<div id="fig-smoothlambda" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-smoothlambda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-smoothlambda" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-smoothlambda-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-smoothlambda-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-smoothlambda-1.png" class="img-fluid figure-img" data-ref-parent="fig-smoothlambda" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-smoothlambda-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Very strong smoothing
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-smoothlambda-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-smoothlambda-2.png" class="img-fluid figure-img" data-ref-parent="fig-smoothlambda" width="672"></p>
-<figcaption class="figure-caption">(b) Moderate smoothing</figcaption>
-</figure>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-smoothlambda" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-smoothlambda-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-smoothlambda-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-smoothlambda-2.png" class="img-fluid figure-img" data-ref-parent="fig-smoothlambda" width="672">
 </div>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-smoothlambda-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-smoothlambda-3.png" class="img-fluid figure-img" data-ref-parent="fig-smoothlambda" width="672"></p>
-<figcaption class="figure-caption">(c) Weak smoothing</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-smoothlambda-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-smoothlambda-4.png" class="img-fluid figure-img" data-ref-parent="fig-smoothlambda" width="672"></p>
-<figcaption class="figure-caption">(d) Very weak smoothing</figcaption>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-smoothlambda-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Moderate smoothing
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4.2: Comparison of interpolating and smoothing methods applied to a noisy dat set.</figcaption><p></p>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-smoothlambda" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-smoothlambda-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-smoothlambda-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-smoothlambda-3.png" class="img-fluid figure-img" data-ref-parent="fig-smoothlambda" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-smoothlambda-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Weak smoothing
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-smoothlambda" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-smoothlambda-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-smoothlambda-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-smoothlambda-4.png" class="img-fluid figure-img" data-ref-parent="fig-smoothlambda" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-smoothlambda-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Very weak smoothing
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-smoothlambda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: Comparison of interpolating and smoothing methods applied to a noisy dat set.
+</figcaption>
 </figure>
 </div>
 <p>As the smoothing parameter <span class="math inline">\(\lambda\)</span> increases, the optimal <span class="math inline">\(f\)</span> becomes smoother. In particular, it can be shown that as <span class="math inline">\(\lambda \rightarrow \infty\)</span>, the vector of coefficients <span class="math inline">\({\mathbf b} \rightarrow {\mathbf 0}\)</span>, and <span class="math inline">\({\mathbf a}\)</span> tends to the usual least-squares estimate of the regression parameters. Thus, the smoothing spline converges to the sample mean <span class="math inline">\(f(x)=\bar y\)</span> when <span class="math inline">\(\nu=1\)</span>, and to the ordinary least squares fitted line, <span class="math inline">\(f(x)=\hat\alpha+\hat\beta t\)</span>, when <span class="math inline">\(\nu=2\)</span>. In the other direction, as <span class="math inline">\(\lambda \rightarrow 0\)</span> the smoothing solution converges to the interpolating spline.</p>
@@ -336,31 +404,43 @@ R_\nu(f,\lambda) = \sum_{i=1}^n \left(y_i - f(x_i)\right)^2 + \lambda J_\nu(f),
 </section>
 <section id="sec:relationto" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="sec:relationto"><span class="header-section-number">4.3</span> Relation to interpolating splines</h2>
-<p>We show in the following proposition that the function <span class="math inline">\(f\)</span> which minimizes <a href="#eq-rlambdaf">Equation&nbsp;<span>4.2</span></a> is the interpolating spline of its fitted values.</p>
-<div id="prp-optimalinterpolant" class="proposition theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 4.1 </strong></span>Suppose <span class="math inline">\(\hat{f}\)</span> minimizes <span class="math inline">\(R_\nu(f,\lambda)\)</span> and let <span class="math inline">\(\hat{y}_i = \hat{f}(x_i), i=1,\dots,n\)</span> denote the corresponding fitted values. Then, <span class="math inline">\(\hat{f}\)</span> solves the interpolation problem for the <em>artificial</em> data set <span class="math inline">\((x_i,\hat{y}_i), i=1,\dots , n\)</span>. That is, <span class="math inline">\(\hat{f}\)</span> minimizes <span class="math inline">\(J_\nu(f)\)</span> over functions <span class="math inline">\(f\)</span> satisfying <span class="math inline">\(\hat f(x_i)=\hat{y}_i\)</span>, <span class="math inline">\(i=1,\ldots,n\)</span>. Consequently, <span class="math inline">\(\hat{f}\)</span> is a <span class="math inline">\(p^{\text{th}}\)</span>-order natural spline, where <span class="math inline">\(p=2\nu-1\)</span>. This means that, when solving the smoothing problem, we only need consider spline functions given by the representations in <a href="3_interpolating.html#prp-naturalSpline">Proposition&nbsp;<span>3.1</span></a>.</p>
+<p>We show in the following proposition that the function <span class="math inline">\(f\)</span> which minimizes <a href="#eq-rlambdaf" class="quarto-xref">Equation&nbsp;<span>4.2</span></a> is the interpolating spline of its fitted values.</p>
+<div id="prp-optimalinterpolant" class="proposition theorem">
+<p><span class="theorem-title"><strong>Proposition 4.1</strong></span> Suppose <span class="math inline">\(\hat{f}\)</span> minimizes <span class="math inline">\(R_\nu(f,\lambda)\)</span> and let <span class="math inline">\(\hat{y}_i = \hat{f}(x_i), i=1,\dots,n\)</span> denote the corresponding fitted values. Then, <span class="math inline">\(\hat{f}\)</span> solves the interpolation problem for the <em>artificial</em> data set <span class="math inline">\((x_i,\hat{y}_i), i=1,\dots , n\)</span>. That is, <span class="math inline">\(\hat{f}\)</span> minimizes <span class="math inline">\(J_\nu(f)\)</span> over functions <span class="math inline">\(f\)</span> satisfying <span class="math inline">\(\hat f(x_i)=\hat{y}_i\)</span>, <span class="math inline">\(i=1,\ldots,n\)</span>. Consequently, <span class="math inline">\(\hat{f}\)</span> is a <span class="math inline">\(p^{\text{th}}\)</span>-order natural spline, where <span class="math inline">\(p=2\nu-1\)</span>. This means that, when solving the smoothing problem, we only need consider spline functions given by the representations in <a href="3_interpolating.html#prp-naturalSpline" class="quarto-xref">Proposition&nbsp;<span>3.1</span></a>.</p>
 </div>
-<div id="fig-prpproof" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-prpproof-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-prpproof-1.png" class="img-fluid figure-img" data-ref-parent="fig-prpproof" width="672"></p>
-<figcaption class="figure-caption">(a) Smoothing spline of data shown as dots and with fitted values shown as crosses</figcaption>
+<div id="fig-prpproof" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-prpproof-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-prpproof" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-prpproof-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-prpproof-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-prpproof-1.png" class="img-fluid figure-img" data-ref-parent="fig-prpproof" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-prpproof-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Smoothing spline of data shown as dots and with fitted values shown as crosses
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-prpproof-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-prpproof-2.png" class="img-fluid figure-img" data-ref-parent="fig-prpproof" width="672"></p>
-<figcaption class="figure-caption">(b) Interpolating spline of fitted values from smoothing problem</figcaption>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-prpproof" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-prpproof-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-prpproof-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-prpproof-2.png" class="img-fluid figure-img" data-ref-parent="fig-prpproof" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-prpproof-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Interpolating spline of fitted values from smoothing problem
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4.3: Illustration of proposition showing that solution of the smothing problem is a natural interpolating spline.</figcaption><p></p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prpproof-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: Illustration of proposition showing that solution of the smothing problem is a natural interpolating spline.
+</figcaption>
 </figure>
 </div>
 <p><strong>Proof:</strong> Suppose the assertion is not true. In this case, we must be able to find a function <span class="math inline">\({\hat{f}^\star}\)</span>, say, which also interpolates the artificial data <span class="math inline">\((x_i,\hat{y}_i), i=1,\dots ,n\)</span>, but which has a smaller roughness penalty. That is <span class="math display">\[
@@ -368,16 +448,16 @@ J_\nu({\hat{f}^\star}) &lt; J_\nu(\hat{f})
   \mbox{ with }
 \hat{f}^\star(x_i) = \hat{y}_i, \ i=1,\ldots,n.
 \]</span> Note that the fitted values from the function <span class="math inline">\(\hat f^\star\)</span> are also equal to <span class="math inline">\(\hat y_i, i=1,\dots,n\)</span> as it interpolates the same artificial data as <span class="math inline">\(\hat f\)</span>.</p>
-<p>Now, from <a href="#eq-rlambdaf">Equation&nbsp;<span>4.2</span></a>, <span class="math display">\[\begin{align*}
+<p>Now, from <a href="#eq-rlambdaf" class="quarto-xref">Equation&nbsp;<span>4.2</span></a>, <span class="math display">\[\begin{align*}
   R_\nu(\hat{f}^\star, \lambda) &amp;= \sum_i (y_i-\hat{y}_i)^2 + \lambda J_\nu(\hat{f}^\star)\\
 &amp;&lt; \sum_i (y_i-\hat{y}_i)^2 + \lambda J_\nu(\hat{f})
 = R_\nu(\hat{f}, \lambda).
 \end{align*}\]</span> Hence <span class="math inline">\(R_\nu(\hat{f}^\star, \lambda) &lt; R_\nu(\hat{f}, \lambda)\)</span>. But, by construction <span class="math inline">\(\hat{f}\)</span> minimizes <span class="math inline">\(R_\nu(f, \lambda),\)</span> which is a contradiction. Hence, it must not be possible to find a function <span class="math inline">\({\hat{f}^\star}\)</span> which also interpolates the artificial data but which has a smaller roughness penalty.</p>
-<p>We have shown that <span class="math inline">\(\hat{f}\)</span> is the optimal interpolant of the fitted values <span class="math inline">\(\hat{y}_i,\ i=1,\dots,n,\)</span> so it follows from <a href="#prp-optimalinterpolant">Proposition&nbsp;<span>4.1</span></a> that <span class="math inline">\(\hat{f}\)</span> is a natural spline of order <span class="math inline">\(p=2\nu-1\)</span>.</p>
+<p>We have shown that <span class="math inline">\(\hat{f}\)</span> is the optimal interpolant of the fitted values <span class="math inline">\(\hat{y}_i,\ i=1,\dots,n,\)</span> so it follows from <a href="#prp-optimalinterpolant" class="quarto-xref">Proposition&nbsp;<span>4.1</span></a> that <span class="math inline">\(\hat{f}\)</span> is a natural spline of order <span class="math inline">\(p=2\nu-1\)</span>.</p>
 </section>
 <section id="sec-smoothingmatrix" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="sec-smoothingmatrix"><span class="header-section-number">4.4</span> The smoothing problem in matrix notation</h2>
-<p>We have just proved that the function <span class="math inline">\(\hat{f}\)</span> that minimizes <span class="math inline">\(R_\nu (f, \lambda)\)</span> must be a natural spline (linear if <span class="math inline">\(\nu=1\)</span>, cubic if <span class="math inline">\(\nu=2\)</span>) with knots at <span class="math inline">\(\{t_i,\,i=1,\ldots,n\}.\)</span> That is, as in <a href="3_interpolating.html#prp-naturalSpline">Proposition&nbsp;<span>3.1</span></a>, we can write:</p>
+<p>We have just proved that the function <span class="math inline">\(\hat{f}\)</span> that minimizes <span class="math inline">\(R_\nu (f, \lambda)\)</span> must be a natural spline (linear if <span class="math inline">\(\nu=1\)</span>, cubic if <span class="math inline">\(\nu=2\)</span>) with knots at <span class="math inline">\(\{t_i,\,i=1,\ldots,n\}.\)</span> That is, as in <a href="3_interpolating.html#prp-naturalSpline" class="quarto-xref">Proposition&nbsp;<span>3.1</span></a>, we can write:</p>
 <p><span id="eq-fhat"><span class="math display">\[
 \hat{f}(t) = \sum_{i=1}^n b_i\left|t-t_i\right|^p +
 \begin{cases}
@@ -389,9 +469,9 @@ a_o + a_1t, &amp;\nu=2,
 \sum_{i=1}^n b_i = \sum_{i=1}^n b_i \, t_i = 0
 \, \mbox{ for }\, \nu=2.
 \tag{4.4}\]</span></span></p>
-<p>However, we have not yet figured out how to calculate the parameter values <span class="math inline">\(\hat{a}_0,\dots,\hat{a}_{\nu-1},\ \hat{b}_1,\dots,\hat{b}_n\)</span> in <a href="#eq-fhat">Equation&nbsp;<span>4.3</span></a> which optimally fit the data <span class="math inline">\(y_1,\dots,y_n\)</span>. For this, it is convenient to re-express the penalised sum of squared residuals <a href="#eq-rlambdaf">Equation&nbsp;<span>4.2</span></a> in matrix notation.</p>
-<div id="prp-roughness" class="proposition theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 4.2 </strong></span>The roughness of a natural linear spline <span class="math inline">\((\nu=1\)</span>, i.e.&nbsp;<span class="math inline">\(p=1)\)</span> is <span id="eq-j1f"><span class="math display">\[
+<p>However, we have not yet figured out how to calculate the parameter values <span class="math inline">\(\hat{a}_0,\dots,\hat{a}_{\nu-1},\ \hat{b}_1,\dots,\hat{b}_n\)</span> in <a href="#eq-fhat" class="quarto-xref">Equation&nbsp;<span>4.3</span></a> which optimally fit the data <span class="math inline">\(y_1,\dots,y_n\)</span>. For this, it is convenient to re-express the penalised sum of squared residuals <a href="#eq-rlambdaf" class="quarto-xref">Equation&nbsp;<span>4.2</span></a> in matrix notation.</p>
+<div id="prp-roughness" class="proposition theorem">
+<p><span class="theorem-title"><strong>Proposition 4.2</strong></span> The roughness of a natural linear spline <span class="math inline">\((\nu=1\)</span>, i.e.&nbsp;<span class="math inline">\(p=1)\)</span> is <span id="eq-j1f"><span class="math display">\[
 J_1(f)  
 = -2\sum_{i=1}^n \sum_{k=1}^n b_i b_k \left| t_i - t_k \right|
 = c_1\,{\mathbf b}^T \, K_1 \, {\mathbf b},
@@ -412,10 +492,10 @@ K_\nu
 \]</span></p>
 </div>
 <p><strong>Proof:</strong> To be covered later if there is sufficient time.</p>
-<p>From <a href="#prp-roughness">Proposition&nbsp;<span>4.2</span></a> the roughness penalty satisfies: <span class="math display">\[\begin{align}
+<p>From <a href="#prp-roughness" class="quarto-xref">Proposition&nbsp;<span>4.2</span></a> the roughness penalty satisfies: <span class="math display">\[\begin{align}
 J_\nu  (\hat{f}) = c_\nu   \, {\mathbf b}^T K_\nu   {\mathbf b} \label{eq:Jnufhat}
 \end{align}\]</span> where <span class="math inline">\(c_1=-2\)</span>; <span class="math inline">\(c_2= 12\)</span>; <span class="math inline">\({\mathbf b}=(b_1,\ldots,b_n)^T\)</span>; and <span class="math inline">\(K_\nu\)</span> is the <span class="math inline">\(n \times n\)</span> matrix whose <span class="math inline">\((i,k)\)</span>th element is <span class="math inline">\(\left|t_i-t_k\right|^p\)</span>.</p>
-<p>From <a href="#eq-fhat">Equation&nbsp;<span>4.3</span></a>, the value of <span class="math inline">\(\hat{f}\)</span> at knot <span class="math inline">\(t_k\)</span> is <span id="eq-fhattk"><span class="math display">\[
+<p>From <a href="#eq-fhat" class="quarto-xref">Equation&nbsp;<span>4.3</span></a>, the value of <span class="math inline">\(\hat{f}\)</span> at knot <span class="math inline">\(t_k\)</span> is <span id="eq-fhattk"><span class="math display">\[
 \hat{f}(t_k) = \sum_{i=1}^n b_i\left|t_k-t_i\right|^p + \begin{cases}a_0, &amp;\nu=1\\ a_0 + a_1t_k, &amp;\nu=2 \end{cases}.
 \tag{4.8}\]</span></span></p>
 <p>In matrix form, this is <span id="eq-fhattkmat"><span class="math display">\[
@@ -440,16 +520,16 @@ L_2 =
 \quad \mathbf{a}_2 = \left[\begin{array}{l}a_0\\a_1\end{array}
 \right] .
 \]</span></p>
-<p>Thus, from <a href="#eq-constraints">Equation&nbsp;<span>4.4</span></a> – <a href="#eq-fhattkmat">Equation&nbsp;<span>4.9</span></a>, the penalised least-squares criterion <a href="#eq-rlambdaf">Equation&nbsp;<span>4.2</span></a> reduces to a quadratic function of the parameters <span class="math inline">\(\mathbf{a}\)</span> and <span class="math inline">\({\mathbf b}\)</span>:</p>
+<p>Thus, from <a href="#eq-constraints" class="quarto-xref">Equation&nbsp;<span>4.4</span></a> – <a href="#eq-fhattkmat" class="quarto-xref">Equation&nbsp;<span>4.9</span></a>, the penalised least-squares criterion <a href="#eq-rlambdaf" class="quarto-xref">Equation&nbsp;<span>4.2</span></a> reduces to a quadratic function of the parameters <span class="math inline">\(\mathbf{a}\)</span> and <span class="math inline">\({\mathbf b}\)</span>:</p>
 <p><span id="eq-rlambdafmat"><span class="math display">\[
 R_\nu(f, \lambda) = (\mathbf{y} - K_\nu  \, {\mathbf b} - L_\nu   \, \mathbf{a})^T  (\mathbf{y} - K_\nu  \, {\mathbf b} - L_\nu   \, \mathbf{a})
                             + \lambda \,c_\nu  \,{\mathbf b}^T K_\nu   \,{\mathbf b}
 \tag{4.10}\]</span></span> subject to <span id="eq-lnubmat"><span class="math display">\[
 L_\nu^T\,{\mathbf b} = 0,
 \tag{4.11}\]</span></span> where <span class="math inline">\(\mathbf{y} = (y_1,\ldots,y_n)^T\)</span>.</p>
-<p>To find the explicit values for <span class="math inline">\(\mathbf{b}\)</span> and <span class="math inline">\(\mathbf{a}\)</span>, we must minimize the quadratic function <a href="#eq-rlambdafmat">Equation&nbsp;<span>4.10</span></a> subject to the linear constraints <a href="#eq-lnubmat">Equation&nbsp;<span>4.11</span></a>.</p>
-<div id="prp-smoother" class="proposition theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 4.3 </strong></span>The solution to the smoothing spline problem is given by <span id="eq-smoothsol1"><span class="math display">\[
+<p>To find the explicit values for <span class="math inline">\(\mathbf{b}\)</span> and <span class="math inline">\(\mathbf{a}\)</span>, we must minimize the quadratic function <a href="#eq-rlambdafmat" class="quarto-xref">Equation&nbsp;<span>4.10</span></a> subject to the linear constraints <a href="#eq-lnubmat" class="quarto-xref">Equation&nbsp;<span>4.11</span></a>.</p>
+<div id="prp-smoother" class="proposition theorem">
+<p><span class="theorem-title"><strong>Proposition 4.3</strong></span> The solution to the smoothing spline problem is given by <span id="eq-smoothsol1"><span class="math display">\[
 \begin{bmatrix}
 \hat{\mathbf a} \\ \hat{\mathbf b}
 \end{bmatrix}
@@ -467,26 +547,26 @@ L_\nu^T &amp; K_\nu+\lambda^* I_n
 </section>
 <section id="smoothing-splines-in-r" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="smoothing-splines-in-r"><span class="header-section-number">4.5</span> Smoothing splines in R</h2>
-<p>Fitting a smoothing spline to data involved estimating values of <span class="math inline">\(\mathbf a\)</span> and <span class="math inline">\(\mathbf b\)</span> to minimize the penalised roughness measure in <a href="#eq-rlambdafmat">Equation&nbsp;<span>4.10</span></a> subject to the constraints in <a href="#eq-lnubmat">Equation&nbsp;<span>4.11</span></a> which yields the explicit equation in <a href="#eq-smoothsol1">Equation&nbsp;<span>4.12</span></a>.</p>
+<p>Fitting a smoothing spline to data involved estimating values of <span class="math inline">\(\mathbf a\)</span> and <span class="math inline">\(\mathbf b\)</span> to minimize the penalised roughness measure in <a href="#eq-rlambdafmat" class="quarto-xref">Equation&nbsp;<span>4.10</span></a> subject to the constraints in <a href="#eq-lnubmat" class="quarto-xref">Equation&nbsp;<span>4.11</span></a> which yields the explicit equation in <a href="#eq-smoothsol1" class="quarto-xref">Equation&nbsp;<span>4.12</span></a>.</p>
 <p>Of course, it is possible to code the solution of this matrix system, but it is usual instead to use in-built commands in software such as <strong>R</strong>.</p>
 <p>In <strong>R</strong> the basic command is:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">smooth.spline</span>(x, y, lambda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>where <span class="math inline">\(\texttt{x}\)</span> and <span class="math inline">\(\texttt{y}\)</span> are vectors of data coordinates, and <span class="math inline">\(\texttt{lambda}\)</span> specifies the value of the smoothing parameter to use – note that the effect of a given value of <span class="math inline">\(\lambda\)</span> depends on the problem considered.</p>
-<p>For example, consider the synthetic data set which contains a break-point at <span class="math inline">\(x=2/3\)</span> first met in <a href="1_introduction.html#fig-plotpeicewise">Figure&nbsp;<span>1.2</span></a>. Fitted spline curves with <span class="math inline">\(\lambda=0.0001\)</span> and <span class="math inline">\(\lambda=1\)</span>, shown in <a href="#fig-smoothpeicewise">Figure&nbsp;<span>4.4</span></a>, are based on the following commands:</p>
+<p>For example, consider the synthetic data set which contains a break-point at <span class="math inline">\(x=2/3\)</span> first met in <a href="1_introduction.html#fig-plotpeicewise" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>. Fitted spline curves with <span class="math inline">\(\lambda=0.0001\)</span> and <span class="math inline">\(\lambda=1\)</span>, shown in <a href="#fig-smoothpeicewise" class="quarto-xref">Figure&nbsp;<span>4.4</span></a>, are based on the following commands:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>myfit1 <span class="ot">=</span> <span class="fu">smooth.spline</span>(x, y, <span class="at">lambda =</span> <span class="fl">0.00001</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>myfit2 <span class="ot">=</span> <span class="fu">smooth.spline</span>(x, y, <span class="at">lambda =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div>
-<details>
+<div class="cell" data-layout="[[1,1]]">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12341</span>)</span>
@@ -506,27 +586,39 @@ L_\nu^T &amp; K_\nu+\lambda^* I_n
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>fitted <span class="ot">=</span> <span class="fu">predict</span>(myfit2, fit.locations)</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(fitted, <span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-smoothpeicewise" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-smoothpeicewise-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-smoothpeicewise-1.png" class="img-fluid figure-img" data-ref-parent="fig-smoothpeicewise" width="672"></p>
-<figcaption class="figure-caption">(a) Weak smoothing</figcaption>
+<div id="fig-smoothpeicewise" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-smoothpeicewise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-smoothpeicewise" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-smoothpeicewise-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-smoothpeicewise-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-smoothpeicewise-1.png" class="img-fluid figure-img" data-ref-parent="fig-smoothpeicewise" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-smoothpeicewise-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Weak smoothing
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-smoothpeicewise-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="4_smoothing_files/figure-html/fig-smoothpeicewise-2.png" class="img-fluid figure-img" data-ref-parent="fig-smoothpeicewise" width="672"></p>
-<figcaption class="figure-caption">(b) Strong smoothing</figcaption>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-smoothpeicewise" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-smoothpeicewise-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-smoothpeicewise-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4_smoothing_files/figure-html/fig-smoothpeicewise-2.png" class="img-fluid figure-img" data-ref-parent="fig-smoothpeicewise" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-smoothpeicewise-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Strong smoothing
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4.4: Simulated data superimposed with fitted smoothing splines.</figcaption><p></p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-smoothpeicewise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: Simulated data superimposed with fitted smoothing splines.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -536,9 +628,13 @@ L_\nu^T &amp; K_\nu+\lambda^* I_n
 <h2 data-number="4.6" class="anchored" data-anchor-id="exercies"><span class="header-section-number">4.6</span> Exercies</h2>
 <div class="webex-box">
 <p>4.1 Recall, from MATH3823 Chapter 3, the tropical cyclone data recording the number of cyclones in each of 13 seasons:</p>
-<div id="tbl-cyclone-data" class="anchored">
-<table class="table">
-<caption>Table&nbsp;4.1: Numbers of tropical cyclones in <span class="math inline">\(n = 13\)</span> successive seasons<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></caption>
+<div id="tbl-cyclone-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cyclone-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: Numbers of tropical cyclones in <span class="math inline">\(n = 13\)</span> successive seasons<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+</figcaption>
+<div aria-describedby="tbl-cyclone-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 19%">
 <col style="width: 6%">
@@ -591,6 +687,8 @@ L_\nu^T &amp; K_\nu+\lambda^* I_n
 </tbody>
 </table>
 </div>
+</figure>
+</div>
 <p>It is reasonable to allow the average number of cyclones to vary with season, rather than assuming a constant rate.</p>
 Fit a cubic smoothing spline to these data, using a range of values for the smoothing parameter <span class="math inline">\(\lambda\)</span> to estimate the time-varying cyclone rate. By eye, suggest a suitable value for <span class="math inline">\(\lambda\)</span> and justify your choice. Compare the smoothed estimate of rate with the value obtain by assuming a constant rate.
 <div class="webex-solution">
@@ -613,9 +711,19 @@ Click here to see hints.
 </div>
 <p><br>
 </p>
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- [Exercise 4 Solutions can be found here.](https://richardpmann.com/MATH5824/Solutions_4.html) -->
-<!-- ::: -->
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://richardpmann.com/MATH5824/Solutions_4.html">Exercise 4 Solutions can be found here.</a></p>
+</div>
+</div>
 
 
 </section>
@@ -868,18 +976,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -911,11 +1008,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -925,8 +1061,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -938,7 +1083,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -982,6 +1250,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1007,6 +1276,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1068,17 +1363,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3_interpolating.html" class="pagination-link">
+      <a href="./3_interpolating.html" class="pagination-link" aria-label="Interpolating Splines">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Interpolating Splines</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./5_smoothingparameter.html" class="pagination-link">
+      <a href="./5_smoothingparameter.html" class="pagination-link" aria-label="Choosing the Smoothing Parameter">
         <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Choosing the Smoothing Parameter</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
