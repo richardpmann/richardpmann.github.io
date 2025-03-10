@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MATH3823 Generalised Linear Models - 4&nbsp; GLM Estimation</title>
+<title>4&nbsp; GLM Estimation – MATH3823 Generalised Linear Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,14 +96,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="webex.css">
 </head>
@@ -108,13 +142,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4_GLM-Fitting.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GLM Estimation</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4_GLM-Fitting.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GLM Estimation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -123,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MATH3823 Generalised Linear Models</a> 
@@ -193,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -243,7 +277,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>Throughout this module we use the principle of maximum likelihood estimation (MLE) to estimate model parameters and will consider two cases.</p>
 <section id="sec-mleiid" class="level2" data-number="4.1">
@@ -255,7 +291,7 @@ f(y_i; \theta,\phi) = \exp \left\{ \frac{y_i\theta  - b(\theta)}{\phi} + c(y_i, 
 \tag{4.1}\]</span></span> for <span class="math inline">\(i=1,\dots,n.\)</span> In this case, the canonical parameter <span class="math inline">\(\theta\)</span> does not depend on <span class="math inline">\(i\)</span> as the observations are identically distributed and hence must have the same parameter.</p>
 <p>By independence, the joint distribution of all the observations <span class="math inline">\(\mathbf{y}\)</span> is: <span class="math display">\[
 f(\mathbf{y}; \theta,\phi) = \prod_{i=1}^n f(y_i; \theta, \phi).
-\]</span> So, taking logs and then substituting for the probability function using the exponential family form, <a href="3_GLM-Theory.html#eq-exponential-family">Equation&nbsp;<span>3.3</span></a>, gives <span class="math display">\[
+\]</span> So, taking logs and then substituting for the probability function using the exponential family form, <a href="3_GLM-Theory.html#eq-exponential-family" class="quarto-xref">Equation&nbsp;<span>3.3</span></a>, gives <span class="math display">\[
 \log f(\mathbf{y}; \theta,\phi) = \sum_{i=1}^n \log f(y_i; \theta, \phi)
 = \sum_{i=1}^n \left[\frac{y_i\theta  - b(\theta)}{\phi} + c(y_i, \phi)\right].
 \]</span> Regarding the observations <span class="math inline">\(\mathbf{y}\)</span> as constants (which they are, once we have data) and the scale parameter <span class="math inline">\(\phi\)</span> as a fixed <em>nuisance</em> parameter (whose value we may not know), the log-likelihood as a function of the parameter of interest <span class="math inline">\(\theta\)</span> is: <span id="eq-ltheta"><span class="math display">\[
@@ -270,7 +306,7 @@ b'(\hat\theta) = \bar{y}
 \tag{4.3}\]</span></span> and hence <span id="eq-exponentialfamilybary2"><span class="math display">\[
 \hat\theta =  (b')^{-1}(\bar{y}).
 \tag{4.4}\]</span></span></p>
-<p>Further, we showed in <a href="3_GLM-Theory.html#prp-moments">Proposition&nbsp;<span>3.1</span></a> that <span class="math inline">\(\mbox{E}[Y] = \mu =b'(\theta)\)</span> and if we let <span class="math inline">\(\hat\mu\)</span> denote the MLE of <span class="math inline">\(\mu\)</span>, then <span class="math inline">\(\hat\mu = b'(\hat{\theta})\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, hence we have <span class="math inline">\(\hat\mu = \bar{y}\)</span>. So we find that <span class="math inline">\(\hat\theta\)</span> is the value of <span class="math inline">\(\theta\)</span> for which the theoretical mean <span class="math inline">\(\hat\mu = b'(\hat\theta)\)</span> matches the sample mean <span class="math inline">\(\bar{y}\)</span>.</p>
+<p>Further, we showed in <a href="3_GLM-Theory.html#prp-moments" class="quarto-xref">Proposition&nbsp;<span>3.1</span></a> that <span class="math inline">\(\mbox{E}[Y] = \mu =b'(\theta)\)</span> and if we let <span class="math inline">\(\hat\mu\)</span> denote the MLE of <span class="math inline">\(\mu\)</span>, then <span class="math inline">\(\hat\mu = b'(\hat{\theta})\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, hence we have <span class="math inline">\(\hat\mu = \bar{y}\)</span>. So we find that <span class="math inline">\(\hat\theta\)</span> is the value of <span class="math inline">\(\theta\)</span> for which the theoretical mean <span class="math inline">\(\hat\mu = b'(\hat\theta)\)</span> matches the sample mean <span class="math inline">\(\bar{y}\)</span>.</p>
 <blockquote class="blockquote">
 <p><strong>Example: MLE of the Poisson distribution</strong></p>
 <p>For the Poisson distribution, <span class="math inline">\(\text{Po}(\lambda)\)</span>, we have found that <span class="math inline">\(b(\theta) = e^\theta\)</span> and therefore <span class="math inline">\(b'(\theta) = e^\theta\)</span>. Hence, the MLE of natural parameter <span class="math inline">\(\theta\)</span> is found as the solution of <span class="math inline">\(b'(\hat\theta) = e^{\hat\theta} = \bar{y}\)</span>, that is <span class="math inline">\(\hat\theta = \log(\bar{y})\)</span>.</p>
@@ -285,10 +321,10 @@ b'(\theta_0) = \mu_0.
 = \frac{1}{n} \sum_{i=1}^n \mbox{E}[Y_i]
 = \mu_0  
 = b'(\theta_0),
-\tag{4.6}\]</span></span> using <a href="#eq-mu0">Equation&nbsp;<span>4.5</span></a>. Also, <span class="math display">\[
+\tag{4.6}\]</span></span> using <a href="#eq-mu0" class="quarto-xref">Equation&nbsp;<span>4.5</span></a>. Also, <span class="math display">\[
 \mbox{Var}[\bar Y] = \mbox{Var}\left[\frac{1}{n} \sum_{i=1}^n Y_i\right]
 = \frac{1}{n^2}  \sum_{i=1}^n \mbox{Var}[Y_i]
-\]</span> because the observations are independent. Then, using the result <a href="3_GLM-Theory.html#eq-exponential-moments">Equation&nbsp;<span>3.8</span></a> gives <span id="eq-varbary"><span class="math display">\[
+\]</span> because the observations are independent. Then, using the result <a href="3_GLM-Theory.html#eq-exponential-moments" class="quarto-xref">Equation&nbsp;<span>3.8</span></a> gives <span id="eq-varbary"><span class="math display">\[
 \mbox{Var}[\bar Y]= \frac{1}{n} \ b''(\theta_0) \phi.
 \tag{4.7}\]</span></span></p>
 <p>We can use Taylor’s theorem to expand <span class="math inline">\(b'(\hat\theta)\)</span> about <span class="math inline">\(\theta_0\)</span>: <span class="math display">\[
@@ -296,24 +332,24 @@ b'(\theta_0) = \mu_0.
 \]</span> which implies that <span id="eq-hatthetatheta0"><span class="math display">\[
 (\hat\theta - \theta_0) \approx  b''(\theta_0)^{-1}\{b'(\hat\theta) - b'(\theta_0)\}  
 = b''(\theta_0)^{-1}(\bar Y - \mu_0),
-\tag{4.8}\]</span></span> using <a href="#eq-exponentialfamilybary">Equation&nbsp;<span>4.3</span></a> and <a href="#eq-mu0">Equation&nbsp;<span>4.5</span></a>. We can use <a href="#eq-hatthetatheta0">Equation&nbsp;<span>4.8</span></a> to get approximations to the mean and variance of <span class="math inline">\(\hat\theta\)</span>: <span class="math display">\[
+\tag{4.8}\]</span></span> using <a href="#eq-exponentialfamilybary" class="quarto-xref">Equation&nbsp;<span>4.3</span></a> and <a href="#eq-mu0" class="quarto-xref">Equation&nbsp;<span>4.5</span></a>. We can use <a href="#eq-hatthetatheta0" class="quarto-xref">Equation&nbsp;<span>4.8</span></a> to get approximations to the mean and variance of <span class="math inline">\(\hat\theta\)</span>: <span class="math display">\[
 \mbox{E}[\hat\theta - \theta_0]  \approx   b''(\theta_0)^{-1} \mbox{E}[\bar Y - \mu_0]
 = 0,
-\]</span> using <a href="#eq-ebary">Equation&nbsp;<span>4.6</span></a>, so <span id="eq-ehattheta"><span class="math display">\[
+\]</span> using <a href="#eq-ebary" class="quarto-xref">Equation&nbsp;<span>4.6</span></a>, so <span id="eq-ehattheta"><span class="math display">\[
 \mbox{E}[\hat\theta] \approx \theta_0,
 \tag{4.9}\]</span></span> and <span class="math display">\[
 \mbox{Var}(\hat\theta) \approx \mbox{E}\left[(\hat\theta - \theta_0)^2\right]
-\]</span> using <a href="#eq-ehattheta">Equation&nbsp;<span>4.9</span></a>, <span class="math display">\[
+\]</span> using <a href="#eq-ehattheta" class="quarto-xref">Equation&nbsp;<span>4.9</span></a>, <span class="math display">\[
 \mbox{Var}(\hat\theta) \approx \mbox{E}\left[\left(b''(\theta_0)^{-1}(\bar Y - \mu_0)\right)^2\right]
-\]</span> using <a href="#eq-hatthetatheta0">Equation&nbsp;<span>4.8</span></a>, <span class="math display">\[
+\]</span> using <a href="#eq-hatthetatheta0" class="quarto-xref">Equation&nbsp;<span>4.8</span></a>, <span class="math display">\[
 \mbox{Var}(\hat\theta)\approx  \left(b''(\theta_0)\right)^{-2} \mbox{Var}[\bar Y]  
-\]</span> using <a href="#eq-ebary">Equation&nbsp;<span>4.6</span></a>, <span id="eq-varhattheta"><span class="math display">\[
+\]</span> using <a href="#eq-ebary" class="quarto-xref">Equation&nbsp;<span>4.6</span></a>, <span id="eq-varhattheta"><span class="math display">\[
 \mbox{Var}(\hat\theta) = \frac{\phi}{n \ b''(\theta_0)}
-\tag{4.10}\]</span></span> using <a href="#eq-varbary">Equation&nbsp;<span>4.7</span></a>.</p>
+\tag{4.10}\]</span></span> using <a href="#eq-varbary" class="quarto-xref">Equation&nbsp;<span>4.7</span></a>.</p>
 <p>Thus we see that the first two derivatives of <span class="math inline">\(b(\theta)\)</span> play a key role in inference.</p>
 <blockquote class="blockquote">
 <p><strong>Example: Accuracy for the Poisson distribution</strong></p>
-<p>For the Poisson distribution, <span class="math inline">\(\text{Po}(\lambda)\)</span>, we have found that <span class="math inline">\(\hat\theta = \log(\bar{Y})\)</span>. Using <a href="#eq-ehattheta">Equation&nbsp;<span>4.9</span></a> we know that <span class="math inline">\(\hat\theta\)</span> is, at least, approximately unbiased. Then, using that <span class="math inline">\(\phi=1\)</span> (<a href="3_GLM-Theory.html#tbl-glm-poisson">Table&nbsp;<span>3.2</span></a>), <span class="math inline">\(b'(\theta)=e^{\theta}\)</span> (<a href="3_GLM-Theory.html#tbl-canonicalrange">Table&nbsp;<span>3.6</span></a>) hence <span class="math inline">\(b''(\theta)=e^{\theta}\)</span>, and using <a href="#eq-varhattheta">Equation&nbsp;<span>4.10</span></a>, leads to the result <span class="math display">\[
+<p>For the Poisson distribution, <span class="math inline">\(\text{Po}(\lambda)\)</span>, we have found that <span class="math inline">\(\hat\theta = \log(\bar{Y})\)</span>. Using <a href="#eq-ehattheta" class="quarto-xref">Equation&nbsp;<span>4.9</span></a> we know that <span class="math inline">\(\hat\theta\)</span> is, at least, approximately unbiased. Then, using that <span class="math inline">\(\phi=1\)</span> (<a href="3_GLM-Theory.html#tbl-glm-poisson" class="quarto-xref">Table&nbsp;<span>3.2</span></a>), <span class="math inline">\(b'(\theta)=e^{\theta}\)</span> (<a href="3_GLM-Theory.html#tbl-canonicalrange" class="quarto-xref">Table&nbsp;<span>3.6</span></a>) hence <span class="math inline">\(b''(\theta)=e^{\theta}\)</span>, and using <a href="#eq-varhattheta" class="quarto-xref">Equation&nbsp;<span>4.10</span></a>, leads to the result <span class="math display">\[
 \mbox{Var}(\hat\theta) = \frac{\phi}{n \ b''(\theta_0)}
 =
 \frac{1}{n e^{\theta_0}}.
@@ -327,11 +363,11 @@ b'(\theta_0) = \mu_0.
 <div class="webex-box">
 <div class="webex-check">
 <ol type="1">
-<li><p>Which of the following statements best describes the purpose of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">To calculate the mean of a distribution</option><option value="answer">To find good values of unknown model parameters</option><option value="">To summarise a data set</option><option value="">To estimate probabilities of unknown events</option><option value="">To find the true values of model parameters</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following mathematical ideas is NOT used in the above maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">Identically distributed</option><option value="">Taking logs</option><option value="">By independence</option><option value="answer">The parameter θ depends on i</option><option value="">Substituting for the probability function</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following terms is used to refer to the fixed parameter Φ? <select class="webex-select"><option value="blank"></option><option value="">Independent</option><option value="">Canonical</option><option value="answer">Nuisance</option><option value="">Normally distributed</option><option value="">Annoyance</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a good property of a parameter estimator? <select class="webex-select"><option value="blank"></option><option value="">Has expectation equal to the true value</option><option value="">Variance decreases as sample size increases</option><option value="">Unbiased</option><option value="answer">Has fixed variance for all sample sizes</option><option value="">Small variance</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following does NOT influence the variance of the estimator of θ? <select class="webex-select"><option value="blank"></option><option value="">The sample size</option><option value="answer">c(y,Φ)</option><option value="">b(θ)</option><option value="">Φ</option><option value="">The true parameter value</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following statements best describes the purpose of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">To estimate probabilities of unknown events</option><option value="">To find the true values of model parameters</option><option value="answer">To find good values of unknown model parameters</option><option value="">To summarise a data set</option><option value="">To calculate the mean of a distribution</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following mathematical ideas is NOT used in the above maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">Substituting for the probability function</option><option value="">Taking logs</option><option value="">Identically distributed</option><option value="">By independence</option><option value="answer">The parameter θ depends on i</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following terms is used to refer to the fixed parameter Φ? <select class="webex-select"><option value="blank"></option><option value="">Independent</option><option value="">Annoyance</option><option value="answer">Nuisance</option><option value="">Canonical</option><option value="">Normally distributed</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a good property of a parameter estimator? <select class="webex-select"><option value="blank"></option><option value="">Variance decreases as sample size increases</option><option value="answer">Has fixed variance for all sample sizes</option><option value="">Has expectation equal to the true value</option><option value="">Unbiased</option><option value="">Small variance</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following does NOT influence the variance of the estimator of θ? <select class="webex-select"><option value="blank"></option><option value="">The true parameter value</option><option value="">The sample size</option><option value="answer">c(y,Φ)</option><option value="">b(θ)</option><option value="">Φ</option><option value="">None of the above</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -373,9 +409,9 @@ U(\boldsymbol{\beta}) = \frac{\partial l(\boldsymbol{\beta}; \mathbf{y},\phi)} {
 \tag{4.15}\]</span></span> which is a <span class="math inline">\(p \times p\)</span> matrix whose <span class="math inline">\((j,k)\)</span>th element is: <span class="math inline">\(-\frac{\partial^2 l(\boldsymbol{\beta}; \mathbf{y},\phi)} {\partial \beta_j\partial \beta_k}\)</span>. We also define the <em>expected Fisher information</em>: <span id="eq-j"><span class="math display">\[
 {\cal J}(\boldsymbol{\beta}) = \mbox{E}\left[ -\frac{\partial^2 l(\boldsymbol{\beta}; \mathbf{y},\phi)} {\partial \boldsymbol{\beta} \, \partial \boldsymbol{\beta}^T} \right],
 \tag{4.16}\]</span></span> which is also a <span class="math inline">\(p \times p\)</span> matrix.</p>
-<p>Newton’s Method then involves choosing an initial value for the parameter vector, <span class="math inline">\(\hat{\boldsymbol{\beta}}_0\)</span> say, and then repeatedly updating, until convergence, the value using <span class="math inline">\(\hat{\boldsymbol{\beta}}_t = \hat{\boldsymbol{\beta}}_{t-1} - {\cal I}^{-1}(\hat{\boldsymbol{\beta}}_{t-1})\; U(\hat{\boldsymbol{\beta}}_{t-1})\)</span>. A related method, called Fisher Scoring, replaces <span class="math inline">\({\cal I}\)</span> in the iterative step by <span class="math inline">\({\cal J}\)</span> – calculating the expected Fisher information is more work but does lead to better numerical properties.</p>
-<div id="prp-uj" class="proposition theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 4.1 </strong></span>With definitions <a href="#eq-u">Equation&nbsp;<span>4.14</span></a>, <a href="#eq-i">Equation&nbsp;<span>4.15</span></a>, <a href="#eq-j">Equation&nbsp;<span>4.16</span></a> above,</p>
+<p>Newton’s Method then involves choosing an initial value for the parameter vector, <span class="math inline">\(\hat{\boldsymbol{\beta}}_0\)</span> say, and then repeatedly updating, until convergence, the value using <span class="math inline">\(\hat{\boldsymbol{\beta}}_t = \hat{\boldsymbol{\beta}}_{t-1} -  {\cal I}^{-1}(\hat{\boldsymbol{\beta}}_{t-1})\; U(\hat{\boldsymbol{\beta}}_{t-1})\)</span>. A related method, called Fisher Scoring, replaces <span class="math inline">\({\cal I}\)</span> in the iterative step by <span class="math inline">\({\cal J}\)</span> – calculating the expected Fisher information is more work but does lead to better numerical properties.</p>
+<div id="prp-uj" class="proposition theorem">
+<p><span class="theorem-title"><strong>Proposition 4.1</strong></span> With definitions <a href="#eq-u" class="quarto-xref">Equation&nbsp;<span>4.14</span></a>, <a href="#eq-i" class="quarto-xref">Equation&nbsp;<span>4.15</span></a>, <a href="#eq-j" class="quarto-xref">Equation&nbsp;<span>4.16</span></a> above,</p>
 <ul>
 <li><span class="math inline">\(\mbox{E}\left[U(\boldsymbol{\beta})\right] = 0\)</span>,</li>
 <li><span class="math inline">\({\cal J}(\boldsymbol{\beta}) = \mbox{E}\left[U(\boldsymbol{\beta}) U^T(\boldsymbol{\beta})\right]\)</span>.</li>
@@ -402,8 +438,8 @@ f(\mathbf{y}; X, \boldsymbol{\beta},\phi) = L(\boldsymbol{\beta}; \mathbf{y}, \p
     + \int U(\boldsymbol{\beta}) U^T(\boldsymbol{\beta}) f(\mathbf{y}; X, \boldsymbol{\beta},\phi) d\mathbf{y} \\[2mm]
 &amp; = - {\cal J}(\boldsymbol{\beta}) + \mbox{E}\left[U(\boldsymbol{\beta}) U^T(\boldsymbol{\beta})\right].
 \end{align*}\]</span> proving the second part.</p>
-<div id="prp-asymptotic" class="proposition theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 4.2 </strong></span>Under some regularity conditions, the MLE <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> of <span class="math inline">\(\boldsymbol{\beta}\)</span> has the following asymptotic properties:</p>
+<div id="prp-asymptotic" class="proposition theorem">
+<p><span class="theorem-title"><strong>Proposition 4.2</strong></span> Under some regularity conditions, the MLE <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> of <span class="math inline">\(\boldsymbol{\beta}\)</span> has the following asymptotic properties:</p>
 <ul>
 <li><span class="math inline">\(\mbox{E}(\hat{\boldsymbol{\beta}}) = \boldsymbol{\beta}\)</span>; i.e.&nbsp;<span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> is unbiased for <span class="math inline">\(\boldsymbol{\beta}\)</span>.</li>
 <li><span class="math inline">\(\mbox{Var}(\hat{\boldsymbol{\beta}}) = {\cal J}^{-1}(\boldsymbol{\beta})\)</span>.</li>
@@ -413,8 +449,8 @@ f(\mathbf{y}; X, \boldsymbol{\beta},\phi) = L(\boldsymbol{\beta}; \mathbf{y}, \p
 \hat{\boldsymbol{\beta}} \sim N_p (\boldsymbol{\beta}, {\cal J}^{-1}(\boldsymbol{\beta})).
 \tag{4.17}\]</span></span></p>
 </div>
-<p><strong>Proof:</strong> Omitted. Similar to the proof using Taylor’s theorem in <a href="#sec-mleiid"><span>Section&nbsp;4.1</span></a>.</p>
-<p>From <a href="#eq-betahatdistribution">Equation&nbsp;<span>4.17</span></a>, variances <span class="math inline">\(\text{Var}(\hat{\beta}_{k})\)</span>, standard errors <span class="math inline">\(\text{se}(\hat{\beta}_{k})\)</span> and correlations between parameter estimates <span class="math inline">\(\text{Corr}(\hat{\beta}_{k},\hat{\beta}_{h})\)</span> can be estimated.</p>
+<p><strong>Proof:</strong> Omitted. Similar to the proof using Taylor’s theorem in <a href="#sec-mleiid" class="quarto-xref"><span>Section 4.1</span></a>.</p>
+<p>From <a href="#eq-betahatdistribution" class="quarto-xref">Equation&nbsp;<span>4.17</span></a>, variances <span class="math inline">\(\text{Var}(\hat{\beta}_{k})\)</span>, standard errors <span class="math inline">\(\text{se}(\hat{\beta}_{k})\)</span> and correlations between parameter estimates <span class="math inline">\(\text{Corr}(\hat{\beta}_{k},\hat{\beta}_{h})\)</span> can be estimated.</p>
 </section>
 <section id="sec-mlesaturated" class="level3" data-number="4.2.3">
 <h3 data-number="4.2.3" class="anchored" data-anchor-id="sec-mlesaturated"><span class="header-section-number">4.2.3</span> The saturated case</h3>
@@ -427,7 +463,7 @@ l (\boldsymbol{\theta}; \mathbf{y}, \phi) = \sum_{i=1}^n \log f(y_i; \theta_i, \
 \hat \theta_i = (b')^{-1}(y_i),
 \quad i=1,\dots,n.
 \]</span> Note that each parameter is only a function of the corresponding observation.</p>
-<p>Further, from <a href="3_GLM-Theory.html#prp-moments">Proposition&nbsp;<span>3.1</span></a>, <span class="math inline">\(\mbox{E}[Y_i] = \mu_i =b'(\theta_i)\)</span> and if we again let <span class="math inline">\(\hat\mu_i\)</span> denote the MLE of <span class="math inline">\(\mu_i\)</span>, then <span class="math inline">\(\hat\mu_i = b'(\hat{\theta_i})\)</span>, hence we have <span class="math inline">\(\hat\mu_i = y_i\)</span>. Thus we see that, under the saturated model, the mean of the distribution of <span class="math inline">\(y_i\)</span> is estimated to be equal to <span class="math inline">\(y_i\)</span> itself. That is, the data are fitted exactly by the model. Of course this model is quite useless for explanation or prediction, since it misinterprets random variation as systematic variation. Nevertheless, the saturated model is useful as a benchmark for comparing models, as we will see later.</p>
+<p>Further, from <a href="3_GLM-Theory.html#prp-moments" class="quarto-xref">Proposition&nbsp;<span>3.1</span></a>, <span class="math inline">\(\mbox{E}[Y_i] = \mu_i =b'(\theta_i)\)</span> and if we again let <span class="math inline">\(\hat\mu_i\)</span> denote the MLE of <span class="math inline">\(\mu_i\)</span>, then <span class="math inline">\(\hat\mu_i = b'(\hat{\theta_i})\)</span>, hence we have <span class="math inline">\(\hat\mu_i = y_i\)</span>. Thus we see that, under the saturated model, the mean of the distribution of <span class="math inline">\(y_i\)</span> is estimated to be equal to <span class="math inline">\(y_i\)</span> itself. That is, the data are fitted exactly by the model. Of course this model is quite useless for explanation or prediction, since it misinterprets random variation as systematic variation. Nevertheless, the saturated model is useful as a benchmark for comparing models, as we will see later.</p>
 <p>It is worth noting that the same situation can occur even when modelling in terms of the regression parameters <span class="math inline">\(\beta_j,\ j=1,\dots,p\)</span>. When <span class="math inline">\(p\geq n\)</span>, and if the covariates are linearly independent, each <span class="math inline">\(\theta_i\)</span> can take on any value independently of the others and so estimating the <span class="math inline">\(\beta_j\)</span>’s is equivalent to estimating the <span class="math inline">\(\theta_i\)</span>’s. That is we are also considering the <em>saturated</em> or <em>full</em> model. This highlights the danger of putting too many covariates into the model. There is a big literature on how to deal with more parameters then data using techniques of <em>regularised regression</em>.</p>
 </section>
 </section>
@@ -437,11 +473,11 @@ l (\boldsymbol{\theta}; \mathbf{y}, \phi) = \sum_{i=1}^n \log f(y_i; \theta_i, \
 <div class="webex-box">
 <div class="webex-check">
 <ol type="1">
-<li><p>Which of the following statements best describes the purpose of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">To find the true values of model parameters</option><option value="answer">To find good values of unknown model parameters</option><option value="">To calculate the mean of a distribution</option><option value="">To summarise a data set</option><option value="">To estimate probabilities of unknown events</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following mathematical ideas is NOT used in the general case of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">Usually no closed-form expression</option><option value="answer">The parameter θ does not depends on i</option><option value="">Using the independence</option><option value="">Not identically distributed</option><option value="">The log-likelihood</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following terms is NOT used in maximum likelihood theory? <select class="webex-select"><option value="blank"></option><option value="">Score function</option><option value="">The log-likelihood function</option><option value="">Fisher information</option><option value="answer">The moment generating function</option><option value="">The likelihood function</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is a true statement about the saturated case? <select class="webex-select"><option value="blank"></option><option value="">Has fewer parameters than data observations</option><option value="">The values of θ will be exactly the same as the values of β</option><option value="">It should never be considered</option><option value="answer">The model fits the data exactly</option><option value="">The parameters θ and unrelated to the values of β</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a true statement about the asymptotic properties of the maximum likelihood estimator of β? <select class="webex-select"><option value="blank"></option><option value="answer">Will always be equal to the true value.</option><option value="">Follows a normal distribution</option><option value="">Is unbiased</option><option value="">The variance can be found form the expected Fisher information</option><option value="">The asymptotic properties are when n tend to infinity</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following statements best describes the purpose of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">To calculate the mean of a distribution</option><option value="">To summarise a data set</option><option value="answer">To find good values of unknown model parameters</option><option value="">To estimate probabilities of unknown events</option><option value="">To find the true values of model parameters</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following mathematical ideas is NOT used in the general case of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">Usually no closed-form expression</option><option value="">The log-likelihood</option><option value="">Not identically distributed</option><option value="">Using the independence</option><option value="answer">The parameter θ does not depends on i</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following terms is NOT used in maximum likelihood theory? <select class="webex-select"><option value="blank"></option><option value="">Score function</option><option value="">The likelihood function</option><option value="">The log-likelihood function</option><option value="">Fisher information</option><option value="answer">The moment generating function</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is a true statement about the saturated case? <select class="webex-select"><option value="blank"></option><option value="">It should never be considered</option><option value="">The values of θ will be exactly the same as the values of β</option><option value="">The parameters θ and unrelated to the values of β</option><option value="answer">The model fits the data exactly</option><option value="">Has fewer parameters than data observations</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a true statement about the asymptotic properties of the maximum likelihood estimator of β? <select class="webex-select"><option value="blank"></option><option value="">The asymptotic properties are when n tend to infinity</option><option value="">Follows a normal distribution</option><option value="">The variance can be found form the expected Fisher information</option><option value="answer">Will always be equal to the true value.</option><option value="">Is unbiased</option><option value="">None of the above</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -476,7 +512,7 @@ D
     \mbox{F}=\frac{(D_1 - D_2) / (r_2 - r_1)}{\hat{\phi}} = \frac{(D_1 - D_2) / (r_2 - r_1)}{D_3/(n-r_3)}
      \tag{4.19}\]</span></span> with <span id="eq-ftest"><span class="math display">\[
     \mbox{F} \sim F_{r_2 - r_1, n - r_3}.
-     \tag{4.20}\]</span></span> So if the observed value of the statistic <a href="#eq-deviance-ratio">Equation&nbsp;<span>4.19</span></a> was within the upper (say 5%) tail of the <span class="math inline">\(F\)</span>-distribution <a href="#eq-ftest">Equation&nbsp;<span>4.20</span></a>, we would infer that Model <span class="math inline">\(M_2\)</span> is better than Model <span class="math inline">\(M_1\)</span>.</p>
+     \tag{4.20}\]</span></span> So if the observed value of the statistic <a href="#eq-deviance-ratio" class="quarto-xref">Equation&nbsp;<span>4.19</span></a> was within the upper (say 5%) tail of the <span class="math inline">\(F\)</span>-distribution <a href="#eq-ftest" class="quarto-xref">Equation&nbsp;<span>4.20</span></a>, we would infer that Model <span class="math inline">\(M_2\)</span> is better than Model <span class="math inline">\(M_1\)</span>.</p>
 </section>
 <section id="model-residuals" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="model-residuals"><span class="header-section-number">4.4</span> Model residuals</h2>
@@ -486,7 +522,7 @@ e_i^\text{raw} = y_i - \hat\mu_i.
 <p>More useful are the <em>standardised</em> or <em>Pearson</em> residuals defined by <span class="math display">\[
 e_i^\text{std} =
 e_i^\text{P} = \frac{y_i - \hat\mu_i}{\sqrt{ b''(\theta_i)}}.
-\]</span> Recall from <a href="3_GLM-Theory.html#eq-exponential-moments">Equation&nbsp;<span>3.8</span></a> that <span class="math inline">\(\text{Var}(Y_i) = \phi \, b''(\theta_i)\)</span>.</p>
+\]</span> Recall from <a href="3_GLM-Theory.html#eq-exponential-moments" class="quarto-xref">Equation&nbsp;<span>3.8</span></a> that <span class="math inline">\(\text{Var}(Y_i) = \phi \, b''(\theta_i)\)</span>.</p>
 <p><em>Deviance residuals</em> are defined so that the sum of squared deviance residuals equals the total deviance. Thus we set <span class="math display">\[
 e_i^\text{dev} = \text{sign}(y_i - \hat\mu_i) \sqrt{d_i},
 \]</span> where <span class="math inline">\(d_i\)</span> is the contribution of observation <span class="math inline">\(i\)</span> to the deviance, <span class="math inline">\(D\)</span>. For example, when <span class="math inline">\(y_i\)</span> has a Poisson distribution with estimated mean <span class="math inline">\(\hat{\mu}_i\)</span>, we have <span class="math display">\[
@@ -500,12 +536,12 @@ e_i^\text{dev} = \text{sign}(y_i - \hat\mu_i) \sqrt{2\left[y_i \log\left(\frac{y
 <h3 data-number="4.5.1" class="anchored" data-anchor-id="glm-related-r-commands"><span class="header-section-number">4.5.1</span> GLM-related <strong>R</strong> commands</h3>
 <p>The function used to fit a generalised linear model in <span class="math inline">\(\mathbf R\)</span> is <span class="math display">\[\texttt{glm(formula, family)}.\]</span></p>
 <p>Let <span class="math inline">\(\texttt{x,y,z,a,b,c,}\)</span> <span class="math inline">\(\dots\)</span> be a set of vectors all of the same length <span class="math inline">\(n\)</span> (perhaps read in from a data file using the <span class="math inline">\(\texttt{read.table}\)</span> and <span class="math inline">\(\texttt{attach}\)</span> commands). If <span class="math inline">\(\texttt{a,b,c}\)</span> are qualitative variables, then they first need to be declared as factors by <span class="math inline">\(\texttt{a = as.factor(a)}\)</span>, etc.</p>
-<p>The <span class="math inline">\(\texttt{formula}\)</span> argument of <span class="math inline">\(\texttt{glm}\)</span> specifies the required model in compact notation, e.g. <span class="math inline">\(\texttt{y} \sim \texttt{x*a}\)</span> or <span class="math inline">\(\texttt{y} \sim \texttt{x + z*a}\)</span> where <span class="math inline">\(\sim, \texttt{+,*}\)</span> have the same meaning as in <a href="2_linearmodels.html#sec-shorthand"><span>Section&nbsp;2.5</span></a>.</p>
+<p>The <span class="math inline">\(\texttt{formula}\)</span> argument of <span class="math inline">\(\texttt{glm}\)</span> specifies the required model in compact notation, e.g. <span class="math inline">\(\texttt{y} \sim \texttt{x*a}\)</span> or <span class="math inline">\(\texttt{y} \sim \texttt{x + z*a}\)</span> where <span class="math inline">\(\sim, \texttt{+,*}\)</span> have the same meaning as in <a href="2_linearmodels.html#sec-shorthand" class="quarto-xref"><span>Section 2.5</span></a>.</p>
 <p>The <span class="math inline">\(\texttt{family}\)</span> argument specifies which exponential family is to be used. We shall use <span class="math inline">\(\texttt{gaussian, poisson}\)</span> and <span class="math inline">\(\texttt{binomial}\)</span>; <span class="math inline">\(\texttt{gaussian}\)</span> is the default. Other options are available; see <span class="math inline">\(\texttt{help(family)}\)</span> for further information.</p>
 <p>Along with the family, a link function can be specified. The possible choices are:</p>
 <ul>
 <li><span class="math inline">\(\texttt{gaussian} - \texttt{"identity"}\)</span> (default)</li>
-<li><span class="math inline">\(\texttt{poisson} - \texttt{"log"}\)</span> (default), <span class="math inline">\(\texttt{"sqrt"}\)</span>, <span class="math inline">\(\texttt{"identity"}\)</span></li>
+<li><span class="math inline">\(\texttt{poisson}  - \texttt{"log"}\)</span> (default), <span class="math inline">\(\texttt{"sqrt"}\)</span>, <span class="math inline">\(\texttt{"identity"}\)</span></li>
 <li><span class="math inline">\(\texttt{binomial} - \texttt{"logit"}\)</span> (default), <span class="math inline">\(\texttt{"probit"}\)</span>, <span class="math inline">\(\texttt{"cloglog"}\)</span>.</li>
 </ul>
 <p><strong>R</strong> assumes the default options unless we state otherwise. For example,</p>
@@ -541,7 +577,7 @@ Note: <span class="math inline">\(\texttt{type}\)</span> should be <span class="
 <h3 data-number="4.5.2" class="anchored" data-anchor-id="example-of-fitting-poisson-glm-in-r"><span class="header-section-number">4.5.2</span> Example of fitting Poisson GLM in <strong>R</strong></h3>
 <p>Here is a toy example of <strong>R</strong> commands for modelling a response in terms of two qualitative explanatory variables (that is <em>factors</em>). The model assumes the data are Poisson-distributed and uses the logarithmic link function.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">16</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">times=</span><span class="dv">3</span>)</span>
@@ -585,7 +621,7 @@ a4 -0.54        0.51  0.57
 b2 -0.67        0.00  0.00  0.00      
 b3 -0.68        0.00  0.00  0.00  0.72</code></pre>
 </div>
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(y.glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -598,26 +634,28 @@ Response: y
 
 Terms added sequentially (first to last)
 
-     Df Deviance Resid. Df Resid. Dev
-NULL                    11     31.725
-a     3   6.2793         8     25.445
-b     2  12.2947         6     13.150</code></pre>
+     Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)   
+NULL                    11     31.725            
+a     3   6.2793         8     25.445 0.098784 . 
+b     2  12.2947         6     13.150 0.002139 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">deviance</span>(y.glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 13.15047</code></pre>
 </div>
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">df.residual</span>(y.glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6</code></pre>
 </div>
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitted.values</span>(y.glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -636,11 +674,11 @@ b     2  12.2947         6     13.150</code></pre>
 <div class="webex-box">
 <div class="webex-check">
 <ol type="1">
-<li><p>Which of the following is the main R command used to fit generalised linear models? <select class="webex-select"><option value="blank"></option><option value="">family</option><option value="answer">glm</option><option value="">lm</option><option value="">fitglm</option><option value="">formula</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT an option for the model family? <select class="webex-select"><option value="blank"></option><option value="">gaussian</option><option value="">binomial</option><option value="answer">logit</option><option value="">poisson</option><option value="">Gamma</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a link option in a GLM? <select class="webex-select"><option value="blank"></option><option value="">log</option><option value="">identity</option><option value="">probit</option><option value="answer">constant</option><option value="">logit</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a link option with the binomial family? <select class="webex-select"><option value="blank"></option><option value="">cauchit</option><option value="">log</option><option value="answer">inverse</option><option value="">logit</option><option value="">cloglog</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a n R command used to check model fit? <select class="webex-select"><option value="blank"></option><option value="">anova</option><option value="">residuals</option><option value="">summary</option><option value="">deviance</option><option value="answer">glm</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is the main R command used to fit generalised linear models? <select class="webex-select"><option value="blank"></option><option value="">formula</option><option value="">fitglm</option><option value="answer">glm</option><option value="">lm</option><option value="">family</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT an option for the model family? <select class="webex-select"><option value="blank"></option><option value="">Gamma</option><option value="answer">logit</option><option value="">poisson</option><option value="">gaussian</option><option value="">binomial</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a link option in a GLM? <select class="webex-select"><option value="blank"></option><option value="">logit</option><option value="">probit</option><option value="answer">constant</option><option value="">log</option><option value="">identity</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a link option with the binomial family? <select class="webex-select"><option value="blank"></option><option value="answer">inverse</option><option value="">cauchit</option><option value="">log</option><option value="">cloglog</option><option value="">logit</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a n R command used to check model fit? <select class="webex-select"><option value="blank"></option><option value="">anova</option><option value="">summary</option><option value="answer">glm</option><option value="">deviance</option><option value="">residuals</option><option value="">None of the above</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -648,51 +686,55 @@ b     2  12.2947         6     13.150</code></pre>
 <section id="exercises" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.6</span> Exercises</h2>
 <div class="webex-box">
-<p>4.1 Use <a href="#eq-exponentialfamilybary2">Equation&nbsp;<span>4.4</span></a> to obtain estimation equations for the natural parameter <span class="math inline">\(\theta\)</span>, based on a sample <span class="math inline">\(\mathbf{y}=\{y_1,\dots, y_n\}\)</span>, for each of the following situations:</p>
+<p>4.1 Use <a href="#eq-exponentialfamilybary2" class="quarto-xref">Equation&nbsp;<span>4.4</span></a> to obtain estimation equations for the natural parameter <span class="math inline">\(\theta\)</span>, based on a sample <span class="math inline">\(\mathbf{y}=\{y_1,\dots, y_n\}\)</span>, for each of the following situations:</p>
 <ol type="a">
 <li>the binomial, <span class="math inline">\(Y\sim\mbox{Bin}(m,p)\)</span>,</li>
 <li>the geometric, <span class="math inline">\(Y\sim\mbox{Ge}(p)\)</span>,</li>
 <li>the exponential, <span class="math inline">\(Y\sim\mbox{Exp}(\lambda)\)</span>.</li>
 </ol>
-Assuming that <span class="math inline">\(n\)</span> is very large, use <a href="#eq-ehattheta">Equation&nbsp;<span>4.9</span></a> to comment on possible bias of the estimator for large samples. What is the corresponding variance of the estimator?
+Assuming that <span class="math inline">\(n\)</span> is very large, use <a href="#eq-ehattheta" class="quarto-xref">Equation&nbsp;<span>4.9</span></a> to comment on possible bias of the estimator for large samples. What is the corresponding variance of the estimator?
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
-<p>For each situation equate the theoretical expectation, in terms of the derivative of b, to the sample mean – that is start from <a href="#eq-exponentialfamilybary">Equation&nbsp;<span>4.3</span></a> and solve. For bias and variance you should consider the asymptotic results.</p>
+<p>For each situation equate the theoretical expectation, in terms of the derivative of b, to the sample mean – that is start from <a href="#eq-exponentialfamilybary" class="quarto-xref">Equation&nbsp;<span>4.3</span></a> and solve. For bias and variance you should consider the asymptotic results.</p>
 </div>
-4.2 For a sample of size <span class="math inline">\(n\)</span> from the normal distribution, <span class="math inline">\(Y\sim N(\mu, \sigma^2),\)</span> how do the results produced using <a href="#eq-ehattheta">Equation&nbsp;<span>4.9</span></a> and <a href="#eq-varhattheta">Equation&nbsp;<span>4.10</span></a> compare with the familiar results <span class="math inline">\(\hat\mu =\bar Y\)</span>, <span class="math inline">\(\text{E}[\hat\mu]=\mu\)</span>, and <span class="math inline">\(\text{Var}[\hat\mu] =\sigma^2/n?\)</span>
+4.2 For a sample of size <span class="math inline">\(n\)</span> from the normal distribution, <span class="math inline">\(Y\sim N(\mu, \sigma^2),\)</span> how do the results produced using <a href="#eq-ehattheta" class="quarto-xref">Equation&nbsp;<span>4.9</span></a> and <a href="#eq-varhattheta" class="quarto-xref">Equation&nbsp;<span>4.10</span></a> compare with the familiar results <span class="math inline">\(\hat\mu =\bar Y\)</span>, <span class="math inline">\(\text{E}[\hat\mu]=\mu\)</span>, and <span class="math inline">\(\text{Var}[\hat\mu] =\sigma^2/n?\)</span>
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
 <p>Identify, <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\phi\)</span> and <span class="math inline">\(b''(\theta)\)</span> then substitute into the equations.</p>
 </div>
-4.3 For the normal linear regression model, <span class="math inline">\(\mathbf{Y}=X\boldsymbol{\beta}+\boldsymbol{\epsilon}\)</span> where <span class="math inline">\(\boldsymbol{\epsilon}\sim N_n(0,\sigma^2 I_n)\)</span> use the principle of maximum likelihood to show that the MLE has the closed form given in <a href="#eq-linearregressionmle">Equation&nbsp;<span>4.13</span></a>.
+4.3 For the normal linear regression model, <span class="math inline">\(\mathbf{Y}=X\boldsymbol{\beta}+\boldsymbol{\epsilon}\)</span> where <span class="math inline">\(\boldsymbol{\epsilon}\sim N_n(0,\sigma^2 I_n)\)</span> use the principle of maximum likelihood to show that the MLE has the closed form given in <a href="#eq-linearregressionmle" class="quarto-xref">Equation&nbsp;<span>4.13</span></a>.
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
 <p>Apply the rules for matrix differentiation of a quadratic form. If needed, refer to <em>Appendix C</em> in the <em>Basic Pre-requisite Material folder</em> in <em>Minerva</em>.</p>
 </div>
-4.4 Check that you can derive the formulas given for deviance of normal, binomial, and Poisson models at the start of <a href="#sec-deviance"><span>Section&nbsp;4.3</span></a>.
+4.4 Check that you can derive the formulas given for deviance of normal, binomial, and Poisson models at the start of <a href="#sec-deviance" class="quarto-xref"><span>Section 4.3</span></a>.
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
 <p>Form the likelihoods of the saturated model, recalling that the fitted values are exactly equal to the observed <span class="math inline">\(y\)</span> values, and substitute them into the general deviance equation. Then, simplify.</p>
 </div>
-4.5 How do the deviance tests defined in <a href="#sec-deviance"><span>Section&nbsp;4.3</span></a> related to the tests used to find the best fit model for the birthweight example in <a href="2_linearmodels.html#sec-essentialsoverview"><span>Section&nbsp;2.1</span></a>?
+4.5 How do the deviance tests defined in <a href="#sec-deviance" class="quarto-xref"><span>Section 4.3</span></a> related to the tests used to find the best fit model for the birthweight example in <a href="2_linearmodels.html#sec-essentialsoverview" class="quarto-xref"><span>Section 2.1</span></a>?
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
 <p>Start by comparing the notation. Then, replace the <em>R</em> and <em>r</em> in the F-statistic with <em>D</em> and adjust the notation for degrees of freedom. You should then get very expressions. The only difference being from which model <span class="math inline">\(\sigma^2\)</span> is estimated.</p>
 </div>
-<p>4.6 Consider a clinical trial into the effectiveness of Amoxicillin (a widely used antibiotic) against bacterial chest infections in children. A sample of 200 children with chest infections were randomly assigned to one of five groups with Amoxicillin dose levels of 20-100 mg/kg per day. Four weeks later it was recorded whether the child had required a re-treatment with a further dose of antibiotic, or not, with results summarised in <a href="#tbl-antibiotic">Table&nbsp;<span>4.1</span></a></p>
-<div id="tbl-antibiotic" class="anchored">
-<table class="table">
-<caption>Table&nbsp;4.1: Effectiveness of Amoxicillin against bacterial chest infections in children</caption>
+<p>4.6 Consider a clinical trial into the effectiveness of Amoxicillin (a widely used antibiotic) against bacterial chest infections in children. A sample of 200 children with chest infections were randomly assigned to one of five groups with Amoxicillin dose levels of 20-100 mg/kg per day. Four weeks later it was recorded whether the child had required a re-treatment with a further dose of antibiotic, or not, with results summarised in <a href="#tbl-antibiotic" class="quarto-xref">Table&nbsp;<span>4.1</span></a></p>
+<div id="tbl-antibiotic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-antibiotic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: Effectiveness of Amoxicillin against bacterial chest infections in children
+</figcaption>
+<div aria-describedby="tbl-antibiotic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th></th>
@@ -723,19 +765,31 @@ Click here to see hints.
 </tbody>
 </table>
 </div>
+</figure>
+</div>
 First fit a normal linear model and then fit a generalised linear model assuming binomial errors and a logistic link. Superimpose both of fitted model onto a scatter plot of the data. Which do you think is the better model? Justify you answer.
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
-<p>The linear model part would be straightforward, look at earlier examples if not. For the glm case, check the R code block for <a href="1_intro.html#fig-beetle-fitted-2">Figure&nbsp;<span>1.1 (b)</span></a>. Simply compare the fit by eye.</p>
+<p>The linear model part would be straightforward, look at earlier examples if not. For the glm case, check the R code block for <a href="1_intro.html#fig-beetle-fitted-2" class="quarto-xref">Figure&nbsp;<span>1.1 (b)</span></a>. Simply compare the fit by eye.</p>
 </div>
 </div>
 <p><br>
 </p>
-<!-- ::: {.callout-note appearance="default"} -->
-<!-- [Exercise 4 Solutions can be found here.](https://richardpmann.com/MATH3823/Solutions_4.html) -->
-<!-- ::: -->
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://richardpmann.com/MATH3823/Solutions_4.html">Exercise 4 Solutions can be found here.</a></p>
+</div>
+</div>
 
 
 </section>
@@ -988,18 +1042,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1031,11 +1074,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1045,8 +1127,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1058,7 +1149,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1102,6 +1316,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1127,6 +1342,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1188,17 +1429,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3_GLM-Theory.html" class="pagination-link">
+      <a href="./3_GLM-Theory.html" class="pagination-link" aria-label="GLM Theory">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GLM Theory</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./5_logisticmodel.html" class="pagination-link">
+      <a href="./5_logisticmodel.html" class="pagination-link" aria-label="Modelling Proportions">
         <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modelling Proportions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
