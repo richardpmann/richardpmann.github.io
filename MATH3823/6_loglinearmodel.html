@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MATH3823 Generalised Linear Models - 6&nbsp; Loglinear Models</title>
+<title>6&nbsp; Loglinear Models – MATH3823 Generalised Linear Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,14 +96,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="webex.css">
 </head>
@@ -108,13 +142,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./6_loglinearmodel.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loglinear Models</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./6_loglinearmodel.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loglinear Models</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -123,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MATH3823 Generalised Linear Models</a> 
@@ -193,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -235,7 +269,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <section id="overview" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">6.1</span> Overview</h2>
@@ -246,10 +282,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>responses (counts) having independent Poisson distributions;</li>
 <li>a logarithmic link function (hence the name <em>log-linear model</em>).</li>
 </ul>
-<p>Consider, for example, the two-way contingency table in <a href="#tbl-twoway">Table&nbsp;<span>6.1</span></a>}:</p>
-<div id="tbl-twoway" class="anchored">
-<table class="table">
-<caption>Table&nbsp;6.1: A two-way contingency table with <span class="math inline">\(k_1\)</span> rows and <span class="math inline">\(k_2\)</span> columns, where each entry <span class="math inline">\(y_{ij}\)</span> is a count.</caption>
+<p>Consider, for example, the two-way contingency table in <a href="#tbl-twoway" class="quarto-xref">Table&nbsp;<span>6.1</span></a>}:</p>
+<div id="tbl-twoway" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-twoway-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.1: A two-way contingency table with <span class="math inline">\(k_1\)</span> rows and <span class="math inline">\(k_2\)</span> columns, where each entry <span class="math inline">\(y_{ij}\)</span> is a count.
+</figcaption>
+<div aria-describedby="tbl-twoway-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 12%">
 <col style="width: 12%">
@@ -298,7 +338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: center;"><span class="math inline">\(y_{i1}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(y_{12}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(y_{1j}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{ij}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(y_{ik_2}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(y_{i+}\)</span></td>
@@ -318,9 +358,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: center;"><span class="math inline">\(y_{k_11}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(y_{k_12}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(y_{1j}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{k_1j}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(y_{k_2k_2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{k_1k_2}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(y_{1k_1}\)</span></td>
 </tr>
 <tr class="even">
@@ -328,7 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: center;"><span class="math inline">\(y_{+1}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(y_{+2}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(y_{1j}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(y_{+j}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(\dots\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(y_{+k_2}\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(y_{++}\)</span></td>
@@ -336,7 +376,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<p>In row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span> of <a href="#tbl-twoway">Table&nbsp;<span>6.1</span></a>} we assume <span class="math display">\[
+</figure>
+</div>
+<p>In row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span> of <a href="#tbl-twoway" class="quarto-xref">Table&nbsp;<span>6.1</span></a>} we assume <span class="math display">\[
 Y_{ij} \sim \text{Po}(\lambda_{ij})
 \]</span> where <span id="eq-2waymodel"><span class="math display">\[
 \log \lambda_{ij} = \mu + \alpha_i + \beta_j + (\alpha \beta)_{ij}.
@@ -349,10 +391,14 @@ Y_{ij} \sim \text{Po}(\lambda_{ij})
 <h2 data-number="6.2" class="anchored" data-anchor-id="motivating-examples"><span class="header-section-number">6.2</span> Motivating examples</h2>
 <section id="sec-melanoma" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="sec-melanoma"><span class="header-section-number">6.2.1</span> Malignant melanoma</h3>
-<p>The data in <a href="#tbl-melanomacount1">Table&nbsp;<span>6.2</span></a> are from a study of 400 patients with malignant melanoma, a particular form of skin cancer (see Dobson and Barnett, p.172). For each tumour, its type and site were recorded. The data in <a href="#tbl-melanomacount1">Table&nbsp;<span>6.2</span></a> comprise the numbers of tumours <span class="math inline">\(y\)</span> in each combination of site and tumour-type. This is a two-way <em>contingency table</em>. We want to know how melanoma frequency depends on site and type.</p>
-<div id="tbl-melanomacount1" class="anchored">
-<table class="table">
-<caption>Table&nbsp;6.2: Melanoma counts by type and site.</caption>
+<p>The data in <a href="#tbl-melanomacount1" class="quarto-xref">Table&nbsp;<span>6.2</span></a> are from a study of 400 patients with malignant melanoma, a particular form of skin cancer (see Dobson and Barnett, p.172). For each tumour, its type and site were recorded. The data in <a href="#tbl-melanomacount1" class="quarto-xref">Table&nbsp;<span>6.2</span></a> comprise the numbers of tumours <span class="math inline">\(y\)</span> in each combination of site and tumour-type. This is a two-way <em>contingency table</em>. We want to know how melanoma frequency depends on site and type.</p>
+<div id="tbl-melanomacount1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-melanomacount1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.2: Melanoma counts by type and site.
+</figcaption>
+<div aria-describedby="tbl-melanomacount1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -401,9 +447,15 @@ Y_{ij} \sim \text{Po}(\lambda_{ij})
 </tbody>
 </table>
 </div>
-<div id="tbl-melanomapercent1" class="anchored">
-<table class="table">
-<caption>Table&nbsp;6.3: Percentages across columns within rows for melanoma data.</caption>
+</figure>
+</div>
+<div id="tbl-melanomapercent1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-melanomapercent1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.3: Percentages across columns within rows for melanoma data.
+</figcaption>
+<div aria-describedby="tbl-melanomapercent1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -452,9 +504,15 @@ Y_{ij} \sim \text{Po}(\lambda_{ij})
 </tbody>
 </table>
 </div>
-<div id="tbl-melanomapercent2" class="anchored">
-<table class="table">
-<caption>Table&nbsp;6.4: Percentages across rows within columns for melanoma data.</caption>
+</figure>
+</div>
+<div id="tbl-melanomapercent2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-melanomapercent2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.4: Percentages across rows within columns for melanoma data.
+</figcaption>
+<div aria-describedby="tbl-melanomapercent2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
 <col style="width: 7%">
@@ -510,15 +568,21 @@ Y_{ij} \sim \text{Po}(\lambda_{ij})
 </tbody>
 </table>
 </div>
+</figure>
+</div>
 <p>Although we have two factors, and , that we may use as predictors, standard ANOVA regression methods are inappropriate here as the dependent variable is not continuous but is instead a count. We will use <em>log-linear regression</em>, a type of generalised linear model, to analyse these data.</p>
-<p><a href="#tbl-melanomapercent1">Table&nbsp;<span>6.3</span></a> shows row and <a href="#tbl-melanomapercent2">Table&nbsp;<span>6.4</span></a> column percentages for these data. For example, 15.2% of nodular melanomas occurred in the head and neck, 26.4% in the trunk, and 58.4% in the extremities. Compare this to the equivalent figures for Hutchinson’s melanotic freckles: 64.7%, 5.9%, and 29.4% - strikingly different. So different types of melanomas are more likely to occur in different locations.</p>
+<p><a href="#tbl-melanomapercent1" class="quarto-xref">Table&nbsp;<span>6.3</span></a> shows row and <a href="#tbl-melanomapercent2" class="quarto-xref">Table&nbsp;<span>6.4</span></a> column percentages for these data. For example, 15.2% of nodular melanomas occurred in the head and neck, 26.4% in the trunk, and 58.4% in the extremities. Compare this to the equivalent figures for Hutchinson’s melanotic freckles: 64.7%, 5.9%, and 29.4% - strikingly different. So different types of melanomas are more likely to occur in different locations.</p>
 </section>
 <section id="sec-flucount" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="sec-flucount"><span class="header-section-number">6.2.2</span> Flu vaccine</h3>
-<p>The data in <a href="#tbl-flucount">Table&nbsp;<span>6.5</span></a> are from a randomised controlled trial in which 73 patients were randomised into two groups (see Dobson and Barnett, 2008, p.173). The treatment group was given a flu vaccine, while the control group was given a placebo. Levels of an antibody (HIA) were measured after 6 weeks and classified into three groups: Low, Moderate, and High.</p>
-<div id="tbl-flucount" class="anchored">
-<table class="table">
-<caption>Table&nbsp;6.5: Antibody responses to flu vaccine from a randomised controlled trial.</caption>
+<p>The data in <a href="#tbl-flucount" class="quarto-xref">Table&nbsp;<span>6.5</span></a> are from a randomised controlled trial in which 73 patients were randomised into two groups (see Dobson and Barnett, 2008, p.173). The treatment group was given a flu vaccine, while the control group was given a placebo. Levels of an antibody (HIA) were measured after 6 weeks and classified into three groups: Low, Moderate, and High.</p>
+<div id="tbl-flucount" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-flucount-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.5: Antibody responses to flu vaccine from a randomised controlled trial.
+</figcaption>
+<div aria-describedby="tbl-flucount-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;">Group</th>
@@ -549,10 +613,16 @@ Y_{ij} \sim \text{Po}(\lambda_{ij})
 </tbody>
 </table>
 </div>
-<p>Is the pattern of response the same for each treatment group? The percentages in <a href="#tbl-flupercent1">Table&nbsp;<span>6.6</span></a> suggest not - row percentages indicate lower responses in the placebo group.</p>
-<div id="tbl-flupercent1" class="anchored">
-<table class="table">
-<caption>Table&nbsp;6.6: Percentages across rows within columns for antibody responses to flu vaccine.</caption>
+</figure>
+</div>
+<p>Is the pattern of response the same for each treatment group? The percentages in <a href="#tbl-flupercent1" class="quarto-xref">Table&nbsp;<span>6.6</span></a> suggest not - row percentages indicate lower responses in the placebo group.</p>
+<div id="tbl-flupercent1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-flupercent1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.6: Percentages across rows within columns for antibody responses to flu vaccine.
+</figcaption>
+<div aria-describedby="tbl-flupercent1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;">Group</th>
@@ -587,9 +657,15 @@ Y_{ij} \sim \text{Po}(\lambda_{ij})
 </tbody>
 </table>
 </div>
-<div id="tbl-flupercent2" class="anchored">
-<table class="table">
-<caption>Table&nbsp;6.7: Percentages across rows within columns for antibody responses to flu vaccine.</caption>
+</figure>
+</div>
+<div id="tbl-flupercent2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-flupercent2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.7: Percentages across rows within columns for antibody responses to flu vaccine.
+</figcaption>
+<div aria-describedby="tbl-flupercent2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;">Group</th>
@@ -620,11 +696,13 @@ Y_{ij} \sim \text{Po}(\lambda_{ij})
 </tbody>
 </table>
 </div>
+</figure>
+</div>
 </section>
 </section>
 <section id="maximum-likelihood-estimation" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">6.3</span> Maximum likelihood estimation</h2>
-<p>Recall that for each cell <span class="math inline">\(Y_{ij} \sim \text{Po}(\lambda_{ij})\)</span> so <span class="math inline">\(\mbox{E}[Y_{ij}]= \lambda_{ij}\)</span>. However, we estimate <span class="math inline">\(\hat{\lambda}_{ij} = y_{ij}\)</span> only for the <em>saturated model</em> given by <a href="#eq-2waymodel">Equation&nbsp;<span>6.1</span></a>. In general, for non-saturated models, the estimate <span class="math inline">\(\hat\lambda_{ij} \ne y_{ij}\)</span>.</p>
+<p>Recall that for each cell <span class="math inline">\(Y_{ij} \sim \text{Po}(\lambda_{ij})\)</span> so <span class="math inline">\(\mbox{E}[Y_{ij}]= \lambda_{ij}\)</span>. However, we estimate <span class="math inline">\(\hat{\lambda}_{ij} = y_{ij}\)</span> only for the <em>saturated model</em> given by <a href="#eq-2waymodel" class="quarto-xref">Equation&nbsp;<span>6.1</span></a>. In general, for non-saturated models, the estimate <span class="math inline">\(\hat\lambda_{ij} \ne y_{ij}\)</span>.</p>
 <p>Consider the independence model for a 2-way table, that is where <span class="math inline">\((\alpha \beta)_{ij} = 0\)</span> for all <span class="math inline">\(i,j\)</span>. Here, <span id="eq-loglinear"><span class="math display">\[
 \log \lambda_{ij} = \mu +\alpha_i + \beta_j \tag{6.2}\]</span></span> and <span class="math inline">\(y_{ij}\)</span> is the observed count for cell <span class="math inline">\((i,j)\)</span>, so the likelihood is given by <span class="math display">\[
 L(\lambda; y)
@@ -633,7 +711,7 @@ L(\lambda; y)
 l(\lambda; y)
 =  \sum_{i,j} \left\{ y_{ij} \log \lambda_{ij} - \lambda_{ij} -
     \log y_{ij}!\right\}.
-\]</span> Next, using <a href="#eq-loglinear">Equation&nbsp;<span>6.2</span></a>, gives <span class="math display">\[
+\]</span> Next, using <a href="#eq-loglinear" class="quarto-xref">Equation&nbsp;<span>6.2</span></a>, gives <span class="math display">\[
 l(\lambda; y) =  \sum_{i,j} \left\{ y_{ij} (\mu + \alpha_i + \beta_j)
     - \exp(\mu + \alpha_i + \beta_j)  - \log y_{ij}! \right\}
 \]</span> which can be re-written as <span id="eq-twowayloglik"><span class="math display">\[
@@ -641,14 +719,14 @@ l(\lambda; y)   =  \mu y_{++} + \sum_i \alpha_i y_{i+} + \sum_j \beta_j y_{+ j}
     - e^{\mu} \left(\sum_i e^{\alpha_i}\right) \left(\sum_j e^{\beta_j}
     \right) - \sum_{ij} \log y_{ij}!.
 \tag{6.3}\]</span></span></p>
-<p>The maximum likelihood estimates of the model parameters are obtained in the usual way. Differentiating <a href="#eq-twowayloglik">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\mu\)</span> and setting the result to zero gives, at the MLE, <span id="eq-muest"><span class="math display">\[
+<p>The maximum likelihood estimates of the model parameters are obtained in the usual way. Differentiating <a href="#eq-twowayloglik" class="quarto-xref">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\mu\)</span> and setting the result to zero gives, at the MLE, <span id="eq-muest"><span class="math display">\[
 y_{++} = e^{\hat{\mu}} \left(\sum_i e^{\hat{\alpha}_i}\right)
 \left(\sum_j e^{\hat{\beta}_j}\right).
 \tag{6.4}\]</span></span></p>
-<p>Differentiating <a href="#eq-twowayloglik">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\alpha_i\)</span> (where <span class="math inline">\(i \ne 1\)</span> because <span class="math inline">\(\alpha_1=0\)</span> to avoid an identifiability problem) and setting the result to zero gives, at the MLE, <span id="eq-alphaest"><span class="math display">\[
+<p>Differentiating <a href="#eq-twowayloglik" class="quarto-xref">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\alpha_i\)</span> (where <span class="math inline">\(i \ne 1\)</span> because <span class="math inline">\(\alpha_1=0\)</span> to avoid an identifiability problem) and setting the result to zero gives, at the MLE, <span id="eq-alphaest"><span class="math display">\[
 y_{i+} = e^{\widehat{\mu}}  e^{\widehat{\alpha}_i} \left(\sum_j e^{\widehat{\beta}_j}\right).  \notag \\
 % = \sum_j \widehat{\lambda_{ij}} = \widehat{\lambda}_{i+} ~~~~(i \not= 1).
-\tag{6.5}\]</span></span> Differentiating <a href="#eq-twowayloglik">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\beta_j\)</span> (where <span class="math inline">\(j \not= 1\)</span> because <span class="math inline">\(\beta_1=0\)</span>) and setting the result to zero gives, at the MLE, <span id="eq-betaest"><span class="math display">\[
+\tag{6.5}\]</span></span> Differentiating <a href="#eq-twowayloglik" class="quarto-xref">Equation&nbsp;<span>6.3</span></a> with respect to <span class="math inline">\(\beta_j\)</span> (where <span class="math inline">\(j \not= 1\)</span> because <span class="math inline">\(\beta_1=0\)</span>) and setting the result to zero gives, at the MLE, <span id="eq-betaest"><span class="math display">\[
 y_{+j} = e^{\widehat{\mu}}  e^{\widehat{\beta}_j} \left(\sum_i e^{\widehat{\alpha}_i}\right).
 \tag{6.6}\]</span></span> Then <span id="eq-two-way.mle"><span class="math display">\[
 \frac{y_{i+}\ y_{+j}}{y_{++}} = e^{\widehat{\mu}+\widehat{\alpha}_i+\widehat{\beta}_j}  
@@ -664,12 +742,12 @@ y_{+j} = e^{\widehat{\mu}}  e^{\widehat{\beta}_j} \left(\sum_i e^{\widehat{\alph
 <h2 data-number="6.4" class="anchored" data-anchor-id="model-fitting-in-r"><span class="header-section-number">6.4</span> Model fitting in <strong>R</strong></h2>
 <section id="malignant-melanoma" class="level3" data-number="6.4.1">
 <h3 data-number="6.4.1" class="anchored" data-anchor-id="malignant-melanoma"><span class="header-section-number">6.4.1</span> Malignant melanoma</h3>
-<p>Consider an analysis of Melanoma data introduced in <a href="#sec-melanoma"><span>Section&nbsp;6.2.1</span></a>.</p>
+<p>Consider an analysis of Melanoma data introduced in <a href="#sec-melanoma" class="quarto-xref"><span>Section 6.2.1</span></a>.</p>
 <p>To test the independence of <span class="math inline">\(\texttt{Type}\)</span> and <span class="math inline">\(\texttt{Size}\)</span>, we fit the model <span class="math display">\[
 \texttt{Count} \sim \texttt{Type} + \texttt{Site}
 \]</span> assuming Poisson counts and a logarithmic link function, using the commands:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>melanoma <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"https://richardpmann.com/MATH3823/Datasets/melanoma.txt"</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -710,7 +788,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 <p>We see that the residual deviance for this model is <span class="math inline">\(51.795\)</span> on <span class="math inline">\(6\)</span> degrees of freedom. If the model is true, the residual deviance will have an approximate <span class="math inline">\(\chi^2\)</span> distribution on <span class="math inline">\(6\)</span> degrees of freedom. If the model is not true, the residual deviance will probably be too large to correspond to this distribution. Thus we calculate the <span class="math inline">\(p\)</span>-value in the upper tail of the <span class="math inline">\(\chi^2_6\)</span> distribution, which can be computed using the command:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="fl">51.795</span>,<span class="dv">6</span>,<span class="at">lower.tail=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -721,14 +799,14 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <p>This strongly indicates that the independence model is inadequate. Therefore, unless we can spot alternative simplifications, we will have to use the saturated model.</p>
 <p>We can look at residuals from the model see where the departures from independence occur. The largest residual is for Hutchinson’s freckle on the head and neck, which occurs more often than would be expected under independence.</p>
 <p>For the saturated model, <span class="math inline">\(\widehat{\lambda}_{ij} = y_{ij}\)</span>. In this example, <span class="math inline">\(\sum_{ij} \widehat{\lambda}_{ij} = \sum_{ij} y_{ij} = 400\)</span>, so the probability of a tumour being in category <span class="math inline">\((i,j)\)</span> is <span class="math inline">\(y_{ij}/400\)</span> — just the observed proportions.</p>
-<p>Note that in <a href="#tbl-melanomacount1">Table&nbsp;<span>6.2</span></a> we have a total of <span class="math inline">\(y_{++} = 400\)</span> observations. If the data were truly Poisson, this would be a suspiciously round number. In reality, this total was fixed by design, so we should take into account the fact that <span class="math inline">\(y_{++} = 400\)</span> and fit a more suitable model, such as the <em>multinomial</em> model which we will meet in the next chapter.</p>
-<p>Overdispersion can occur for the Poisson model, just as in the binomial case – see <a href="5_logisticmodel.html#sec-overdispersion"><span>Section&nbsp;5.3</span></a>. This is called <em>extra-Poisson</em> variation. The <span class="math inline">\(\texttt{glm}\)</span> function in <strong>R</strong> can take this into account by including an extra parameter <span class="math inline">\(\tau\)</span> in the model using <span class="math inline">\(\texttt{family=quasipoisson()}\)</span>.</p>
+<p>Note that in <a href="#tbl-melanomacount1" class="quarto-xref">Table&nbsp;<span>6.2</span></a> we have a total of <span class="math inline">\(y_{++} = 400\)</span> observations. If the data were truly Poisson, this would be a suspiciously round number. In reality, this total was fixed by design, so we should take into account the fact that <span class="math inline">\(y_{++} = 400\)</span> and fit a more suitable model, such as the <em>multinomial</em> model which we will meet in the next chapter.</p>
+<p>Overdispersion can occur for the Poisson model, just as in the binomial case – see <a href="5_logisticmodel.html#sec-overdispersion" class="quarto-xref"><span>Section 5.3</span></a>. This is called <em>extra-Poisson</em> variation. The <span class="math inline">\(\texttt{glm}\)</span> function in <strong>R</strong> can take this into account by including an extra parameter <span class="math inline">\(\tau\)</span> in the model using <span class="math inline">\(\texttt{family=quasipoisson()}\)</span>.</p>
 </section>
 <section id="flu-vaccine" class="level3" data-number="6.4.2">
 <h3 data-number="6.4.2" class="anchored" data-anchor-id="flu-vaccine"><span class="header-section-number">6.4.2</span> Flu vaccine</h3>
 <p>There is no saved data file for this example – recall it is very small - and so define R variables for the <span class="math inline">\(\texttt{count}\)</span>, <span class="math inline">\(\texttt{response}\)</span> (perhaps not a good name as it may be confusing but it seems the correct description from the context) and <span class="math inline">\(\texttt{drug}\)</span> used. Don’t forget to declare the explanatory variables as factors.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the data</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>count <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">6</span>,<span class="dv">18</span>,<span class="dv">11</span>)</span>
@@ -741,7 +819,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 <p>Now fit the first model, here consider the saturated model with main effects and interaction.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">##########################################</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a log-linear model - saturated model</span></span>
@@ -776,7 +854,7 @@ Number of Fisher Scoring iterations: 3</code></pre>
 <p>Even though the model is a perfect fit – the fitted values are exactly the data values (check next) we see that <span class="math inline">\(\texttt{response.F="M"}\)</span> is not significantly different to the baseline <span class="math inline">\(\texttt{response.F="H"}\)</span> and also that <span class="math inline">\(\texttt{drug.F="V"}\)</span> is not significantly different to <span class="math inline">\(\texttt{drug.F="P"}\)</span>.</p>
 <p>Let’s check the fitted values:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(glm.fit0, <span class="at">type=</span><span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -790,7 +868,7 @@ Number of Fisher Scoring iterations: 3</code></pre>
 <p>We cannot test the saturated model as it fits perfectly.</p>
 <p>Next let’s try a reduced model with the interaction removed:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">##########################################</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model without interaction</span></span>
@@ -824,7 +902,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <p>The model deviance is <span class="math inline">\(18.643\)</span> following a <span class="math inline">\(\chi^2_2\)</span> distribution with corresponding p-value of <span class="math inline">\(p &lt;0.001\)</span>. <!-- round(pchisq(18.643, 2, lower.tail=F),5) ---> This is highly significant suggesting that this and any model without an interaction term is unlikely to be adequate.</p>
 <p>Let use return to a model with interaction, and let’s try merging response <span class="math inline">\(\texttt{response.F="M"}\)</span> and <span class="math inline">\(\texttt{"H"}\)</span> – calling them <span class="math inline">\(\texttt{"HM"}\)</span> (I chose this name so that alphabetically it would be first just as <span class="math inline">\(\texttt{"H"}\)</span> was first):</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Medium response not significant</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge response M with response H -- to response HM</span></span>
@@ -863,7 +941,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <p>The model deviance is <span class="math inline">\(2.405\)</span> following a <span class="math inline">\(\chi^2_2\)</span> distribution with corresponding p-value of <span class="math inline">\(p=0.3\)</span>. <!-- round(pchisq(2.405, 2, lower.tail=F),5) ---> This is non-significant suggesting that this model is a good fit to the data.</p>
 <p>The fitted values are:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(glm.fit2, <span class="at">type=</span><span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -874,7 +952,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 <p>and the residuals (which I have rounded for display purposes):</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">residuals</span>(glm.fit2, <span class="at">type=</span><span class="st">"response"</span>),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -889,7 +967,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </section>
 <section id="multi-way-contingency-tables" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="multi-way-contingency-tables"><span class="header-section-number">6.5</span> Multi-way contingency tables</h2>
-<p>We can generalize the model notation introduced in <a href="#eq-2waymodel">Equation&nbsp;<span>6.1</span></a> to accommodate multi-way contingency tables; that is tables of counts indexed by multiple factors. For example, for a 3-way table of cell counts <span class="math inline">\(y_{ijk}\)</span>, the saturated model would be written: <span class="math display">\[
+<p>We can generalize the model notation introduced in <a href="#eq-2waymodel" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> to accommodate multi-way contingency tables; that is tables of counts indexed by multiple factors. For example, for a 3-way table of cell counts <span class="math inline">\(y_{ijk}\)</span>, the saturated model would be written: <span class="math display">\[
 Y_{ijk} \sim \text{Po}(\lambda_{ijk})
 \]</span> where <span class="math display">\[
 \log \lambda_{ijk} =
@@ -946,7 +1024,7 @@ Click here to see hints.
 <p>6.2 (From Dobson &amp; Barnett, p 163) This question should be done in a computer package such as R. You should think carefully about which variables, if any, to condition on in your analysis: HOME = 1,2,3, CONTACT = 1,2, or SATISFACTION = 1,2,3.</p>
 <p>The data relate to an investigation into satisfaction with housing conditions in Copenhagen. Residents of selected areas living in rented houses built between 1960 and 1968 were questioned about their satisfaction and their degree of contact with other residents. The data were tabulated by type of housing. Investigate the associations between satisfaction, contact with other residents and type of housing.</p>
 <p><strong>Low Contact:</strong></p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Satisfaction:</th>
@@ -977,7 +1055,7 @@ Click here to see hints.
 </tbody>
 </table>
 <p><strong>High Contact:</strong></p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Satisfaction:</th>
@@ -1282,18 +1360,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1325,11 +1392,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1339,8 +1445,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1352,7 +1467,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1396,6 +1634,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1421,6 +1660,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1482,17 +1747,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./5_logisticmodel.html" class="pagination-link">
+      <a href="./5_logisticmodel.html" class="pagination-link" aria-label="Modelling Proportions">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modelling Proportions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./7_extendedloglinearmodel.html" class="pagination-link">
+      <a href="./7_extendedloglinearmodel.html" class="pagination-link" aria-label="Extensions to Loglinear models">
         <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Extensions to Loglinear models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
