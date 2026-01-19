@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MATH3823 Generalised Linear Models - 2&nbsp; Essentials of Normal Linear Models</title>
+<title>2&nbsp; Essentials of Normal Linear Models – MATH3823 Generalised Linear Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,14 +96,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="webex.css">
 </head>
@@ -108,13 +142,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2_linearmodels.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2_linearmodels.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -123,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MATH3823 Generalised Linear Models</a> 
@@ -193,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -233,20 +267,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <section id="sec-essentialsoverview" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="sec-essentialsoverview"><span class="header-section-number">2.1</span> Overview</h2>
 <p>In many fields of application, we might assume the response variable is normally distributed. For example: heights, weights, log prices, etc.</p>
-<p>The data<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> in <a href="#tbl-birthweight">Table&nbsp;<span>2.1</span></a> record the birth weights of 12 girls and 12 boys and their gestational ages (time from conception to birth).</p>
-<div id="tbl-birthweight" class="tbl-parent quarto-layout-panel anchored">
-<div class="panel-caption table-caption">
-<p>Table&nbsp;2.1: Gestational ages (in weeks) and birth weights (in grams) for 24 babies (12 girls and 12 boys).</p>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div id="tbl-birthweight-1" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-birthweight" style="flex-basis: 50.0%;justify-content: center;">
-<table class="table">
-<caption>(a) Girls</caption>
+<p>The data<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> in <a href="#tbl-birthweight" class="quarto-xref">Table&nbsp;<span>2.1</span></a> record the birth weights of 12 girls and 12 boys and their gestational ages (time from conception to birth).</p>
+<div id="tbl-birthweight" class="quarto-layout-panel anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-birthweight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.1: Gestational ages (in weeks) and birth weights (in grams) for 24 babies (12 girls and 12 boys).
+</figcaption>
+<div aria-describedby="tbl-birthweight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>Girls</caption>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Gestational Age</th>
@@ -305,9 +343,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div id="tbl-birthweight-2" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-birthweight" style="flex-basis: 50.0%;justify-content: center;">
-<table class="table">
-<caption>(b) Boys</caption>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>Boys</caption>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Gestational Age</th>
@@ -368,10 +406,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</figure>
+</div>
 <p>A key question is, can we predict the birth weight of a baby born at a given gestational age using these data. For this we will need to make assumptions about the relationship between birth weight and gestational age, and any associated natural variation – that is we require a model.</p>
-<p>First we should explore the data. <a href="#fig-birthweightA-1">Figure&nbsp;<span>2.1 (a)</span></a> shows a histogram of the birth weights indicating a spread around modal group 2800-3000 grams; <a href="#fig-birthweightA-2">Figure&nbsp;<span>2.1 (b)</span></a> indicates slightly higher birth weights for the boys than the girls; and <a href="#fig-birthweightA-3">Figure&nbsp;<span>2.1 (c)</span></a> shows an increasing relationship between weight and age. Together, these suggest that gestational age and sex are likely to be important for predicting weight.</p>
-<div>
-<details>
+<p>First we should explore the data. <a href="#fig-birthweightA-1" class="quarto-xref">Figure&nbsp;<span>2.1 (a)</span></a> shows a histogram of the birth weights indicating a spread around modal group 2800-3000 grams; <a href="#fig-birthweightA-2" class="quarto-xref">Figure&nbsp;<span>2.1 (b)</span></a> indicates slightly higher birth weights for the boys than the girls; and <a href="#fig-birthweightA-3" class="quarto-xref">Figure&nbsp;<span>2.1 (c)</span></a> shows an increasing relationship between weight and age. Together, these suggest that gestational age and sex are likely to be important for predicting weight.</p>
+<div class="cell" data-layout="[[1,1],[1]]">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -389,43 +429,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Gestational age (weeks)"</span>,</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Birth weight (grams)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-birthweightA" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-birthweightA-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-birthweightA-1.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672"></p>
-<figcaption class="figure-caption">(a) Weight distribution</figcaption>
+<div id="fig-birthweightA" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-birthweightA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweightA-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweightA-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweightA-1.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweightA-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Weight distribution
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-birthweightA-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-birthweightA-2.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672"></p>
-<figcaption class="figure-caption">(b) Weight sub-divided by Sex</figcaption>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweightA-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweightA-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweightA-2.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweightA-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Weight sub-divided by Sex
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
-<div id="fig-birthweightA-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-birthweightA-3.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672"></p>
-<figcaption class="figure-caption">(c) Relationship beween variables</figcaption>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div id="fig-birthweightA-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweightA-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweightA-3.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweightA-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Relationship beween variables
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2.1: Birthweight and gestational age for 24 babies.</figcaption><p></p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-birthweightA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Birthweight and gestational age for 24 babies.
+</figcaption>
 </figure>
 </div>
 </div>
-<p>Before considering possible models, <a href="#fig-birthweightB">Figure&nbsp;<span>2.2</span></a> again shows the relationship between weight and age but this time with the points coloured according to the baby’s sex. This, perhaps, shows the boys to have generally higher weights across the age range than girls.</p>
+<p>Before considering possible models, <a href="#fig-birthweightB" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> again shows the relationship between weight and age but this time with the points coloured according to the baby’s sex. This, perhaps, shows the boys to have generally higher weights across the age range than girls.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -441,10 +497,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">41</span>,<span class="dv">2800</span>, <span class="fu">c</span>(<span class="st">"Girl"</span>,<span class="st">"Boy"</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-birthweightB" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-birthweightB-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;2.2: Birthweight and gestational age for 12 girls (red squares) and 12 boys (black crosses).</figcaption>
+<div id="fig-birthweightB" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-birthweightB-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweightB-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-birthweightB-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: Birthweight and gestational age for 12 girls (red squares) and 12 boys (black crosses).
+</figcaption>
 </figure>
 </div>
 </div>
@@ -457,19 +517,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="webex-check">
 <p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
 <ol type="1">
-<li><p>What is the most useful graphical summary for identifying a potential relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">histogram</option><option value="answer">scatter plot</option><option value="">boxplot</option><option value="">kernel density plot</option><option value="">other</option></select></p></li>
-<li><p>What is the most useful numerical summary for identifying a potential linear relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">sample means</option><option value="">variances</option><option value="answer">correlation</option><option value="">skew</option><option value="">other</option></select></p></li>
+<li><p>What is the most useful graphical summary for identifying a potential relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">histogram</option><option value="">boxplot</option><option value="">kernel density plot</option><option value="answer">scatter plot</option><option value="">other</option></select></p></li>
+<li><p>What is the most useful numerical summary for identifying a potential linear relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">sample means</option><option value="">skew</option><option value="">variances</option><option value="answer">correlation</option><option value="">other</option></select></p></li>
 <li><p>Which of the following is a true statements about the correlation coefficient? (Choose any that apply.)</p>
-<div id="radio_RVXDUOQFSX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RVXDUOQFSX" value=""> <span>Is always a positive number</span></label><label><input type="radio" autocomplete="off" name="radio_RVXDUOQFSX" value=""> <span>Can take any real number</span></label><label><input type="radio" autocomplete="off" name="radio_RVXDUOQFSX" value="answer"> <span>Can be positive or negative</span></label><label><input type="radio" autocomplete="off" name="radio_RVXDUOQFSX" value=""> <span>A value close to -1 means uncorrelated and close to +1 indicates a high correlation</span></label><label><input type="radio" autocomplete="off" name="radio_RVXDUOQFSX" value="answer"> <span>Is always between -1 and +1</span></label>
+<div id="radio_MMQHQNTYKO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MMQHQNTYKO" value=""> <span>Can take any real number</span></label><label><input type="radio" autocomplete="off" name="radio_MMQHQNTYKO" value="answer"> <span>Can be positive or negative</span></label><label><input type="radio" autocomplete="off" name="radio_MMQHQNTYKO" value="answer"> <span>Is always between -1 and +1</span></label><label><input type="radio" autocomplete="off" name="radio_MMQHQNTYKO" value=""> <span>A value close to -1 means uncorrelated and close to +1 indicates a high correlation</span></label><label><input type="radio" autocomplete="off" name="radio_MMQHQNTYKO" value=""> <span>Is always a positive number</span></label>
 </div></li>
 <li><p>Which of the following is a true statements about regression? (Choose any that apply.)</p>
-<div id="radio_EWEIWCYMDE" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EWEIWCYMDE" value="answer"> <span>A linear model can be fitted to any data set</span></label><label><input type="radio" autocomplete="off" name="radio_EWEIWCYMDE" value=""> <span>All regression models describe linear relationships</span></label><label><input type="radio" autocomplete="off" name="radio_EWEIWCYMDE" value="answer"> <span>A linear regression can sometimes be used to approximate a non-linear relationship</span></label><label><input type="radio" autocomplete="off" name="radio_EWEIWCYMDE" value=""> <span>A linear regression model will fit well if the correlation is close to zero</span></label><label><input type="radio" autocomplete="off" name="radio_EWEIWCYMDE" value="answer"> <span>After fitting a regression model we should always consider residuals</span></label>
+<div id="radio_CQEAGTJXBA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CQEAGTJXBA" value=""> <span>All regression models describe linear relationships</span></label><label><input type="radio" autocomplete="off" name="radio_CQEAGTJXBA" value="answer"> <span>A linear model can be fitted to any data set</span></label><label><input type="radio" autocomplete="off" name="radio_CQEAGTJXBA" value=""> <span>A linear regression model will fit well if the correlation is close to zero</span></label><label><input type="radio" autocomplete="off" name="radio_CQEAGTJXBA" value="answer"> <span>After fitting a regression model we should always consider residuals</span></label><label><input type="radio" autocomplete="off" name="radio_CQEAGTJXBA" value="answer"> <span>A linear regression can sometimes be used to approximate a non-linear relationship</span></label>
 </div></li>
 <li><p>Which of the following is a true statements about statistical modelling? (Choose any that apply.)</p>
-<div id="radio_PZYDIUXMSR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PZYDIUXMSR" value=""> <span>Only use a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_PZYDIUXMSR" value="answer"> <span>Models are part deterministic and part random</span></label><label><input type="radio" autocomplete="off" name="radio_PZYDIUXMSR" value=""> <span>Only use a model that is 100% correct</span></label><label><input type="radio" autocomplete="off" name="radio_PZYDIUXMSR" value=""> <span>Models only involve a statistical distribution</span></label><label><input type="radio" autocomplete="off" name="radio_PZYDIUXMSR" value="answer"> <span>All models are approximations</span></label>
+<div id="radio_SLPJDLUOQV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SLPJDLUOQV" value="answer"> <span>All models are approximations</span></label><label><input type="radio" autocomplete="off" name="radio_SLPJDLUOQV" value=""> <span>Models only involve a statistical distribution</span></label><label><input type="radio" autocomplete="off" name="radio_SLPJDLUOQV" value=""> <span>Only use a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_SLPJDLUOQV" value="answer"> <span>Models are part deterministic and part random</span></label><label><input type="radio" autocomplete="off" name="radio_SLPJDLUOQV" value=""> <span>Only use a model that is 100% correct</span></label>
 </div></li>
 </ol>
 </div>
@@ -478,7 +538,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="linear-models" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="linear-models"><span class="header-section-number">2.2</span> Linear models</h2>
 <p>Continuing the birth weight example. Of course, there are very many possible models, but here we will consider the following:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 37%">
 <col style="width: 62%">
@@ -506,10 +566,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Note that <span class="math inline">\(\texttt{Model 0}\)</span> is a special case of <span class="math inline">\(\texttt{Model 1}\)</span> (consider the situation when <span class="math inline">\(\beta=0\)</span>) and that <span class="math inline">\(\texttt{Model 1}\)</span> is a special case of <span class="math inline">\(\texttt{Model 2}\)</span> (consider the situation when <span class="math inline">\(\gamma=0\)</span>) and finally that <span class="math inline">\(\texttt{Model 2}\)</span> is a special case of <span class="math inline">\(\texttt{Model 3}\)</span> (consider the situation when <span class="math inline">\(\delta=0\)</span>) – such models are called <em>nested</em>.</p>
 <p>In these models, <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\delta\)</span> are <em>model parameters</em>. Parameter <span class="math inline">\(\alpha\)</span> is called the <em>intercept</em> term; <span class="math inline">\(\beta\)</span> is called the <em>main effect</em> of <span class="math inline">\(\texttt{Age}\)</span>; and is interpreted as the effect on birth weight <em>per week</em> of gestational age. Similarly, <span class="math inline">\(\gamma\)</span> is the main effect of <span class="math inline">\(\texttt{Sex}\)</span>, interpreted as the effect on birth weight of being a boy (because girl is the <em>baseline</em> category).</p>
 <p>Parameter <span class="math inline">\(\delta\)</span> is called the <em>interaction effect</em> between <span class="math inline">\(\texttt{Age}\)</span> and <span class="math inline">\(\texttt{Sex}\)</span>. <strong>Take care when interpreting an interaction effect.</strong> Here, it does not mean that age somehow affects sex, or vice-versa. It means that the effect of gestational age on birth weight depends on whether the baby is a boy or a girl.</p>
-<p>These models can be fitted to the data using (Ordinary) <em>Least Squares</em> to produce the results presented in <a href="#fig-birthweight-fitted">Figure&nbsp;<span>2.3</span></a>.</p>
+<p>These models can be fitted to the data using (Ordinary) <em>Least Squares</em> to produce the results presented in <a href="#fig-birthweight-fitted" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>.</p>
 <p>Which model should we use?</p>
-<div>
-<details>
+<div class="cell" data-layout="[[1,1],[1,1]]">
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -553,51 +613,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(M3.fit<span class="sc">$</span>coefficients[<span class="dv">1</span>],M3.fit<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="at">col=</span><span class="dv">2</span>)</span>
 <span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(M3.fit<span class="sc">$</span>coefficients[<span class="dv">1</span>]<span class="sc">+</span>M3.fit<span class="sc">$</span>coefficients[<span class="dv">3</span>],M3.fit<span class="sc">$</span>coefficients[<span class="dv">2</span>]<span class="sc">+</span>M3.fit<span class="sc">$</span>coefficients[<span class="dv">4</span>], <span class="at">col=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-birthweight-fitted" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-birthweight-fitted-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-1.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672"></p>
-<figcaption class="figure-caption">(a) Model 0</figcaption>
+<div id="fig-birthweight-fitted" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-birthweight-fitted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweight-fitted-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweight-fitted-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-1.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweight-fitted-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Model 0
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-birthweight-fitted-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-2.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672"></p>
-<figcaption class="figure-caption">(b) Model 1</figcaption>
-</figure>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweight-fitted-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweight-fitted-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-2.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
 </div>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-birthweight-fitted-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-3.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672"></p>
-<figcaption class="figure-caption">(c) Model 2</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-birthweight-fitted-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-4.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672"></p>
-<figcaption class="figure-caption">(d) Model 3</figcaption>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweight-fitted-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Model 1
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2.3: Birthweight and gestational age data with superimposed fitted regression lines from various competing models.</figcaption><p></p>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweight-fitted-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweight-fitted-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-3.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweight-fitted-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Model 2
+</figcaption>
 </figure>
 </div>
 </div>
-<p>We know from previous modules that statistical tests can be used to check the importance of regression coefficients and model parameters, but it is also important to use the graphical results, as in <a href="#fig-birthweight-fitted">Figure&nbsp;<span>2.3</span></a>, to guide us.</p>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweight-fitted-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweight-fitted-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-4.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweight-fitted-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Model 3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-birthweight-fitted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: Birthweight and gestational age data with superimposed fitted regression lines from various competing models.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>We know from previous modules that statistical tests can be used to check the importance of regression coefficients and model parameters, but it is also important to use the graphical results, as in <a href="#fig-birthweight-fitted" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>, to guide us.</p>
 <p><span class="math inline">\(\texttt{Model 0}\)</span> says that there is no change in birth weight with gestational age which means that we would use the average birth weight as the prediction whatever the gestational age – this makes no sense. As we can easily see from the scatter plot of the data, the fitted line in this case is clearly inappropriate.</p>
-<p><span class="math inline">\(\texttt{Model 1}\)</span> does not take into account whether the baby is a girl or a boy, but does model the relationship between birth weight and gestational age. This does seem to provide a good fit and might be adequate for many purposes. Recall from <a href="#fig-birthweightA-2">Figure&nbsp;<span>2.1 (b)</span></a> and <a href="#fig-birthweightB">Figure&nbsp;<span>2.2</span></a>, however, that for a given gestational age the boys seem to have a higher birth weight than the girls.</p>
+<p><span class="math inline">\(\texttt{Model 1}\)</span> does not take into account whether the baby is a girl or a boy, but does model the relationship between birth weight and gestational age. This does seem to provide a good fit and might be adequate for many purposes. Recall from <a href="#fig-birthweightA-2" class="quarto-xref">Figure&nbsp;<span>2.1 (b)</span></a> and <a href="#fig-birthweightB" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>, however, that for a given gestational age the boys seem to have a higher birth weight than the girls.</p>
 <p><span class="math inline">\(\texttt{Model 2}\)</span> does take the sex of the baby into account by allowing separate intercepts in the fitted lines – this means that the lines are parallel. By eye, there is a clear difference between these two lines but it might not be important.</p>
 <p><span class="math inline">\(\texttt{Model 3}\)</span> allows for separate slopes as well as intercepts. There is a slight difference in the slopes, with the birth weight of the girls gradually catching-up as the gestational age increases. It is difficult to see, however, if this will be a general pattern or if it is only true for this data set – especially given the relatively small sample size.</p>
 <p>Here, it is not clear by eye which of the fitted models will be the best and hence we should use a statistical test to help. In particular, we can choose between the models using F-tests.</p>
@@ -616,7 +696,7 @@ F_{01} = \frac{(R_0 - R_1)/(r_0 - r_1)}{R_1/r_1}.
 <p>It can be shown that, under the null hypothesis <span class="math inline">\(H_0\)</span>, the statistic <span class="math inline">\(F_{01}\)</span> will have an <span class="math inline">\(F\)</span>-distribution on <span class="math inline">\(r_0 - r_1\)</span> and <span class="math inline">\(r_1\)</span> degrees of freedom, which we write: <span class="math inline">\(F_{r_0-r_1, r_1}\)</span>. Under the alternative hypothesis <span class="math inline">\(H_1\)</span>, the difference <span class="math inline">\(R_0-R_1\)</span> will tend to be larger than expected under <span class="math inline">\(H_0\)</span>, and so the observed value <span class="math inline">\(F_{01}\)</span> will probably lie in the upper tail of the <span class="math inline">\(F_{r_0-r_1, r_1}\)</span> distribution.</p>
 <p>Returning to the birth weight data, we obtain the following output from <strong>R</strong> when we fit <span class="math inline">\(\texttt{Model } 1\)</span>:</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data from file into a dataframe called ’birthweight’</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>birthweight <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"https://richardpmann.com/MATH3823/Datasets/birthwt.txt"</span>, <span class="at">header=</span>T)</span>
@@ -631,7 +711,7 @@ F_{01} = \frac{(R_0 - R_1)/(r_0 - r_1)}{R_1/r_1}.
 <pre><code>(Intercept)         age 
  -1484.9846    115.5283 </code></pre>
 </div>
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># perform an analysis of variance of Model 1</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -649,12 +729,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Thus we have parameter estimates: <span class="math inline">\(\hat\alpha = -1484.98\)</span> and <span class="math inline">\(\hat\beta = 115.5\)</span>. The Analysis of Variance (ANOVA) table gives: <span class="math inline">\(R_0-R_1 = 1013799\)</span> with <span class="math inline">\(r_0-r_1 = 1\)</span> and <span class="math inline">\(R_1 = 816074\)</span> with <span class="math inline">\(r_1 = 22\)</span>.</p>
 <p>If we wanted <span class="math inline">\(R_0\)</span> and <span class="math inline">\(r_0\)</span> then we can either fit <span class="math inline">\(\texttt{Model 0}\)</span> or get them <em>by subtraction.</em></p>
-<p>The <span class="math inline">\(F_{01}\)</span> statistic, <a href="#eq-f01">Equation&nbsp;<span>2.2</span></a>, is then <span class="math display">\[
+<p>The <span class="math inline">\(F_{01}\)</span> statistic, <a href="#eq-f01" class="quarto-xref">Equation&nbsp;<span>2.2</span></a>, is then <span class="math display">\[
 F_{01} = \frac{103799/1}{816074/22} = 27.33,
 \]</span> which can be read directly from the ANOVA table in the column headed ‘F value’.</p>
-<p>Is <span class="math inline">\(F_{01} = 27.33\)</span> in the upper tail of the <span class="math inline">\(F_{1,22}\)</span> distribution? (See <a href="#fig-f01-pdf">Figure&nbsp;<span>2.4</span></a> and note that 27.33 is very far to the right.) The final column of the ANOVA table tells us that the probability of observing <span class="math inline">\(F_{01} &gt; 27.33\)</span> is only <span class="math inline">\(3.04\times10^5\)</span> – this is called a p-value. The *** beside this p-value highlights that its value lies between 0 and 0.001. This indicates that we should reject <span class="math inline">\(H_0\)</span> in favour of <span class="math inline">\(H_1\)</span> – there is very strong evidence for the more complicated model. Thus we would conclude that the effect of gestational age is statistically significant in these data.</p>
+<p>Is <span class="math inline">\(F_{01} = 27.33\)</span> in the upper tail of the <span class="math inline">\(F_{1,22}\)</span> distribution? (See <a href="#fig-f01-pdf" class="quarto-xref">Figure&nbsp;<span>2.4</span></a> and note that 27.33 is very far to the right.) The final column of the ANOVA table tells us that the probability of observing <span class="math inline">\(F_{01} &gt; 27.33\)</span> is only <span class="math inline">\(3.04\times10^5\)</span> – this is called a p-value. The *** beside this p-value highlights that its value lies between 0 and 0.001. This indicates that we should reject <span class="math inline">\(H_0\)</span> in favour of <span class="math inline">\(H_1\)</span> – there is very strong evidence for the more complicated model. Thus we would conclude that the effect of gestational age is statistically significant in these data.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -662,10 +742,14 @@ F_{01} = \frac{103799/1}{816074/22} = 27.33,
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab=</span><span class="fu">expression</span>(<span class="st">"PDF of "</span><span class="sc">*</span><span class="st">"F"</span>[<span class="dv">0</span>][<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-f01-pdf" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-f01-pdf-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;2.4: Probability density function of <span class="math inline">\(F_{01}\)</span> distribution.</figcaption>
+<div id="fig-f01-pdf" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-f01-pdf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-f01-pdf-1.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-f01-pdf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.4: Probability density function of <span class="math inline">\(F_{01}\)</span> distribution.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -681,7 +765,7 @@ F_{12} = \frac{(R_1 - R_2)/(r_1 - r_2)}{R_2/r_2}.
 <p>Under the null hypothesis <span class="math inline">\(H_0\)</span>, the statistic <span class="math inline">\(F_{12}\)</span> will have an <span class="math inline">\(F\)</span>-distribution on <span class="math inline">\(r_1 - r_2\)</span> and <span class="math inline">\(r_2\)</span> degrees of freedom, which we write: <span class="math inline">\(F_{r_1-r_2, r_2}\)</span>. Under the alternative hypothesis <span class="math inline">\(H_1\)</span>, the difference <span class="math inline">\(R_1-R_2\)</span> will tend to be larger than expected under <span class="math inline">\(H_0\)</span>, and so the observed value <span class="math inline">\(F_{12}\)</span> will probably lie in the upper tail of the <span class="math inline">\(F_{r_1-r_2, r_2}\)</span> distribution.</p>
 <p>Returning to the birth weight data, we obtain the following output from <strong>R</strong> (where <span class="math inline">\(\texttt{sexM}\)</span> denotes Boy):</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit Model 2</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">=</span> <span class="fu">lm</span>(weight <span class="sc">~</span> age <span class="sc">+</span> sex, <span class="at">data=</span>birthweight)</span>
@@ -692,7 +776,7 @@ F_{12} = \frac{(R_1 - R_2)/(r_1 - r_2)}{R_2/r_2}.
 <pre><code>(Intercept)         age        sexM 
  -1773.3218    120.8943    163.0393 </code></pre>
 </div>
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># perform an analysis of variance on the fitted model</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -710,7 +794,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Thus we have parameter estimates: <span class="math inline">\(\hat \alpha = -1773.3\)</span>, <span class="math inline">\(\hat\beta = 120.9\)</span> and <span class="math inline">\(\hat\gamma = 163.0\)</span>, the latter being the effect of being a boy compared to the baseline category of being a girl.</p>
-<p>The Analysis of Variance (ANOVA) table gives: <span class="math inline">\(R_1-R_2 = 157304\)</span> with <span class="math inline">\(r_1-r_2=1\)</span>, and <span class="math inline">\(R_2=658771\)</span> with <span class="math inline">\(r_2=21\)</span>. The <span class="math inline">\(F_{12}\)</span> statistic, <a href="#eq-f12">Equation&nbsp;<span>2.3</span></a>, is then</p>
+<p>The Analysis of Variance (ANOVA) table gives: <span class="math inline">\(R_1-R_2 = 157304\)</span> with <span class="math inline">\(r_1-r_2=1\)</span>, and <span class="math inline">\(R_2=658771\)</span> with <span class="math inline">\(r_2=21\)</span>. The <span class="math inline">\(F_{12}\)</span> statistic, <a href="#eq-f12" class="quarto-xref">Equation&nbsp;<span>2.3</span></a>, is then</p>
 <p><span class="math display">\[
 F_{12} = \frac{157304/1}{658771/21} = 5.0145,
 \]</span></p>
@@ -726,24 +810,24 @@ F_{12} = \frac{157304/1}{658771/21} = 5.0145,
 <p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
 <ol type="1">
 <li>Which of the following is a true statement about correlation and linear regression? (Choose any that apply.)
-<div id="radio_DLGANUKXJS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DLGANUKXJS" value=""> <span>The correlation and the slope parameter will have the opposite sign</span></label><label><input type="radio" autocomplete="off" name="radio_DLGANUKXJS" value="answer"> <span>The correlation and the regression slope parameter will have the same sign</span></label><label><input type="radio" autocomplete="off" name="radio_DLGANUKXJS" value=""> <span>If the correlation is away from zero then a linear regression should always be used</span></label><label><input type="radio" autocomplete="off" name="radio_DLGANUKXJS" value="answer"> <span>If the correlation is close to zero then a linear regression will not be useful</span></label><label><input type="radio" autocomplete="off" name="radio_DLGANUKXJS" value=""> <span>There is no relationship between correlation and linear regression</span></label>
+<div id="radio_VQYMRBGDSI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VQYMRBGDSI" value=""> <span>If the correlation is away from zero then a linear regression should always be used</span></label><label><input type="radio" autocomplete="off" name="radio_VQYMRBGDSI" value=""> <span>There is no relationship between correlation and linear regression</span></label><label><input type="radio" autocomplete="off" name="radio_VQYMRBGDSI" value="answer"> <span>If the correlation is close to zero then a linear regression will not be useful</span></label><label><input type="radio" autocomplete="off" name="radio_VQYMRBGDSI" value=""> <span>The correlation and the slope parameter will have the opposite sign</span></label><label><input type="radio" autocomplete="off" name="radio_VQYMRBGDSI" value="answer"> <span>The correlation and the regression slope parameter will have the same sign</span></label>
 </div></li>
 <li>Which of the following is NOT a true statement about model residuals? (Choose any that apply.)
-<div id="radio_PMARGCFCQG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PMARGCFCQG" value="answer"> <span>All should be zero if the model is a good fit</span></label><label><input type="radio" autocomplete="off" name="radio_PMARGCFCQG" value=""> <span>Should always be plotted as part of a data analysis</span></label><label><input type="radio" autocomplete="off" name="radio_PMARGCFCQG" value=""> <span>Will always sum to zero</span></label><label><input type="radio" autocomplete="off" name="radio_PMARGCFCQG" value=""> <span>Can help to identify unusual data points</span></label><label><input type="radio" autocomplete="off" name="radio_PMARGCFCQG" value=""> <span>Can be used to judge how well the model fits the data</span></label>
+<div id="radio_NMSHIQWCHD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NMSHIQWCHD" value="answer"> <span>All should be zero if the model is a good fit</span></label><label><input type="radio" autocomplete="off" name="radio_NMSHIQWCHD" value=""> <span>Will always sum to zero</span></label><label><input type="radio" autocomplete="off" name="radio_NMSHIQWCHD" value=""> <span>Should always be plotted as part of a data analysis</span></label><label><input type="radio" autocomplete="off" name="radio_NMSHIQWCHD" value=""> <span>Can help to identify unusual data points</span></label><label><input type="radio" autocomplete="off" name="radio_NMSHIQWCHD" value=""> <span>Can be used to judge how well the model fits the data</span></label>
 </div></li>
 <li>Which of the following is a true statement about prediction using linear regression? (Choose any that apply.)
-<div id="radio_TRMCECCMBB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TRMCECCMBB" value=""> <span>Prediction is always reliable</span></label><label><input type="radio" autocomplete="off" name="radio_TRMCECCMBB" value="answer"> <span>We should be careful about extrapolating</span></label><label><input type="radio" autocomplete="off" name="radio_TRMCECCMBB" value=""> <span>Interpolation should only be used if we know the true relationship is linear</span></label><label><input type="radio" autocomplete="off" name="radio_TRMCECCMBB" value="answer"> <span>Interpolation and extrapolation are both types of prediction</span></label><label><input type="radio" autocomplete="off" name="radio_TRMCECCMBB" value="answer"> <span>Interpolation is performed using the fitted model</span></label>
+<div id="radio_YCHHNJCUZL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YCHHNJCUZL" value=""> <span>Prediction is always reliable</span></label><label><input type="radio" autocomplete="off" name="radio_YCHHNJCUZL" value=""> <span>Interpolation should only be used if we know the true relationship is linear</span></label><label><input type="radio" autocomplete="off" name="radio_YCHHNJCUZL" value="answer"> <span>We should be careful about extrapolating</span></label><label><input type="radio" autocomplete="off" name="radio_YCHHNJCUZL" value="answer"> <span>Interpolation is performed using the fitted model</span></label><label><input type="radio" autocomplete="off" name="radio_YCHHNJCUZL" value="answer"> <span>Interpolation and extrapolation are both types of prediction</span></label>
 </div></li>
 <li>Which of the following is NOT an important part of regression model fitting? (Choose any that apply.)
-<div id="radio_FTVWIIVWWT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FTVWIIVWWT" value=""> <span>The command <strong>cor</strong> to check for a relationship between variables</span></label><label><input type="radio" autocomplete="off" name="radio_FTVWIIVWWT" value="answer"> <span>A histogram of the data</span></label><label><input type="radio" autocomplete="off" name="radio_FTVWIIVWWT" value=""> <span>A scatter plot of the residuals</span></label><label><input type="radio" autocomplete="off" name="radio_FTVWIIVWWT" value=""> <span>The command <strong>lm</strong> to fit a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_FTVWIIVWWT" value=""> <span>A scatter plot of the data</span></label>
+<div id="radio_RFXHULGRDP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RFXHULGRDP" value=""> <span>A scatter plot of the data</span></label><label><input type="radio" autocomplete="off" name="radio_RFXHULGRDP" value=""> <span>The command <strong>lm</strong> to fit a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_RFXHULGRDP" value=""> <span>The command <strong>cor</strong> to check for a relationship between variables</span></label><label><input type="radio" autocomplete="off" name="radio_RFXHULGRDP" value=""> <span>A scatter plot of the residuals</span></label><label><input type="radio" autocomplete="off" name="radio_RFXHULGRDP" value="answer"> <span>A histogram of the data</span></label>
 </div></li>
 <li>Which of the following is NOT important when performing data analysis? (Choose any that apply.)
-<div id="radio_GWLCFNFQTZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GWLCFNFQTZ" value="answer"> <span>Background information is not needed before analyzing a new data set – it's only the numbers that matter</span></label><label><input type="radio" autocomplete="off" name="radio_GWLCFNFQTZ" value=""> <span>Is the data reliable and have suitable data checks been performed</span></label><label><input type="radio" autocomplete="off" name="radio_GWLCFNFQTZ" value=""> <span>Are the data representative of what we are aiming to investigate</span></label><label><input type="radio" autocomplete="off" name="radio_GWLCFNFQTZ" value=""> <span>The analysis should be done professionally. We must not involve our personal views to influence our analysis and conclusions</span></label><label><input type="radio" autocomplete="off" name="radio_GWLCFNFQTZ" value=""> <span>Do we need authorization from the person collecting the data before we can use it</span></label>
+<div id="radio_SPJPMAQLGZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SPJPMAQLGZ" value=""> <span>Is the data reliable and have suitable data checks been performed</span></label><label><input type="radio" autocomplete="off" name="radio_SPJPMAQLGZ" value="answer"> <span>Background information is not needed before analyzing a new data set – it's only the numbers that matter</span></label><label><input type="radio" autocomplete="off" name="radio_SPJPMAQLGZ" value=""> <span>Do we need authorization from the person collecting the data before we can use it</span></label><label><input type="radio" autocomplete="off" name="radio_SPJPMAQLGZ" value=""> <span>The analysis should be done professionally. We must not involve our personal views to influence our analysis and conclusions</span></label><label><input type="radio" autocomplete="off" name="radio_SPJPMAQLGZ" value=""> <span>Are the data representative of what we are aiming to investigate</span></label>
 </div></li>
 </ol>
 </div>
@@ -751,10 +835,14 @@ F_{12} = \frac{157304/1}{658771/21} = 5.0145,
 </section>
 <section id="sec-typesnormalvariable" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="sec-typesnormalvariable"><span class="header-section-number">2.3</span> Types of normal linear model</h2>
-<p>Here we consider how normal linear models can be set up for different types of explanatory variable. The dependent variable <span class="math inline">\(y\)</span> is modelled as a linear combination of <span class="math inline">\(p\)</span> explanatory variables <span class="math inline">\(\mathbf{x} =(x_1, x_2,\ldots, x_p)\)</span> plus a random error <span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>, where ‘~’ means ‘is distributed as’. Several models are of this kind, depending on the number and type of explanatory variables. <a href="#tbl-linear_models">Table&nbsp;<span>2.2</span></a> lists some types of normal linear models with their explanatory variable types.</p>
-<div id="tbl-linear_models" class="anchored">
-<table class="table">
-<caption>Table&nbsp;2.2: Types of normal linear model and their explanatory variable types where indicator function <span class="math inline">\(I(x=j)=1\)</span> if <span class="math inline">\(x=j\)</span> and <span class="math inline">\(0\)</span> otherwise. </caption>
+<p>Here we consider how normal linear models can be set up for different types of explanatory variable. The dependent variable <span class="math inline">\(y\)</span> is modelled as a linear combination of <span class="math inline">\(p\)</span> explanatory variables <span class="math inline">\(\mathbf{x} =(x_1, x_2,\ldots, x_p)\)</span> plus a random error <span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>, where ‘~’ means ‘is distributed as’. Several models are of this kind, depending on the number and type of explanatory variables. <a href="#tbl-linear_models" class="quarto-xref">Table&nbsp;<span>2.2</span></a> lists some types of normal linear models with their explanatory variable types.</p>
+<div id="tbl-linear_models" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-linear_models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.2: Types of normal linear model and their explanatory variable types where indicator function <span class="math inline">\(I(x=j)=1\)</span> if <span class="math inline">\(x=j\)</span> and <span class="math inline">\(0\)</span> otherwise.
+</figcaption>
+<div aria-describedby="tbl-linear_models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 26%">
 <col style="width: 27%">
@@ -794,10 +882,16 @@ F_{12} = \frac{157304/1}{658771/21} = 5.0145,
 </tbody>
 </table>
 </div>
-<p>For the two-sample t-test model<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, observations in the two groups have means <span class="math inline">\(\alpha+\beta_1\)</span> and <span class="math inline">\(\alpha + \beta_2\)</span> . Notice, however, that we have three parameters with only two group sample means and hence parameter estimation is not possible. To avoid this identification problem, we either impose a ‘corner’ constraint: <span class="math inline">\(\beta_1=0\)</span> and then <span class="math inline">\(\beta_2\)</span> represents the difference in the Group 2 mean relative to a baseline of Group <span class="math inline">\(1\)</span>. Alternatively, we may impose a ‘sum-to-zero’ constraint: <span class="math inline">\(\beta_1+ \beta_2 =0\)</span>, the values <span class="math inline">\(\beta_1=-\beta_2\)</span> then give differences in the groups means relative to the overall mean. <a href="#tbl-ttest">Table&nbsp;<span>2.3</span></a> shows the effect of the parameter constraint on the group means.</p>
-<div id="tbl-ttest" class="anchored">
-<table class="table">
-<caption>Table&nbsp;2.3: Parameters in the two-sample t-test model after imposing parameter constraint to avoid the identification problem.</caption>
+</figure>
+</div>
+<p>For the two-sample t-test model<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, observations in the two groups have means <span class="math inline">\(\alpha+\beta_1\)</span> and <span class="math inline">\(\alpha + \beta_2\)</span> . Notice, however, that we have three parameters with only two group sample means and hence parameter estimation is not possible. To avoid this identification problem, we either impose a ‘corner’ constraint: <span class="math inline">\(\beta_1=0\)</span> and then <span class="math inline">\(\beta_2\)</span> represents the difference in the Group 2 mean relative to a baseline of Group <span class="math inline">\(1\)</span>. Alternatively, we may impose a ‘sum-to-zero’ constraint: <span class="math inline">\(\beta_1+ \beta_2 =0\)</span>, the values <span class="math inline">\(\beta_1=-\beta_2\)</span> then give differences in the groups means relative to the overall mean. <a href="#tbl-ttest" class="quarto-xref">Table&nbsp;<span>2.3</span></a> shows the effect of the parameter constraint on the group means.</p>
+<div id="tbl-ttest" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ttest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.3: Parameters in the two-sample t-test model after imposing parameter constraint to avoid the identification problem.
+</figcaption>
+<div aria-describedby="tbl-ttest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: center;">Constraint</th>
@@ -819,11 +913,13 @@ F_{12} = \frac{157304/1}{658771/21} = 5.0145,
 </tbody>
 </table>
 </div>
+</figure>
+</div>
 <p>For the general one-way ANOVA model with <span class="math inline">\(k\)</span> groups, observations in Group <span class="math inline">\(j\)</span> have mean <span class="math inline">\(\alpha + \delta_j\)</span> , for <span class="math inline">\(j =1, \ldots, k\)</span> – that leads to <span class="math inline">\(k + 1\)</span> parameters describing <span class="math inline">\(k\)</span> group means. Again we can impose the ‘corner’ constraint: <span class="math inline">\(\delta_1 = 0\)</span> and then <span class="math inline">\(\delta_j\)</span> represents the difference in means between Group <span class="math inline">\(j\)</span> and the baseline Group <span class="math inline">\(1\)</span>. Alternatively, we may impose a ‘sum-to-zero’ constraint:<span class="math inline">\(\sum_{j=1}^k \delta_j =0\)</span> and again <span class="math inline">\((\delta_1, \delta_2,\dots,\delta_k)\)</span> then represents an individual group effect relative to the overall data mean.</p>
 </section>
 <section id="sec-matrix" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="sec-matrix"><span class="header-section-number">2.4</span> Matrix representation of linear models</h2>
-<p>All of the models in Table <a href="#tbl-linear_models">Table&nbsp;<span>2.2</span></a> can be fitted by least squares (OLS). To describe this, a matrix formulation will be most convenient:</p>
+<p>All of the models in Table <a href="#tbl-linear_models" class="quarto-xref">Table&nbsp;<span>2.2</span></a> can be fitted by least squares (OLS). To describe this, a matrix formulation will be most convenient:</p>
 <p><span id="eq-matrix-linear-model"><span class="math display">\[
 \mathbf{Y} = X\boldsymbol{\beta}+\boldsymbol{\epsilon}
 \tag{2.4}\]</span></span></p>
@@ -836,7 +932,7 @@ F_{12} = \frac{157304/1}{658771/21} = 5.0145,
 </ul>
 <p>Creating the design matrix is a key part of the modelling as it describes the important structure of investigation or experiment. The design matrix can be constructed by the following process.</p>
 <ol type="1">
-<li><p>Begin with an <span class="math inline">\(X\)</span> containing only one column: a vector of ones for the overall mean or intercept term (the <span class="math inline">\(\alpha\)</span> in <a href="#tbl-linear_models">Table&nbsp;<span>2.2</span></a>).</p></li>
+<li><p>Begin with an <span class="math inline">\(X\)</span> containing only one column: a vector of ones for the overall mean or intercept term (the <span class="math inline">\(\alpha\)</span> in <a href="#tbl-linear_models" class="quarto-xref">Table&nbsp;<span>2.2</span></a>).</p></li>
 <li><p>For each explanatory variable <span class="math inline">\(x_j\)</span>, do the following:</p>
 <ol type="a">
 <li>If a variable <span class="math inline">\(x_j\)</span> is quantitative, add a column to <span class="math inline">\(X\)</span> containing the values of <span class="math inline">\(x_j.\)</span></li>
@@ -915,7 +1011,7 @@ X=\begin{bmatrix}
 \vdots\\
 \epsilon_n
 \end{bmatrix}.
-\]</span> The <span class="math inline">\(i\)</span>th row of <a href="#eq-simple-linear">Equation&nbsp;<span>2.6</span></a> has the same meaning as <a href="#eq-linear-data">Equation&nbsp;<span>2.5</span></a>: <span class="math display">\[
+\]</span> The <span class="math inline">\(i\)</span>th row of <a href="#eq-simple-linear" class="quarto-xref">Equation&nbsp;<span>2.6</span></a> has the same meaning as <a href="#eq-linear-data" class="quarto-xref">Equation&nbsp;<span>2.5</span></a>: <span class="math display">\[
 y_i = 1\times \beta_1 + x_i\times \beta_2 +\epsilon_i = \alpha+\beta x_i +\epsilon_i,  \hspace{2mm} \text{for } i=1,2,\dots,n.
 \]</span><br>
 </p>
@@ -960,11 +1056,11 @@ X=\begin{bmatrix}
 <div class="webex-check">
 <p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
 <ol type="1">
-<li><p>What is the dimension of the design matrix? <select class="webex-select"><option value="blank"></option><option value="">2</option><option value="">p by 1</option><option value="">n by 1</option><option value="">X</option><option value="answer">n by p</option></select></p></li>
-<li><p>What is the distribution of the error term? <select class="webex-select"><option value="blank"></option><option value="">mean zero</option><option value="answer">normal</option><option value="">n by 1</option><option value="">IDD</option><option value="">random variable</option></select></p></li>
-<li><p>Which quantity represents the model parameters? <select class="webex-select"><option value="blank"></option><option value="answer">beta</option><option value="">n</option><option value="">epsilon</option><option value="">X</option><option value="">Y</option></select></p></li>
-<li><p>Which two terms in the model have the same dimensions? <select class="webex-select"><option value="blank"></option><option value="">Y and beta</option><option value="answer">Y and epsilon</option><option value="">beta and epsilon</option><option value="">X and beta</option><option value="">Y and X</option></select></p></li>
-<li><p>Which of the following is a potential problem when using qualitative variables? <select class="webex-select"><option value="blank"></option><option value="">X is not square</option><option value="">X can be negative</option><option value="answer">X is singular</option><option value="">X is full rank</option><option value="">X can be zero</option></select></p></li>
+<li><p>What is the dimension of the design matrix? <select class="webex-select"><option value="blank"></option><option value="">2</option><option value="">p by 1</option><option value="">X</option><option value="">n by 1</option><option value="answer">n by p</option></select></p></li>
+<li><p>What is the distribution of the error term? <select class="webex-select"><option value="blank"></option><option value="">IDD</option><option value="">random variable</option><option value="answer">normal</option><option value="">n by 1</option><option value="">mean zero</option></select></p></li>
+<li><p>Which quantity represents the model parameters? <select class="webex-select"><option value="blank"></option><option value="">Y</option><option value="">epsilon</option><option value="">X</option><option value="">n</option><option value="answer">beta</option></select></p></li>
+<li><p>Which two terms in the model have the same dimensions? <select class="webex-select"><option value="blank"></option><option value="">beta and epsilon</option><option value="">Y and beta</option><option value="">Y and X</option><option value="">X and beta</option><option value="answer">Y and epsilon</option></select></p></li>
+<li><p>Which of the following is a potential problem when using qualitative variables? <select class="webex-select"><option value="blank"></option><option value="">X is not square</option><option value="">X can be zero</option><option value="">X is full rank</option><option value="answer">X is singular</option><option value="">X can be negative</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -975,7 +1071,7 @@ X=\begin{bmatrix}
 <p><span class="math inline">\(\texttt{grade = as.factor(grade)}\)</span></p>
 <p>A convenient model-specification notation has been developed from which the design matrix <span class="math inline">\(X\)</span> can be constructed. Below, <span class="math inline">\(E, F, \ldots\)</span> denote generic quantitative (continuous) or qualitative (categorical) variables. Terms in this notation may take the following forms:</p>
 <ol type="a">
-<li><p><span class="math inline">\(1\)</span> : a column of 1’s to accommodate an intercept term (the <span class="math inline">\(\alpha\)</span>’s of <a href="#tbl-linear_models">Table&nbsp;<span>2.2</span></a> ). This is included in the model by default.</p></li>
+<li><p><span class="math inline">\(1\)</span> : a column of 1’s to accommodate an intercept term (the <span class="math inline">\(\alpha\)</span>’s of <a href="#tbl-linear_models" class="quarto-xref">Table&nbsp;<span>2.2</span></a> ). This is included in the model by default.</p></li>
 <li><p><span class="math inline">\(E\)</span> : variable <span class="math inline">\(E\)</span> is included in the model. The design matrix includes <span class="math inline">\(k_E\)</span> columns for <span class="math inline">\(E\)</span>. If <span class="math inline">\(E\)</span> is quantitative, <span class="math inline">\(k_E = 1\)</span>. If E is qualitative, <span class="math inline">\(k_E\)</span> is the number of levels of <span class="math inline">\(E\)</span> minus 1.</p></li>
 <li><p><span class="math inline">\(E +F\)</span> : both <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span> are included the model. The design matrix includes <span class="math inline">\(k_E +k_F\)</span> columns accordingly.</p></li>
 <li><p><span class="math inline">\(E : F\)</span> (sometimes <span class="math inline">\(E \cdot F\)</span>) : the model includes an interaction between <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span>; each column that would be included for <span class="math inline">\(E\)</span> is multiplied by each column for <span class="math inline">\(F\)</span> in turn. The design matrix includes <span class="math inline">\(k_E \times k_F\)</span> columns accordingly.</p></li>
@@ -1010,11 +1106,11 @@ X=\begin{bmatrix}
 <div class="webex-check">
 <p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
 <ol type="1">
-<li><p>What <strong>R</strong> command can be used to covert numerical values into a nominal variable? <select class="webex-select"><option value="blank"></option><option value="">as.numerical</option><option value="">as.nominal</option><option value="">as.ordinal</option><option value="answer">as.factor</option><option value="">factorial</option></select></p></li>
-<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, but without an interaction? <select class="webex-select"><option value="blank"></option><option value="">V1 + V2 ~ Y</option><option value="">Y ~ V1 + V2 + V1:V2</option><option value="">Y ~ V1*V2</option><option value="">Y ~ V1:V2</option><option value="answer">Y ~ V1 + V2</option></select></p></li>
-<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, including a constant and an interaction? <select class="webex-select"><option value="blank"></option><option value="answer">Y ~ V1*V2</option><option value="">Y ~ 1+V1:V2</option><option value="">Y ~ 1+V1/V2</option><option value="">Y ~ 1 + V1 + V2</option><option value="">Y ~ V1 + V2 + V1:V2 -1</option></select></p></li>
-<li><p>Which of the following defines a model regression Y on the product of V1 and V2? <select class="webex-select"><option value="blank"></option><option value="">Y ~ poly(V1,V2)</option><option value="">Y ~ V1.V2</option><option value="">Y ~ V1:V2</option><option value="">Y ~ I(V1 + V2)</option><option value="answer">Y ~ I(V1*V2)</option></select></p></li>
-<li><p>Which of the following defines a model where variable Y is regressed on a second-order polynomial in V1? <select class="webex-select"><option value="blank"></option><option value="">Y ~ V1*V1</option><option value="">Y ~ V1^2</option><option value="">Y ~ 1+V1</option><option value="answer">Y ~ poly(V1,2)</option><option value="">Y ~ I(V1)</option></select></p></li>
+<li><p>What <strong>R</strong> command can be used to covert numerical values into a nominal variable? <select class="webex-select"><option value="blank"></option><option value="">factorial</option><option value="">as.nominal</option><option value="">as.ordinal</option><option value="">as.numerical</option><option value="answer">as.factor</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, but without an interaction? <select class="webex-select"><option value="blank"></option><option value="">Y ~ V1*V2</option><option value="answer">Y ~ V1 + V2</option><option value="">V1 + V2 ~ Y</option><option value="">Y ~ V1:V2</option><option value="">Y ~ V1 + V2 + V1:V2</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, including a constant and an interaction? <select class="webex-select"><option value="blank"></option><option value="">Y ~ 1 + V1 + V2</option><option value="">Y ~ 1+V1/V2</option><option value="">Y ~ 1+V1:V2</option><option value="">Y ~ V1 + V2 + V1:V2 -1</option><option value="answer">Y ~ V1*V2</option></select></p></li>
+<li><p>Which of the following defines a model regression Y on the product of V1 and V2? <select class="webex-select"><option value="blank"></option><option value="">Y ~ poly(V1,V2)</option><option value="">Y ~ I(V1 + V2)</option><option value="">Y ~ V1.V2</option><option value="answer">Y ~ I(V1*V2)</option><option value="">Y ~ V1:V2</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on a second-order polynomial in V1? <select class="webex-select"><option value="blank"></option><option value="">Y ~ I(V1)</option><option value="">Y ~ V1*V1</option><option value="">Y ~ 1+V1</option><option value="answer">Y ~ poly(V1,2)</option><option value="">Y ~ V1^2</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -1024,7 +1120,7 @@ X=\begin{bmatrix}
 <p>A commonly used command for fitting a linear model in <strong>R</strong> is<span class="math display">\[\texttt{lm(formula)}.\]</span></p>
 <p>Let <span class="math inline">\(\texttt{x,y,z,a,b} \dots\)</span> represent <strong>R</strong> vectors, all of the same length <span class="math inline">\(n\)</span> (perhaps read in from a data file using the <span class="math inline">\(\texttt{read.table}\)</span> and <span class="math inline">\(\texttt{attach}\)</span> commands).<br>
 If <span class="math inline">\(\texttt{a,b}\)</span> are qualitative variables, then they first need to be declared as factors by <span class="math inline">\(\texttt{a = as.factor(a)}\)</span>, etc.</p>
-<p>The <span class="math inline">\(\texttt{formula}\)</span> argument of <span class="math inline">\(\texttt{lm}\)</span> specifies the required model in compact notation, e.g.&nbsp;<span class="math inline">\(\texttt{y} \sim \texttt{x+z}\)</span> or <span class="math inline">\(\texttt{y} \sim \texttt{x + z*a}\)</span> where <span class="math inline">\(\sim, \texttt{+,*}\)</span> have the same meaning as in <a href="#sec-shorthand"><span>Section&nbsp;2.5</span></a>.</p>
+<p>The <span class="math inline">\(\texttt{formula}\)</span> argument of <span class="math inline">\(\texttt{lm}\)</span> specifies the required model in compact notation, e.g.&nbsp;<span class="math inline">\(\texttt{y} \sim \texttt{x+z}\)</span> or <span class="math inline">\(\texttt{y} \sim \texttt{x + z*a}\)</span> where <span class="math inline">\(\sim, \texttt{+,*}\)</span> have the same meaning as in <a href="#sec-shorthand" class="quarto-xref"><span>Section 2.5</span></a>.</p>
 <p>To extract information about a fitted linear model, it is best to store the result of <span class="math inline">\(\texttt{lm}\)</span> as a variable and then to use the following functions:</p>
 <ul>
 <li>To fit a linear model and store the result in <span class="math inline">\(\texttt{my.lm}\)</span> (for example):<br>
@@ -1048,7 +1144,7 @@ If <span class="math inline">\(\texttt{a,b}\)</span> are qualitative variables, 
 <p><strong>Example of fitting a linear model in R</strong></p>
 <p>Here is a toy example of <strong>R</strong> commands for modelling a response in terms of one quantitative explanatory variable.</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">273686</span>) <span class="co"># for reproducibility</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1083,8 +1179,8 @@ Multiple R-squared:  0.9215,    Adjusted R-squared:  0.9198
 F-statistic: 563.1 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<div>
-<details open="">
+<div class="cell" data-layout="[[1,1]]">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust plot layout</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
@@ -1111,52 +1207,72 @@ F-statistic: 563.1 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare residuals with normal distribution</span></span>
 <span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(my.lm<span class="sc">$</span>residuals, <span class="at">main=</span><span class="st">""</span>); <span class="fu">qqline</span>(my.lm<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-toy" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-toy-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-toy-1.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672"></p>
-<figcaption class="figure-caption">(a) Data and fitted model</figcaption>
+<div id="fig-toy" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-toy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-toy-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-toy-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-toy-1.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-toy-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Data and fitted model
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-toy-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-toy-2.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672"></p>
-<figcaption class="figure-caption">(b) Residual plot</figcaption>
-</figure>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-toy-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-toy-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-toy-2.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
 </div>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-toy-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-toy-3.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672"></p>
-<figcaption class="figure-caption">(c) Histogram of residuals</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-toy-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/fig-toy-4.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672"></p>
-<figcaption class="figure-caption">(d) Normal distribution QQ plot</figcaption>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-toy-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Residual plot
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2.5: Illustration of model fitting on a toy example</figcaption><p></p>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-toy-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-toy-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-toy-3.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-toy-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Histogram of residuals
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-toy-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-toy-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-toy-4.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-toy-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Normal distribution QQ plot
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-toy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.5: Illustration of model fitting on a toy example
+</figcaption>
 </figure>
 </div>
 </div>
 <p>A scatter plot of the data indicates that a linear model would be appropriate and the resulting fitted linear regression describes the data well. A residual plot shows that all residuals are within two standard deviations of zero, with the histogram showing a symmetric distribution and a QQ plot supporting normality of the residuals. All these diagnostic plots support that the model fits well.</p>
 <p>Finally, we may wish to predict values of the response variable at new values of the response variable, for example at <span class="math inline">\(x=4\)</span> and <span class="math inline">\(x=6\)</span> – notice that the values of the explanatory variable must be converted into a <strong>R</strong> <span class="math inline">\(\texttt{data.frame}\)</span>:</p>
 <div class="cell">
-<details open="">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the fitted model for prediction, at say x=4 and x=6</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(my.lm, <span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1211,7 +1327,11 @@ Click here to see hints.
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" style="width:70.0%"></p>
+<div>
+<figure class="figure">
+<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+</figure>
+</div>
 </div>
 </div>
 <ol start="2" type="a">
@@ -1219,7 +1339,11 @@ Click here to see hints.
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" style="width:70.0%"></p>
+<div>
+<figure class="figure">
+<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+</figure>
+</div>
 </div>
 </div>
 <ol start="3" type="a">
@@ -1227,7 +1351,11 @@ Click here to see hints.
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" style="width:70.0%"></p>
+<div>
+<figure class="figure">
+<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+</figure>
+</div>
 </div>
 </div>
 <ol start="4" type="a">
@@ -1235,7 +1363,11 @@ Click here to see hints.
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" style="width:70.0%"></p>
+<div>
+<figure class="figure">
+<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+</figure>
+</div>
 </div>
 </div>
 2.2. An extra model which could have been considered for the Birth weight data example would be one that says that <span class="math inline">\(\texttt{Weight}\)</span> is different for girls and boys, but does not depend on gestational age. Investigate this model.
@@ -1262,9 +1394,13 @@ Click here to see hints.
 <li>A primary school head teaching wishes to investigate the relationship between social skills of children and the ages of their brothers and sisters. The hypothesis is that those with older siblings will be better able to deal with social interaction. The file <em>siblings.csv</em> contains data on the age of the eldest sibling of a class of 6-year old school children along with a <em>social skills</em> score for each child assessed during the school lunch break. Model the relationship between sibling age and social skills.</li>
 </ol>
 <p>2.4. In an experiment to investigate Ohm’s Law, <span class="math inline">\(V=IR\)</span> where <span class="math inline">\(V\)</span> is Voltage, I is current and <span class="math inline">\(R\)</span> is resistance of the material, the following data<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> were recorded:</p>
-<div id="tbl-ohmslawdata" class="anchored">
-<table class="table">
-<caption>Table&nbsp;2.4: Experimental verification of Ohm’s Law</caption>
+<div id="tbl-ohmslawdata" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ohmslawdata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.4: Experimental verification of Ohm’s Law
+</figcaption>
+<div aria-describedby="tbl-ohmslawdata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <tbody>
 <tr class="odd">
 <td>Voltage (Volts)</td>
@@ -1291,6 +1427,8 @@ Click here to see hints.
 </tbody>
 </table>
 </div>
+</figure>
+</div>
 Does this data support Ohm’s Law? What is the resistance of the material used?
 <div class="webex-solution">
 <button>
@@ -1299,9 +1437,13 @@ Click here to see hints.
 <p>There is no data file prepared for this and so create your own variables, then perform a linear regression. Comment on the quality of fit. Note that Ohm’s Law is a linear function but without intercept and that the resistance is a constant multiplying the current.</p>
 </div>
 <p>2.5 In an investigation<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> into the effect of eating on pulse rate, 6 men and 6 women were tested before and after a meal, with the following results:</p>
-<div id="tbl-pulserate" class="anchored">
-<table class="table">
-<caption>Table&nbsp;2.5: At rest pulse rate before and after a meal for men and women </caption>
+<div id="tbl-pulserate" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pulserate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.5: At rest pulse rate before and after a meal for men and women
+</figcaption>
+<div aria-describedby="tbl-pulserate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <tbody>
 <tr class="odd">
 <td>Men</td>
@@ -1346,6 +1488,8 @@ Click here to see hints.
 </tbody>
 </table>
 </div>
+</figure>
+</div>
 <p>Suggest a suitable model for this situation and write down the corresponding design matrix. Calculate the parameter estimates using the matrix regression estimation equation.</p>
 Perform an appropriate analysis in R to find out if there is evidence to suggest that the change in pulse rate due to a meal is the same for men and women.
 <div class="webex-solution">
@@ -1365,19 +1509,9 @@ Click here to see hints.
 <p>Beware! This example has categorical explanatory variables and so don’t forget to use <em>as.factor</em>. After that you need to carefully form the model in the <em>lm</em> command and interpret the ANOVA table.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><a href="https://richardpmann.com/MATH3823/Solutions_2.html">Exercise 2 Solutions can be found here.</a></p>
-</div>
-</div>
+<!-- ::: {.callout-note appearance="default"} -->
+<!-- [Exercise 2 Solutions can be found here.](https://richardpmann.com/MATH3823/Solutions_2.html) -->
+<!-- ::: -->
 
 
 </section>
@@ -1634,18 +1768,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1677,11 +1800,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1691,8 +1853,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1704,7 +1875,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1748,6 +2042,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1773,6 +2068,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1834,17 +2155,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./1_intro.html" class="pagination-link">
+      <a href="./1_intro.html" class="pagination-link" aria-label="Introduction">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./3_GLM-Theory.html" class="pagination-link">
+      <a href="./3_GLM-Theory.html" class="pagination-link" aria-label="GLM Theory">
         <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GLM Theory</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

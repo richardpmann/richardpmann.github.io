@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MATH3823 Generalised Linear Models - 1&nbsp; Introduction</title>
+<title>1&nbsp; Introduction – MATH3823 Generalised Linear Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +81,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,14 +96,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="webex.css">
 </head>
@@ -108,13 +142,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -123,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MATH3823 Generalised Linear Models</a> 
@@ -193,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -228,7 +262,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <div class="hidden">
 <p><span class="math display">\[
@@ -247,7 +283,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Loglinear models, including contingency tables.</li>
 </ol>
 <!-- ::: callout-important -->
-
 <!-- This module will make extensive use of $\mathbf{R}$ and hence it is very important that you are comfortable with its use. If you need some revision, then material is available on Minerva under *RStudio Support*. -->
 <!-- ::: -->
 <div class="callout callout-style-default callout-important callout-titled">
@@ -281,10 +316,14 @@ Important
 </section>
 <section id="motivating-example" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="motivating-example"><span class="header-section-number">1.2</span> Motivating example</h2>
-<p><a href="#tbl-beetle-data">Table&nbsp;<span>1.1</span></a> shows data<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> on the number of beetles killed by five hours of exposure to 8 different concentrations of gaseous carbon disulphide.</p>
-<div id="tbl-beetle-data" class="anchored">
-<table class="table">
-<caption>Table&nbsp;1.1: Numbers of beetles killed by five hours of exposure to 8 different concentrations of gaseous carbon disulphide</caption>
+<p><a href="#tbl-beetle-data" class="quarto-xref">Table&nbsp;<span>1.1</span></a> shows data<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> on the number of beetles killed by five hours of exposure to 8 different concentrations of gaseous carbon disulphide.</p>
+<div id="tbl-beetle-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-beetle-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.1: Numbers of beetles killed by five hours of exposure to 8 different concentrations of gaseous carbon disulphide
+</figcaption>
+<div aria-describedby="tbl-beetle-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 16%">
 <col style="width: 22%">
@@ -344,9 +383,10 @@ Important
 </tbody>
 </table>
 </div>
-<p><a href="#fig-beetle-fitted-1">Figure&nbsp;<span>1.1 (a)</span></a> shows the same data with a linear regression line superimposed. Although this line goes close to the plotted points, we can see some fluctuations around it. More seriously, this is a stupid model: it would predict a mortality rate of greater than 100% at a dose of 1.9 units, and a negative mortality rate at 1.65 units!</p>
-<div>
-<details>
+</figure>
+</div>
+<p><a href="#fig-beetle-fitted-1" class="quarto-xref">Figure&nbsp;<span>1.1 (a)</span></a> shows the same data with a linear regression line superimposed. Although this line goes close to the plotted points, we can see some fluctuations around it. More seriously, this is a stupid model: it would predict a mortality rate of greater than 100% at a dose of 1.9 units, and a negative mortality rate at 1.65 units!</p>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -377,31 +417,42 @@ Important
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>fitted <span class="ot">=</span> <span class="fu">predict</span>(glm.fit, <span class="fu">data.frame</span>(<span class="at">dose=</span>output.dose), <span class="at">type=</span><span class="st">"response"</span>)</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(output.dose, fitted, <span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-beetle-fitted" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-beetle-fitted-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_intro_files/figure-html/fig-beetle-fitted-1.png" class="img-fluid figure-img" data-ref-parent="fig-beetle-fitted" width="672"></p>
-<figcaption class="figure-caption">(a) Linear model</figcaption>
+<div id="fig-beetle-fitted" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-beetle-fitted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-beetle-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-beetle-fitted-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-beetle-fitted-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_intro_files/figure-html/fig-beetle-fitted-1.png" class="img-fluid figure-img" data-ref-parent="fig-beetle-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-beetle-fitted-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Linear model
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-beetle-fitted-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_intro_files/figure-html/fig-beetle-fitted-2.png" class="img-fluid figure-img" data-ref-parent="fig-beetle-fitted" width="672"></p>
-<figcaption class="figure-caption">(b) Logistic model</figcaption>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-beetle-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-beetle-fitted-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-beetle-fitted-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_intro_files/figure-html/fig-beetle-fitted-2.png" class="img-fluid figure-img" data-ref-parent="fig-beetle-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-beetle-fitted-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Logistic model
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1.1: Beetle mortality rates with fitted dose- response curves.</figcaption><p></p>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-beetle-fitted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Beetle mortality rates with fitted dose- response curves.
+</figcaption>
 </figure>
 </div>
-</div>
-<p>A more sensible dose–response relationship for the beetle mortality data might be based on the <em>logistic</em> function (to be defined later), as plotted in <a href="#fig-beetle-fitted-2">Figure&nbsp;<span>1.1 (b)</span></a>. The resulting curve is a closer, more-sensible, fit. Later in this module we will see how this curve was fitted using maximum likelihood estimation for an appropriate generalised linear model.</p>
+<p>A more sensible dose–response relationship for the beetle mortality data might be based on the <em>logistic</em> function (to be defined later), as plotted in <a href="#fig-beetle-fitted-2" class="quarto-xref">Figure&nbsp;<span>1.1 (b)</span></a>. The resulting curve is a closer, more-sensible, fit. Later in this module we will see how this curve was fitted using maximum likelihood estimation for an appropriate generalised linear model.</p>
 <p>This is an example of a dose-response experiment which are widely used in medical and pharmaceutical situations.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -475,18 +526,22 @@ y_i = \alpha+\beta x_i +\epsilon_i
 RSS(\alpha, \beta) = \sum_{i=1}^n \left(y_i-(\alpha+\beta x_i)\right)^2.
 \tag{1.1}\]</span></span></p>
 <p>This measures how close the data points are around the regression line and hence the resulting estimates, <span class="math inline">\(\hat\alpha\)</span> and <span class="math inline">\(\hat\beta\)</span>, will give us a fitted regression line which is <em>closest</em> to the data.</p>
-<p><a href="#fig-regression2">Figure&nbsp;<span>1.2</span></a> illustrates this process. The data points are fixed but we are free to choose values for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, that is to move the line up and down and to rotate it as needed. In general, the data points, however, do not sit exactly on any line. For any values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> the value on the line <span class="math inline">\(y=\alpha+\beta x\)</span> can be calculated and the discrepancy, as measured in the vertical direction, is defined as the residual, <span class="math inline">\(r_i=y_i-\left(\alpha+\beta x_i\right)\)</span>. Then, the residual sum of squares is formed as the sum of the squares of these individual residuals.</p>
+<p><a href="#fig-regression2" class="quarto-xref">Figure&nbsp;<span>1.2</span></a> illustrates this process. The data points are fixed but we are free to choose values for <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, that is to move the line up and down and to rotate it as needed. In general, the data points, however, do not sit exactly on any line. For any values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> the value on the line <span class="math inline">\(y=\alpha+\beta x\)</span> can be calculated and the discrepancy, as measured in the vertical direction, is defined as the residual, <span class="math inline">\(r_i=y_i-\left(\alpha+\beta x_i\right)\)</span>. Then, the residual sum of squares is formed as the sum of the squares of these individual residuals.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-regression2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_intro_files/figure-html/fig-regression2-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;1.2: Diagram showing linear regression method</figcaption>
+<div id="fig-regression2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-regression2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_intro_files/figure-html/fig-regression2-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-regression2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Diagram showing linear regression method
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>It can be shown that <a href="#eq-RSS">Equation&nbsp;<span>1.1</span></a> takes its minimum when the parameters are given by</p>
+<p>It can be shown that <a href="#eq-RSS" class="quarto-xref">Equation&nbsp;<span>1.1</span></a> takes its minimum when the parameters are given by</p>
 <p><span id="eq-simple_estimation"><span class="math display">\[
 \hat\alpha = \bar y -\hat\beta\bar x, \quad \mbox{and} \quad
 \hat\beta = \frac{s_{xy}}{s^2_x}
@@ -499,14 +554,14 @@ s_{xy}=\frac{1}{n-1}\sum_{i=1}^n (x_i-\bar x)(y_i-\bar y)
 <p><span class="math display">\[
 s^2_x = \frac{1}{n-1} \sum_{i=1}^n (x_i-\bar x)^2
 \]</span></p>
-<p>is the sample variance of the <span class="math inline">\(x\)</span> values. It can be shown that these estimators are unbiased, that is <span class="math inline">\(\mbox{E}[\hat\alpha]=\alpha\)</span> and <span class="math inline">\(\mbox{E}[\hat\beta]=\beta\)</span> – see <a href="#sec-exercises1"><span>Section&nbsp;1.5</span></a>.</p>
+<p>is the sample variance of the <span class="math inline">\(x\)</span> values. It can be shown that these estimators are unbiased, that is <span class="math inline">\(\mbox{E}[\hat\alpha]=\alpha\)</span> and <span class="math inline">\(\mbox{E}[\hat\beta]=\beta\)</span> – see <a href="#sec-exercises1" class="quarto-xref"><span>Section 1.5</span></a>.</p>
 <p>The fitted regression lines is then given by <span class="math inline">\(\hat y = \hat \alpha +\hat \beta x\)</span>, the fitted values by <span class="math inline">\(\hat y_i = \hat \alpha +\hat \beta x_i\)</span>, and the model residuals by <span class="math inline">\(r_i= \hat \epsilon_i= y_i-\hat y_i\)</span> for all <span class="math inline">\(i\in \{1,\dots,n\}.\)</span></p>
 <p>To complete the model fitting, we also estimate the error variance, <span class="math inline">\(\sigma^2\)</span>, using <span id="eq-simple-variance"><span class="math display">\[
 \hat \sigma^2 = \frac{1}{n-2} \sum _{i=1}^n r_i^2.
 \tag{1.3}\]</span></span></p>
 <p>Note that, by construction, <span class="math inline">\(\bar r=0\)</span> and, further, it can be shown that <span class="math inline">\(\hat \sigma^2\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span>, that is <span class="math inline">\(\mbox{E}[\hat\sigma^2]=\sigma^2\)</span>.</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">=</span> <span class="fu">mean</span>(dose)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ybar <span class="ot">=</span> <span class="fu">mean</span>(mortality)</span>
@@ -522,7 +577,7 @@ s^2_x = \frac{1}{n-1} \sum_{i=1}^n (x_i-\bar x)^2
 <p>Returning to the above beetle data example, we have <span class="math inline">\(\hat\alpha=\)</span>-8.947843, <span class="math inline">\(\hat\beta=\)</span> 5.324937, and <span class="math inline">\(\hat \sigma^2 =\)</span> 0.0075151.</p>
 <p>We will interpret the output later, but in <span class="math inline">\(\b{R}\)</span>, the fitting can be done with a single command with corresponding fitting output from a second command:</p>
 <div class="cell">
-<details>
+<details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lm.fit <span class="ot">=</span> <span class="fu">lm</span>(mortality <span class="sc">~</span> dose)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -639,15 +694,15 @@ beetle = read.table(“https://richardpmann.com/MATH3823/Datasets/beetle.txt”,
 </div>
 </div>
 <div class="webex-box">
-1.1 Consider again the beetle data in <a href="#tbl-beetle-data">Table&nbsp;<span>1.1</span></a>. Perform the calculations by hand and then check the answers using <span class="math inline">\(\b{R}\)</span> – a copy of the data is available in the file beetle.txt. Finally plot the fitted regression line on a scatter plot of the data.
+1.1 Consider again the beetle data in <a href="#tbl-beetle-data" class="quarto-xref">Table&nbsp;<span>1.1</span></a>. Perform the calculations by hand and then check the answers using <span class="math inline">\(\b{R}\)</span> – a copy of the data is available in the file beetle.txt. Finally plot the fitted regression line on a scatter plot of the data.
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
-<p>See the code chunk used to produce <a href="#fig-beetle-fitted">Figure&nbsp;<span>1.1</span></a>.</p>
+<p>See the code chunk used to produce <a href="#fig-beetle-fitted" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>.</p>
 </div>
 <p>1.2 Consider the following synthetic data:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 10%">
 <col style="width: 10%">
@@ -704,7 +759,7 @@ Click here to see hints.
 </button>
 <p>Which is more reliable prediction for a value within the range of the data (interpolation) or outside the range of the data (extrapolation)?</p>
 </div>
-1.3 Starting from <a href="#eq-RSS">Equation&nbsp;<span>1.1</span></a>, derive the estimation equations given in <a href="#eq-simple_estimation">Equation&nbsp;<span>1.2</span></a>. Show that <span class="math inline">\(\hat\alpha\)</span> and <span class="math inline">\(\hat\beta\)</span> are unbiased estimators of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. What can be said about <span class="math inline">\(\hat\sigma^2\)</span> as an estimator of <span class="math inline">\(\sigma^2\)</span>?
+1.3 Starting from <a href="#eq-RSS" class="quarto-xref">Equation&nbsp;<span>1.1</span></a>, derive the estimation equations given in <a href="#eq-simple_estimation" class="quarto-xref">Equation&nbsp;<span>1.2</span></a>. Show that <span class="math inline">\(\hat\alpha\)</span> and <span class="math inline">\(\hat\beta\)</span> are unbiased estimators of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>. What can be said about <span class="math inline">\(\hat\sigma^2\)</span> as an estimator of <span class="math inline">\(\sigma^2\)</span>?
 <div class="webex-solution">
 <button>
 Click here to see hints.
@@ -729,19 +784,9 @@ Click here to see hints.
 <p>Read the data into <span class="math inline">\(\b{R}\)</span> and perform a simple linear regression of the maximum Reynolds number as the response variable and, in turn, each of the other variables as the explanatory variable. Plot the data, with and add the corresponding fitted linear models.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><a href="https://richardpmann.com/MATH3823/Solutions_1.html">Exercise 1 Solutions can be found here.</a></p>
-</div>
-</div>
+<!-- ::: {.callout-note appearance="default"} -->
+<!-- [Exercise 1 Solutions can be found here.](https://richardpmann.com/MATH3823/Solutions_1.html) -->
+<!-- ::: -->
 
 
 </section>
@@ -996,18 +1041,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1039,11 +1073,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1053,8 +1126,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1066,7 +1148,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1110,6 +1315,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1135,6 +1341,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1196,17 +1428,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./0_preface.html" class="pagination-link">
+      <a href="./0_preface.html" class="pagination-link" aria-label="Overview">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./2_linearmodels.html" class="pagination-link">
+      <a href="./2_linearmodels.html" class="pagination-link" aria-label="Essentials of Normal Linear Models">
         <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
