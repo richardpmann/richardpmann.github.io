@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MATH5824 Generalised Linear and Additive Models - 1&nbsp; Non-parametric Modelling</title>
+<title>1&nbsp; Non-parametric Modelling – MATH5824 Generalised Linear and Additive Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -47,7 +47,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,14 +62,42 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="webex.css">
 </head>
@@ -74,13 +108,13 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_introduction.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Non-parametric Modelling</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_introduction.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Non-parametric Modelling</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -89,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">MATH5824 Generalised Linear and Additive Models</a> 
@@ -153,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -191,7 +225,9 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
+
 </header>
+
 
 <div class="hidden">
 <p><span class="math display">\[
@@ -210,10 +246,14 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="motivation" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="motivation"><span class="header-section-number">1.2</span> Motivation</h2>
-<p><a href="#tbl-coalseemdata">Table&nbsp;<span>1.1</span></a> reports on the depth of a coal seam determined by drilling bore holes at regular intervals along a line. The depth <span class="math inline">\(y\)</span> at location <span class="math inline">\(x=6\)</span> is missing: could we estimate it?</p>
-<div id="tbl-coalseemdata" class="anchored">
-<table class="table">
-<caption>Table&nbsp;1.1: Coal-seam depths (in metres) below the land surface at intervals of 1 km along a linear transect.</caption>
+<p><a href="#tbl-coalseemdata" class="quarto-xref">Table&nbsp;<span>1.1</span></a> reports on the depth of a coal seam determined by drilling bore holes at regular intervals along a line. The depth <span class="math inline">\(y\)</span> at location <span class="math inline">\(x=6\)</span> is missing: could we estimate it?</p>
+<div id="tbl-coalseemdata" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-coalseemdata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.1: Coal-seam depths (in metres) below the land surface at intervals of 1 km along a linear transect.
+</figcaption>
+<div aria-describedby="tbl-coalseemdata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 19%">
 <col style="width: 6%">
@@ -260,136 +300,204 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
-<p><a href="#fig-plotCoalseemregress">Figure&nbsp;<span>1.1</span></a> plots these data, superimposed with predictions from several polynomial regression models.</p>
-<div id="fig-plotCoalseemregress" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotCoalseemregress-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotCoalseemregress-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672"></p>
-<figcaption class="figure-caption">(a) Constant model</figcaption>
+</figure>
+</div>
+<p><a href="#fig-plotCoalseemregress" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> plots these data, superimposed with predictions from several polynomial regression models.</p>
+<div class="cell" data-layout="[[1,1],[1,1]]">
+<div id="fig-plotCoalseemregress" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotCoalseemregress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotCoalseemregress" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotCoalseemregress-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotCoalseemregress-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotCoalseemregress-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotCoalseemregress-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Constant model
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotCoalseemregress-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotCoalseemregress-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672"></p>
-<figcaption class="figure-caption">(b) Linear model</figcaption>
-</figure>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotCoalseemregress" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotCoalseemregress-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotCoalseemregress-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotCoalseemregress-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672">
 </div>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotCoalseemregress-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotCoalseemregress-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672"></p>
-<figcaption class="figure-caption">(c) Quadratic model</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotCoalseemregress-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotCoalseemregress-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672"></p>
-<figcaption class="figure-caption">(d) Cubic model</figcaption>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotCoalseemregress-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Linear model
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1.1: The coal-seam data superimposed with predictions from polynomial regression models.</figcaption><p></p>
-</figure>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotCoalseemregress" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotCoalseemregress-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotCoalseemregress-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotCoalseemregress-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672">
 </div>
-<p>Each of these models would predict a different value for the missing observation <span class="math inline">\(y_6.\)</span> We do not know the accuracy of the depth measurements, so in principle any of these curves could be correct. Clearly, the residual variance is largest for the constant-depth model in <a href="#fig-plotCoalseemregress-1">Figure&nbsp;<span>1.1 (a)</span></a>, and smallest for the cubic polynomial in <a href="#fig-plotCoalseemregress-3">Figure&nbsp;<span>1.1 (c)</span></a> – the residual sums of squares are: 6252.5, 5773.05, 4489.84, 4242.89. However, none of these models produces a convincingly good fit. Moreover, these models are not particularly believable, since we know that geological pressures exerted over very long periods of time cause the landscape and its underlying layers of rock to undulate and fracture. This suggests we need a different strategy.</p>
-<p>Next, consider the simulated example in <a href="#fig-plotpeicewise">Figure&nbsp;<span>1.2</span></a>. At first look we might be happy with the fitted curves in <a href="#fig-plotpeicewise-1">Figure&nbsp;<span>1.2 (a)</span></a> or <a href="#fig-plotpeicewise-2">Figure&nbsp;<span>1.2 (b)</span></a>. The data, however, are created with a <em>change-point</em> at <span class="math inline">\(x=0.67\)</span> where the relationship changes from linear with slope <span class="math inline">\(0.6\)</span> to a constant value of <span class="math inline">\(0.75\)</span>. This description is completely lost with these two models.</p>
-<div id="fig-plotpeicewise" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotpeicewise-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotpeicewise-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672"></p>
-<figcaption class="figure-caption">(a) Linear model</figcaption>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotCoalseemregress-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Quadratic model
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotpeicewise-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotpeicewise-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672"></p>
-<figcaption class="figure-caption">(b) Quadratic model</figcaption>
-</figure>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotCoalseemregress" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotCoalseemregress-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotCoalseemregress-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotCoalseemregress-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemregress" width="672">
 </div>
-</div>
-</div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotpeicewise-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotpeicewise-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672"></p>
-<figcaption class="figure-caption">(c) Piecewise linear model</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotpeicewise-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotpeicewise-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672"></p>
-<figcaption class="figure-caption">(d) Cubic smoothing spline</figcaption>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotCoalseemregress-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Cubic model
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1.2: Simulated data superimposed with predictions from various models.</figcaption><p></p>
-</figure>
 </div>
-<p><a href="#fig-plotpeicewise-3">Figure&nbsp;<span>1.2 (c)</span></a> shows the result of fitting one linear function to the data below <span class="math inline">\(0.67\)</span> and a second linear function above. Clearly, this fits well but it has assumed that the change-point location is known – which is unrealistic. Finally, <a href="#fig-plotpeicewise-4">Figure&nbsp;<span>1.2 (d)</span></a> shows a fitted <em>cubic smoothing spline</em> to the data – we will studies these models later. This shows an excellent fit and leads to appropriate conclusions. That is, the relationship is approximately linear for small values, then there is a rapid increase, and finally a near constant value for high values. Of course, this is not exactly as the true relationship with a discontinuity at <span class="math inline">\(x=0.67\)</span> but it would definitely suggest something extreme occurs between about <span class="math inline">\(0.6\)</span> to <span class="math inline">\(0.7\)</span>. Full details will follow later, but the cubic spline fits local cubic polynomials which are constrained to create a continuous curve.</p>
-<p>Now returning to the coal seam data. <a href="#fig-plotCoalseemspline">Figure&nbsp;<span>1.3</span></a> shows the data again, superimposed with predictions from methods which are not constrained to produce such smooth curves.</p>
-<div id="fig-plotCoalseemspline" class="cell quarto-layout-panel">
-<figure class="figure">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotCoalseemspline-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotCoalseemspline-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672"></p>
-<figcaption class="figure-caption">(a) Constant interpolating spline</figcaption>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotCoalseemregress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: The coal-seam data superimposed with predictions from polynomial regression models.
+</figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotCoalseemspline-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotCoalseemspline-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672"></p>
-<figcaption class="figure-caption">(b) Linear interpolating spline</figcaption>
+<p>Each of these models would predict a different value for the missing observation <span class="math inline">\(y_6.\)</span> We do not know the accuracy of the depth measurements, so in principle any of these curves could be correct. Clearly, the residual variance is largest for the constant-depth model in <a href="#fig-plotCoalseemregress-1" class="quarto-xref">Figure&nbsp;<span>1.1 (a)</span></a>, and smallest for the cubic polynomial in <a href="#fig-plotCoalseemregress-3" class="quarto-xref">Figure&nbsp;<span>1.1 (c)</span></a> – the residual sums of squares are: 6252.5, 5773.05, 4489.84, 4242.89. However, none of these models produces a convincingly good fit. Moreover, these models are not particularly believable, since we know that geological pressures exerted over very long periods of time cause the landscape and its underlying layers of rock to undulate and fracture. This suggests we need a different strategy.</p>
+<p>Next, consider the simulated example in <a href="#fig-plotpeicewise" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>. At first look we might be happy with the fitted curves in <a href="#fig-plotpeicewise-1" class="quarto-xref">Figure&nbsp;<span>1.2 (a)</span></a> or <a href="#fig-plotpeicewise-2" class="quarto-xref">Figure&nbsp;<span>1.2 (b)</span></a>. The data, however, are created with a <em>change-point</em> at <span class="math inline">\(x=0.67\)</span> where the relationship changes from linear with slope <span class="math inline">\(0.6\)</span> to a constant value of <span class="math inline">\(0.75\)</span>. This description is completely lost with these two models.</p>
+<div class="cell" data-layout="[[1,1],[1,1]]">
+<div id="fig-plotpeicewise" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotpeicewise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotpeicewise" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotpeicewise-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotpeicewise-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotpeicewise-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotpeicewise-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Linear model
+</figcaption>
 </figure>
 </div>
 </div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotpeicewise" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotpeicewise-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotpeicewise-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotpeicewise-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672">
 </div>
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotCoalseemspline-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotCoalseemspline-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672"></p>
-<figcaption class="figure-caption">(c) Cubic interpolating spline</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
-<div id="fig-plotCoalseemspline-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_introduction_files/figure-html/fig-plotCoalseemspline-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672"></p>
-<figcaption class="figure-caption">(d) Cubic smoothing spline</figcaption>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotpeicewise-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Quadratic model
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1.3: The coal-seam data superimposed with predictions from various spline models.</figcaption><p></p>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotpeicewise" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotpeicewise-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotpeicewise-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotpeicewise-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotpeicewise-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Piecewise linear model
+</figcaption>
 </figure>
 </div>
-<p>The simplest method, <em>constant-spline interpolation</em>, assumes that the dependent variable remains constant between successive observations, with the result shown in <a href="#fig-plotCoalseemspline-1">Figure&nbsp;<span>1.3 (a)</span></a>. However, the discontinuities in this model make it quite unreliable. A better method, whose results are shown in <a href="#fig-plotCoalseemspline-2">Figure&nbsp;<span>1.3 (b)</span></a>, is <em>linear-spline interpolation</em>, which fits a straight line between successive observations. Even so, this method produces discontinuities in the <em>gradient</em> at each data point. A better method still, shown in <a href="#fig-plotCoalseemspline-3">Figure&nbsp;<span>1.3 (c)</span></a>, is <em>cubic spline interpolation</em>, which fits a cubic polynomial between successive data points such that both the gradient and the curvature at each data point is continuous.</p>
-<p>A feature of all these interpolation methods is that they fit the data exactly. Is this a good thing? The final method assumes that there may be some measurement error in the observations, which justifies fitting a smoother cubic spline than the cubic interpolating spline, but as we see in <a href="#fig-plotCoalseemspline-4">Figure&nbsp;<span>1.3 (d)</span></a> which does not reproduce the data points exactly. Is this a bad thing? We will see during this module how to construct and evaluate these curves. Here, the results are presented only for motivation.</p>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotpeicewise" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotpeicewise-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotpeicewise-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotpeicewise-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotpeicewise" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotpeicewise-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Cubic smoothing spline
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotpeicewise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Simulated data superimposed with predictions from various models.
+</figcaption>
+</figure>
+</div>
+</div>
+<p><a href="#fig-plotpeicewise-3" class="quarto-xref">Figure&nbsp;<span>1.2 (c)</span></a> shows the result of fitting one linear function to the data below <span class="math inline">\(0.67\)</span> and a second linear function above. Clearly, this fits well but it has assumed that the change-point location is known – which is unrealistic. Finally, <a href="#fig-plotpeicewise-4" class="quarto-xref">Figure&nbsp;<span>1.2 (d)</span></a> shows a fitted <em>cubic smoothing spline</em> to the data – we will studies these models later. This shows an excellent fit and leads to appropriate conclusions. That is, the relationship is approximately linear for small values, then there is a rapid increase, and finally a near constant value for high values. Of course, this is not exactly as the true relationship with a discontinuity at <span class="math inline">\(x=0.67\)</span> but it would definitely suggest something extreme occurs between about <span class="math inline">\(0.6\)</span> to <span class="math inline">\(0.7\)</span>. Full details will follow later, but the cubic spline fits local cubic polynomials which are constrained to create a continuous curve.</p>
+<p>Now returning to the coal seam data. <a href="#fig-plotCoalseemspline" class="quarto-xref">Figure&nbsp;<span>1.3</span></a> shows the data again, superimposed with predictions from methods which are not constrained to produce such smooth curves.</p>
+<div class="cell" data-layout="[[1,1],[1,1]]">
+<div id="fig-plotCoalseemspline" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plotCoalseemspline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotCoalseemspline" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotCoalseemspline-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotCoalseemspline-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotCoalseemspline-1.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotCoalseemspline-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Constant interpolating spline
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotCoalseemspline" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotCoalseemspline-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotCoalseemspline-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotCoalseemspline-2.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotCoalseemspline-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Linear interpolating spline
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotCoalseemspline" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotCoalseemspline-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotCoalseemspline-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotCoalseemspline-3.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotCoalseemspline-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Cubic interpolating spline
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-plotCoalseemspline" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-plotCoalseemspline-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-plotCoalseemspline-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_introduction_files/figure-html/fig-plotCoalseemspline-4.png" class="img-fluid figure-img" data-ref-parent="fig-plotCoalseemspline" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-plotCoalseemspline-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Cubic smoothing spline
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plotCoalseemspline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.3: The coal-seam data superimposed with predictions from various spline models.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>The simplest method, <em>constant-spline interpolation</em>, assumes that the dependent variable remains constant between successive observations, with the result shown in <a href="#fig-plotCoalseemspline-1" class="quarto-xref">Figure&nbsp;<span>1.3 (a)</span></a>. However, the discontinuities in this model make it quite unreliable. A better method, whose results are shown in <a href="#fig-plotCoalseemspline-2" class="quarto-xref">Figure&nbsp;<span>1.3 (b)</span></a>, is <em>linear-spline interpolation</em>, which fits a straight line between successive observations. Even so, this method produces discontinuities in the <em>gradient</em> at each data point. A better method still, shown in <a href="#fig-plotCoalseemspline-3" class="quarto-xref">Figure&nbsp;<span>1.3 (c)</span></a>, is <em>cubic spline interpolation</em>, which fits a cubic polynomial between successive data points such that both the gradient and the curvature at each data point is continuous.</p>
+<p>A feature of all these interpolation methods is that they fit the data exactly. Is this a good thing? The final method assumes that there may be some measurement error in the observations, which justifies fitting a smoother cubic spline than the cubic interpolating spline, but as we see in <a href="#fig-plotCoalseemspline-4" class="quarto-xref">Figure&nbsp;<span>1.3 (d)</span></a> which does not reproduce the data points exactly. Is this a bad thing? We will see during this module how to construct and evaluate these curves. Here, the results are presented only for motivation.</p>
 </section>
 <section id="focus-on-polynomials-quiz" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="focus-on-polynomials-quiz">Focus on polynomials quiz</h2>
@@ -426,13 +534,13 @@ y_i = f(x_i) + \epsilon_i,
 </section>
 <section id="piecewise-polynomial-models" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="piecewise-polynomial-models">Piecewise polynomial models</h3>
-<p>A common problem with low-order polynomials is that they can often fit well for part of the data but have unappealing features elsewhere. For example, although none of the models in <a href="#fig-plotCoalseemregress">Figure&nbsp;<span>1.1</span></a> fit the data at all well, we might imagine that three short linear segments might be a good fit to the coal-seam data. Also, the piecewise linear model was a good description of the data in <a href="#fig-plotpeicewise-3">Figure&nbsp;<span>1.2 (c)</span></a>. This suggests that local polynomial models might be useful. In some situation, for example when we know that the function <span class="math inline">\(f\)</span> is continuous, jumps in the fitted model, as in <a href="#fig-plotpeicewise-3">Figure&nbsp;<span>1.2 (c)</span></a>, are unacceptable. Alternatively, we may require differentiability of <span class="math inline">\(f\)</span>. Such technical issues lead to the use of <em>splines,</em> which is introduced in the next chapter.</p>
+<p>A common problem with low-order polynomials is that they can often fit well for part of the data but have unappealing features elsewhere. For example, although none of the models in <a href="#fig-plotCoalseemregress" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> fit the data at all well, we might imagine that three short linear segments might be a good fit to the coal-seam data. Also, the piecewise linear model was a good description of the data in <a href="#fig-plotpeicewise-3" class="quarto-xref">Figure&nbsp;<span>1.2 (c)</span></a>. This suggests that local polynomial models might be useful. In some situation, for example when we know that the function <span class="math inline">\(f\)</span> is continuous, jumps in the fitted model, as in <a href="#fig-plotpeicewise-3" class="quarto-xref">Figure&nbsp;<span>1.2 (c)</span></a>, are unacceptable. Alternatively, we may require differentiability of <span class="math inline">\(f\)</span>. Such technical issues lead to the use of <em>splines,</em> which is introduced in the next chapter.</p>
 </section>
 </section>
 <section id="sec-exercises1" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="sec-exercises1"><span class="header-section-number">1.4</span> Exercises</h2>
 <div class="webex-box">
-1.1 Consider the first three models fitted in <a href="#fig-plotCoalseemregress">Figure&nbsp;<span>1.1</span></a> and let the data be denoted, <span class="math inline">\(\{(x_i, y_i): i=1,2,\dots, n\}\)</span>. These three models can be written <span class="math display">\[\begin{align*}
+1.1 Consider the first three models fitted in <a href="#fig-plotCoalseemregress" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> and let the data be denoted, <span class="math inline">\(\{(x_i, y_i): i=1,2,\dots, n\}\)</span>. These three models can be written <span class="math display">\[\begin{align*}
 (a) \quad &amp;  y = \alpha +\epsilon\\
 (b) \quad &amp;  y = \alpha +\beta x+\epsilon\\
 (c) \quad &amp;  y = \alpha +\beta x + \gamma x^2 +\epsilon
@@ -450,14 +558,14 @@ Click here to see hints.
 </button>
 <p>There is more than one approach. Can least squares be used? Could a simple transformation of the data and the fitted model make solving the problem easier? Is there an algebraic solution? Is there a purely numerical solution?</p>
 </div>
-1.3 In <a href="#fig-plotpeicewise-3">Figure&nbsp;<span>1.2 (c)</span></a>, discuss how you might fit a two-part linear model for the case where the change-point is <em>unknown</em>. Note that no actual algebraic derivation, nor numerical coded algorithm is expect.
+1.3 In <a href="#fig-plotpeicewise-3" class="quarto-xref">Figure&nbsp;<span>1.2 (c)</span></a>, discuss how you might fit a two-part linear model for the case where the change-point is <em>unknown</em>. Note that no actual algebraic derivation, nor numerical coded algorithm is expect.
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
 <p>With many similar problems, imaging breaking the problem down into steps. If you know the location of the change-point then what should you do? Can you then try different possible change-point locations?</p>
 </div>
-1.4 Discuss the four fitted models in <a href="#fig-plotCoalseemspline">Figure&nbsp;<span>1.3</span></a>. Can you give positive and negative properties of each model? Which do you think is best and which worst? Do you think which is best/worst, depends on the data? Justify your answers.
+1.4 Discuss the four fitted models in <a href="#fig-plotCoalseemspline" class="quarto-xref">Figure&nbsp;<span>1.3</span></a>. Can you give positive and negative properties of each model? Which do you think is best and which worst? Do you think which is best/worst, depends on the data? Justify your answers.
 <div class="webex-solution">
 <button>
 Click here to see hints.
@@ -465,19 +573,9 @@ Click here to see hints.
 <p>Don’t get too stuck on the data used here, but think of general issues: ease of use, reliability of the data, is there error with the data or is it very reliable? What if the response it discrete?</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><a href="https://richardpmann.com/MATH5824/Solutions_1.html">Exercise 1 Solutions can be found here.</a></p>
-</div>
-</div>
+<!-- ::: {.callout-note appearance="default"} -->
+<!-- [Exercise 1 Solutions can be found here.](https://richardpmann/MATH5824/Solutions_1.html) -->
+<!-- ::: -->
 
 
 </section>
@@ -724,18 +822,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -767,11 +854,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -781,8 +907,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -794,7 +929,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -838,6 +1096,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -863,6 +1122,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -924,17 +1209,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./0_preface.html" class="pagination-link">
+      <a href="./0_preface.html" class="pagination-link" aria-label="Overview">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./2_basicdefinitions.html" class="pagination-link">
+      <a href="./2_basicdefinitions.html" class="pagination-link" aria-label="Introducing Splines">
         <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introducing Splines</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
