@@ -1971,12 +1971,12 @@ we expect <span class="math inline">\(\beta_1 = \beta_2\)</span>. But if
 there is a biological interaction between pollution and smoking, we
 might expect <span class="math inline">\(\beta_1 &gt;
 \beta_2\)</span>.</p></li>
-<li><p>Let be a <span class="math inline">\(2m \times 2\)</span> matrix
-containing the numbers of diseased and non-diseased people for each
-combination of <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. Let be a 2-level factor giving the
-group information <span class="math inline">\(i\)</span> and let be a
+<li><p>Let <strong>count</strong> be a <span class="math inline">\(2m
+\times 2\)</span> matrix containing the numbers of diseased and
+non-diseased people for each combination of <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. Let <strong>status</strong> be a
+2-level factor giving the group information <span class="math inline">\(i\)</span> and let <strong>x</strong> be a
 quantitative variable storing the <span class="math inline">\(x_j\)</span> information. This model can be fitted
-by the command . \end{enumerate}</p></li>
+by the command: glm(count ~ status*x, binomial)}.</p></li>
 </ul>
 <p><br />
 </p>
