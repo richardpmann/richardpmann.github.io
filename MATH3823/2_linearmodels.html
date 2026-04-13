@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Essentials of Normal Linear Models – MATH3823 Generalised Linear Models</title>
+<title>MATH3823 Generalised Linear Models - 2&nbsp; Essentials of Normal Linear Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -142,13 +142,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2_linearmodels.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -434,7 +434,7 @@ Table&nbsp;2.1: Gestational ages (in weeks) and birth weights (in grams) for 24 
 <div aria-describedby="fig-birthweightA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-birthweightA-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-birthweightA-1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-birthweightA-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-birthweightA-1.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
@@ -446,7 +446,7 @@ Table&nbsp;2.1: Gestational ages (in weeks) and birth weights (in grams) for 24 
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-birthweightA-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-birthweightA-2" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-birthweightA-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-birthweightA-2.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
@@ -460,7 +460,7 @@ Table&nbsp;2.1: Gestational ages (in weeks) and birth weights (in grams) for 24 
 </div>
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-birthweightA-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-birthweightA-3" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-birthweightA-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-birthweightA-3.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
@@ -497,7 +497,7 @@ Figure&nbsp;2.1: Birthweight and gestational age for 24 babies.
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">41</span>,<span class="dv">2800</span>, <span class="fu">c</span>(<span class="st">"Girl"</span>,<span class="st">"Boy"</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-birthweightB" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-birthweightB" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-birthweightB-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-birthweightB-1.png" class="img-fluid figure-img" width="672">
@@ -517,19 +517,19 @@ Figure&nbsp;2.2: Birthweight and gestational age for 12 girls (red squares) and 
 <div class="webex-check">
 <p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
 <ol type="1">
-<li><p>What is the most useful graphical summary for identifying a potential relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">boxplot</option><option value="">histogram</option><option value="answer">scatter plot</option><option value="">kernel density plot</option><option value="">other</option></select></p></li>
-<li><p>What is the most useful numerical summary for identifying a potential linear relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">skew</option><option value="">variances</option><option value="">sample means</option><option value="answer">correlation</option><option value="">other</option></select></p></li>
+<li><p>What is the most useful graphical summary for identifying a potential relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">kernel density plot</option><option value="answer">scatter plot</option><option value="">histogram</option><option value="">boxplot</option><option value="">other</option></select></p></li>
+<li><p>What is the most useful numerical summary for identifying a potential linear relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">variances</option><option value="">skew</option><option value="">sample means</option><option value="answer">correlation</option><option value="">other</option></select></p></li>
 <li><p>Which of the following is a true statements about the correlation coefficient? (Choose any that apply.)</p>
-<div id="radio_RHKMQOQWJX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RHKMQOQWJX" value="answer"> <span>Can be positive or negative</span></label><label><input type="radio" autocomplete="off" name="radio_RHKMQOQWJX" value="answer"> <span>Is always between -1 and +1</span></label><label><input type="radio" autocomplete="off" name="radio_RHKMQOQWJX" value=""> <span>Can take any real number</span></label><label><input type="radio" autocomplete="off" name="radio_RHKMQOQWJX" value=""> <span>A value close to -1 means uncorrelated and close to +1 indicates a high correlation</span></label><label><input type="radio" autocomplete="off" name="radio_RHKMQOQWJX" value=""> <span>Is always a positive number</span></label>
+<div id="radio_OFPIKZENIS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OFPIKZENIS" value="answer"> <span>Can be positive or negative</span></label><label><input type="radio" autocomplete="off" name="radio_OFPIKZENIS" value=""> <span>Can take any real number</span></label><label><input type="radio" autocomplete="off" name="radio_OFPIKZENIS" value="answer"> <span>Is always between -1 and +1</span></label><label><input type="radio" autocomplete="off" name="radio_OFPIKZENIS" value=""> <span>A value close to -1 means uncorrelated and close to +1 indicates a high correlation</span></label><label><input type="radio" autocomplete="off" name="radio_OFPIKZENIS" value=""> <span>Is always a positive number</span></label>
 </div></li>
 <li><p>Which of the following is a true statements about regression? (Choose any that apply.)</p>
-<div id="radio_FHXQRVTFQA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FHXQRVTFQA" value="answer"> <span>After fitting a regression model we should always consider residuals</span></label><label><input type="radio" autocomplete="off" name="radio_FHXQRVTFQA" value=""> <span>All regression models describe linear relationships</span></label><label><input type="radio" autocomplete="off" name="radio_FHXQRVTFQA" value="answer"> <span>A linear regression can sometimes be used to approximate a non-linear relationship</span></label><label><input type="radio" autocomplete="off" name="radio_FHXQRVTFQA" value=""> <span>A linear regression model will fit well if the correlation is close to zero</span></label><label><input type="radio" autocomplete="off" name="radio_FHXQRVTFQA" value="answer"> <span>A linear model can be fitted to any data set</span></label>
+<div id="radio_QQMELACRTT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QQMELACRTT" value="answer"> <span>After fitting a regression model we should always consider residuals</span></label><label><input type="radio" autocomplete="off" name="radio_QQMELACRTT" value=""> <span>A linear regression model will fit well if the correlation is close to zero</span></label><label><input type="radio" autocomplete="off" name="radio_QQMELACRTT" value=""> <span>All regression models describe linear relationships</span></label><label><input type="radio" autocomplete="off" name="radio_QQMELACRTT" value="answer"> <span>A linear regression can sometimes be used to approximate a non-linear relationship</span></label><label><input type="radio" autocomplete="off" name="radio_QQMELACRTT" value="answer"> <span>A linear model can be fitted to any data set</span></label>
 </div></li>
 <li><p>Which of the following is a true statements about statistical modelling? (Choose any that apply.)</p>
-<div id="radio_SDADIKESJF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SDADIKESJF" value="answer"> <span>Models are part deterministic and part random</span></label><label><input type="radio" autocomplete="off" name="radio_SDADIKESJF" value=""> <span>Models only involve a statistical distribution</span></label><label><input type="radio" autocomplete="off" name="radio_SDADIKESJF" value="answer"> <span>All models are approximations</span></label><label><input type="radio" autocomplete="off" name="radio_SDADIKESJF" value=""> <span>Only use a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_SDADIKESJF" value=""> <span>Only use a model that is 100% correct</span></label>
+<div id="radio_YXOYUOMXAR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YXOYUOMXAR" value=""> <span>Only use a model that is 100% correct</span></label><label><input type="radio" autocomplete="off" name="radio_YXOYUOMXAR" value=""> <span>Only use a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_YXOYUOMXAR" value=""> <span>Models only involve a statistical distribution</span></label><label><input type="radio" autocomplete="off" name="radio_YXOYUOMXAR" value="answer"> <span>Models are part deterministic and part random</span></label><label><input type="radio" autocomplete="off" name="radio_YXOYUOMXAR" value="answer"> <span>All models are approximations</span></label>
 </div></li>
 </ol>
 </div>
@@ -618,7 +618,7 @@ Figure&nbsp;2.2: Birthweight and gestational age for 12 girls (red squares) and 
 <div aria-describedby="fig-birthweight-fitted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-birthweight-fitted-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-birthweight-fitted-1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-birthweight-fitted-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-1.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
@@ -630,7 +630,7 @@ Figure&nbsp;2.2: Birthweight and gestational age for 12 girls (red squares) and 
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-birthweight-fitted-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-birthweight-fitted-2" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-birthweight-fitted-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-2.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
@@ -644,7 +644,7 @@ Figure&nbsp;2.2: Birthweight and gestational age for 12 girls (red squares) and 
 </div>
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-birthweight-fitted-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-birthweight-fitted-3" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-birthweight-fitted-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-3.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
@@ -656,7 +656,7 @@ Figure&nbsp;2.2: Birthweight and gestational age for 12 girls (red squares) and 
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-birthweight-fitted-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-birthweight-fitted-4" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-birthweight-fitted-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-4.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
@@ -742,7 +742,7 @@ F_{01} = \frac{1013799/1}{816074/22} = 27.33,
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab=</span><span class="fu">expression</span>(<span class="st">"PDF of "</span><span class="sc">*</span><span class="st">"F"</span>[<span class="dv">0</span>][<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-f01-pdf" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-f01-pdf" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-f01-pdf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-f01-pdf-1.png" class="img-fluid figure-img" style="width:80.0%">
@@ -810,24 +810,24 @@ F_{12} = \frac{157304/1}{658771/21} = 5.0145,
 <p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
 <ol type="1">
 <li>Which of the following is a true statement about correlation and linear regression? (Choose any that apply.)
-<div id="radio_FJOWBCVSED" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FJOWBCVSED" value=""> <span>There is no relationship between correlation and linear regression</span></label><label><input type="radio" autocomplete="off" name="radio_FJOWBCVSED" value=""> <span>If the correlation is away from zero then a linear regression should always be used</span></label><label><input type="radio" autocomplete="off" name="radio_FJOWBCVSED" value="answer"> <span>The correlation and the regression slope parameter will have the same sign</span></label><label><input type="radio" autocomplete="off" name="radio_FJOWBCVSED" value="answer"> <span>If the correlation is close to zero then a linear regression will not be useful</span></label><label><input type="radio" autocomplete="off" name="radio_FJOWBCVSED" value=""> <span>The correlation and the slope parameter will have the opposite sign</span></label>
+<div id="radio_ADKTDCZSCQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ADKTDCZSCQ" value="answer"> <span>If the correlation is close to zero then a linear regression will not be useful</span></label><label><input type="radio" autocomplete="off" name="radio_ADKTDCZSCQ" value=""> <span>There is no relationship between correlation and linear regression</span></label><label><input type="radio" autocomplete="off" name="radio_ADKTDCZSCQ" value="answer"> <span>The correlation and the regression slope parameter will have the same sign</span></label><label><input type="radio" autocomplete="off" name="radio_ADKTDCZSCQ" value=""> <span>The correlation and the slope parameter will have the opposite sign</span></label><label><input type="radio" autocomplete="off" name="radio_ADKTDCZSCQ" value=""> <span>If the correlation is away from zero then a linear regression should always be used</span></label>
 </div></li>
 <li>Which of the following is NOT a true statement about model residuals? (Choose any that apply.)
-<div id="radio_YZIZCJLWZY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YZIZCJLWZY" value=""> <span>Will always sum to zero</span></label><label><input type="radio" autocomplete="off" name="radio_YZIZCJLWZY" value="answer"> <span>All should be zero if the model is a good fit</span></label><label><input type="radio" autocomplete="off" name="radio_YZIZCJLWZY" value=""> <span>Can be used to judge how well the model fits the data</span></label><label><input type="radio" autocomplete="off" name="radio_YZIZCJLWZY" value=""> <span>Can help to identify unusual data points</span></label><label><input type="radio" autocomplete="off" name="radio_YZIZCJLWZY" value=""> <span>Should always be plotted as part of a data analysis</span></label>
+<div id="radio_CSJFXSFRGD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CSJFXSFRGD" value=""> <span>Should always be plotted as part of a data analysis</span></label><label><input type="radio" autocomplete="off" name="radio_CSJFXSFRGD" value=""> <span>Can be used to judge how well the model fits the data</span></label><label><input type="radio" autocomplete="off" name="radio_CSJFXSFRGD" value=""> <span>Can help to identify unusual data points</span></label><label><input type="radio" autocomplete="off" name="radio_CSJFXSFRGD" value="answer"> <span>All should be zero if the model is a good fit</span></label><label><input type="radio" autocomplete="off" name="radio_CSJFXSFRGD" value=""> <span>Will always sum to zero</span></label>
 </div></li>
 <li>Which of the following is a true statement about prediction using linear regression? (Choose any that apply.)
-<div id="radio_AWVOQKLBVY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_AWVOQKLBVY" value="answer"> <span>We should be careful about extrapolating</span></label><label><input type="radio" autocomplete="off" name="radio_AWVOQKLBVY" value="answer"> <span>Interpolation and extrapolation are both types of prediction</span></label><label><input type="radio" autocomplete="off" name="radio_AWVOQKLBVY" value=""> <span>Prediction is always reliable</span></label><label><input type="radio" autocomplete="off" name="radio_AWVOQKLBVY" value=""> <span>Interpolation should only be used if we know the true relationship is linear</span></label><label><input type="radio" autocomplete="off" name="radio_AWVOQKLBVY" value="answer"> <span>Interpolation is performed using the fitted model</span></label>
+<div id="radio_VYUCMLGFTI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VYUCMLGFTI" value="answer"> <span>We should be careful about extrapolating</span></label><label><input type="radio" autocomplete="off" name="radio_VYUCMLGFTI" value=""> <span>Prediction is always reliable</span></label><label><input type="radio" autocomplete="off" name="radio_VYUCMLGFTI" value=""> <span>Interpolation should only be used if we know the true relationship is linear</span></label><label><input type="radio" autocomplete="off" name="radio_VYUCMLGFTI" value="answer"> <span>Interpolation is performed using the fitted model</span></label><label><input type="radio" autocomplete="off" name="radio_VYUCMLGFTI" value="answer"> <span>Interpolation and extrapolation are both types of prediction</span></label>
 </div></li>
 <li>Which of the following is NOT an important part of regression model fitting? (Choose any that apply.)
-<div id="radio_YQFASJMEKG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YQFASJMEKG" value=""> <span>The command <strong>cor</strong> to check for a relationship between variables</span></label><label><input type="radio" autocomplete="off" name="radio_YQFASJMEKG" value=""> <span>A scatter plot of the data</span></label><label><input type="radio" autocomplete="off" name="radio_YQFASJMEKG" value=""> <span>A scatter plot of the residuals</span></label><label><input type="radio" autocomplete="off" name="radio_YQFASJMEKG" value="answer"> <span>A histogram of the data</span></label><label><input type="radio" autocomplete="off" name="radio_YQFASJMEKG" value=""> <span>The command <strong>lm</strong> to fit a linear model</span></label>
+<div id="radio_BGDLCCSZUD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BGDLCCSZUD" value=""> <span>The command <strong>cor</strong> to check for a relationship between variables</span></label><label><input type="radio" autocomplete="off" name="radio_BGDLCCSZUD" value=""> <span>The command <strong>lm</strong> to fit a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_BGDLCCSZUD" value=""> <span>A scatter plot of the data</span></label><label><input type="radio" autocomplete="off" name="radio_BGDLCCSZUD" value="answer"> <span>A histogram of the data</span></label><label><input type="radio" autocomplete="off" name="radio_BGDLCCSZUD" value=""> <span>A scatter plot of the residuals</span></label>
 </div></li>
 <li>Which of the following is NOT important when performing data analysis? (Choose any that apply.)
-<div id="radio_DCQBSTVBKT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DCQBSTVBKT" value=""> <span>Are the data representative of what we are aiming to investigate</span></label><label><input type="radio" autocomplete="off" name="radio_DCQBSTVBKT" value=""> <span>Do we need authorization from the person collecting the data before we can use it</span></label><label><input type="radio" autocomplete="off" name="radio_DCQBSTVBKT" value="answer"> <span>Background information is not needed before analyzing a new data set – it's only the numbers that matter</span></label><label><input type="radio" autocomplete="off" name="radio_DCQBSTVBKT" value=""> <span>Is the data reliable and have suitable data checks been performed</span></label><label><input type="radio" autocomplete="off" name="radio_DCQBSTVBKT" value=""> <span>The analysis should be done professionally. We must not involve our personal views to influence our analysis and conclusions</span></label>
+<div id="radio_SDCFYMTZSU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SDCFYMTZSU" value=""> <span>Is the data reliable and have suitable data checks been performed</span></label><label><input type="radio" autocomplete="off" name="radio_SDCFYMTZSU" value=""> <span>Are the data representative of what we are aiming to investigate</span></label><label><input type="radio" autocomplete="off" name="radio_SDCFYMTZSU" value=""> <span>The analysis should be done professionally. We must not involve our personal views to influence our analysis and conclusions</span></label><label><input type="radio" autocomplete="off" name="radio_SDCFYMTZSU" value="answer"> <span>Background information is not needed before analyzing a new data set – it's only the numbers that matter</span></label><label><input type="radio" autocomplete="off" name="radio_SDCFYMTZSU" value=""> <span>Do we need authorization from the person collecting the data before we can use it</span></label>
 </div></li>
 </ol>
 </div>
@@ -836,7 +836,7 @@ F_{12} = \frac{157304/1}{658771/21} = 5.0145,
 <section id="sec-typesnormalvariable" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="sec-typesnormalvariable"><span class="header-section-number">2.3</span> Types of normal linear model</h2>
 <p>Here we consider how normal linear models can be set up for different types of explanatory variable. The dependent variable <span class="math inline">\(y\)</span> is modelled as a linear combination of <span class="math inline">\(p\)</span> explanatory variables <span class="math inline">\(\mathbf{x} =(x_1, x_2,\ldots, x_p)\)</span> plus a random error <span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>, where ‘~’ means ‘is distributed as’. Several models are of this kind, depending on the number and type of explanatory variables. <a href="#tbl-linear_models" class="quarto-xref">Table&nbsp;<span>2.2</span></a> lists some types of normal linear models with their explanatory variable types.</p>
-<div id="tbl-linear_models" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-linear_models" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-linear_models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2.2: Types of normal linear model and their explanatory variable types where indicator function <span class="math inline">\(I(x=j)=1\)</span> if <span class="math inline">\(x=j\)</span> and <span class="math inline">\(0\)</span> otherwise.
@@ -885,7 +885,7 @@ Table&nbsp;2.2: Types of normal linear model and their explanatory variable type
 </figure>
 </div>
 <p>For the two-sample t-test model<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, observations in the two groups have means <span class="math inline">\(\alpha+\beta_1\)</span> and <span class="math inline">\(\alpha + \beta_2\)</span> . Notice, however, that we have three parameters with only two group sample means and hence parameter estimation is not possible. To avoid this identification problem, we either impose a ‘corner’ constraint: <span class="math inline">\(\beta_1=0\)</span> and then <span class="math inline">\(\beta_2\)</span> represents the difference in the Group 2 mean relative to a baseline of Group <span class="math inline">\(1\)</span>. Alternatively, we may impose a ‘sum-to-zero’ constraint: <span class="math inline">\(\beta_1+ \beta_2 =0\)</span>, the values <span class="math inline">\(\beta_1=-\beta_2\)</span> then give differences in the groups means relative to the overall mean. <a href="#tbl-ttest" class="quarto-xref">Table&nbsp;<span>2.3</span></a> shows the effect of the parameter constraint on the group means.</p>
-<div id="tbl-ttest" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-ttest" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ttest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2.3: Parameters in the two-sample t-test model after imposing parameter constraint to avoid the identification problem.
@@ -1056,11 +1056,11 @@ X=\begin{bmatrix}
 <div class="webex-check">
 <p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
 <ol type="1">
-<li><p>What is the dimension of the design matrix? <select class="webex-select"><option value="blank"></option><option value="">2</option><option value="">p by 1</option><option value="answer">n by p</option><option value="">n by 1</option><option value="">X</option></select></p></li>
-<li><p>What is the distribution of the error term? <select class="webex-select"><option value="blank"></option><option value="answer">normal</option><option value="">n by 1</option><option value="">mean zero</option><option value="">IDD</option><option value="">random variable</option></select></p></li>
-<li><p>Which quantity represents the model parameters? <select class="webex-select"><option value="blank"></option><option value="">X</option><option value="">epsilon</option><option value="">Y</option><option value="">n</option><option value="answer">beta</option></select></p></li>
-<li><p>Which two terms in the model have the same dimensions? <select class="webex-select"><option value="blank"></option><option value="">beta and epsilon</option><option value="">Y and beta</option><option value="">Y and X</option><option value="">X and beta</option><option value="answer">Y and epsilon</option></select></p></li>
-<li><p>Which of the following is a potential problem when using qualitative variables? <select class="webex-select"><option value="blank"></option><option value="">X is full rank</option><option value="">X can be zero</option><option value="">X is not square</option><option value="answer">X is singular</option><option value="">X can be negative</option></select></p></li>
+<li><p>What is the dimension of the design matrix? <select class="webex-select"><option value="blank"></option><option value="">X</option><option value="answer">n by p</option><option value="">n by 1</option><option value="">2</option><option value="">p by 1</option></select></p></li>
+<li><p>What is the distribution of the error term? <select class="webex-select"><option value="blank"></option><option value="answer">normal</option><option value="">IDD</option><option value="">random variable</option><option value="">mean zero</option><option value="">n by 1</option></select></p></li>
+<li><p>Which quantity represents the model parameters? <select class="webex-select"><option value="blank"></option><option value="answer">beta</option><option value="">n</option><option value="">Y</option><option value="">epsilon</option><option value="">X</option></select></p></li>
+<li><p>Which two terms in the model have the same dimensions? <select class="webex-select"><option value="blank"></option><option value="">Y and X</option><option value="answer">Y and epsilon</option><option value="">beta and epsilon</option><option value="">Y and beta</option><option value="">X and beta</option></select></p></li>
+<li><p>Which of the following is a potential problem when using qualitative variables? <select class="webex-select"><option value="blank"></option><option value="">X can be negative</option><option value="">X is not square</option><option value="answer">X is singular</option><option value="">X can be zero</option><option value="">X is full rank</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -1106,11 +1106,11 @@ X=\begin{bmatrix}
 <div class="webex-check">
 <p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
 <ol type="1">
-<li><p>What <strong>R</strong> command can be used to covert numerical values into a nominal variable? <select class="webex-select"><option value="blank"></option><option value="answer">as.factor</option><option value="">as.nominal</option><option value="">as.ordinal</option><option value="">as.numerical</option><option value="">factorial</option></select></p></li>
-<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, but without an interaction? <select class="webex-select"><option value="blank"></option><option value="answer">Y ~ V1 + V2</option><option value="">V1 + V2 ~ Y</option><option value="">Y ~ V1:V2</option><option value="">Y ~ V1 + V2 + V1:V2</option><option value="">Y ~ V1*V2</option></select></p></li>
-<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, including a constant and an interaction? <select class="webex-select"><option value="blank"></option><option value="">Y ~ 1+V1:V2</option><option value="answer">Y ~ V1*V2</option><option value="">Y ~ 1 + V1 + V2</option><option value="">Y ~ V1 + V2 + V1:V2 -1</option><option value="">Y ~ 1+V1/V2</option></select></p></li>
-<li><p>Which of the following defines a model regression Y on the product of V1 and V2? <select class="webex-select"><option value="blank"></option><option value="">Y ~ V1:V2</option><option value="">Y ~ I(V1 + V2)</option><option value="">Y ~ V1.V2</option><option value="">Y ~ poly(V1,V2)</option><option value="answer">Y ~ I(V1*V2)</option></select></p></li>
-<li><p>Which of the following defines a model where variable Y is regressed on a second-order polynomial in V1? <select class="webex-select"><option value="blank"></option><option value="answer">Y ~ poly(V1,2)</option><option value="">Y ~ V1*V1</option><option value="">Y ~ 1+V1</option><option value="">Y ~ I(V1)</option><option value="">Y ~ V1^2</option></select></p></li>
+<li><p>What <strong>R</strong> command can be used to covert numerical values into a nominal variable? <select class="webex-select"><option value="blank"></option><option value="">as.nominal</option><option value="">as.ordinal</option><option value="">factorial</option><option value="answer">as.factor</option><option value="">as.numerical</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, but without an interaction? <select class="webex-select"><option value="blank"></option><option value="">Y ~ V1:V2</option><option value="answer">Y ~ V1 + V2</option><option value="">V1 + V2 ~ Y</option><option value="">Y ~ V1*V2</option><option value="">Y ~ V1 + V2 + V1:V2</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, including a constant and an interaction? <select class="webex-select"><option value="blank"></option><option value="">Y ~ 1 + V1 + V2</option><option value="">Y ~ 1+V1/V2</option><option value="">Y ~ 1+V1:V2</option><option value="">Y ~ V1 + V2 + V1:V2 -1</option><option value="answer">Y ~ V1*V2</option></select></p></li>
+<li><p>Which of the following defines a model regression Y on the product of V1 and V2? <select class="webex-select"><option value="blank"></option><option value="">Y ~ V1.V2</option><option value="">Y ~ I(V1 + V2)</option><option value="">Y ~ V1:V2</option><option value="answer">Y ~ I(V1*V2)</option><option value="">Y ~ poly(V1,V2)</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on a second-order polynomial in V1? <select class="webex-select"><option value="blank"></option><option value="">Y ~ 1+V1</option><option value="">Y ~ V1*V1</option><option value="answer">Y ~ poly(V1,2)</option><option value="">Y ~ V1^2</option><option value="">Y ~ I(V1)</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -1212,7 +1212,7 @@ F-statistic: 563.1 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div aria-describedby="fig-toy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-toy-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-toy-1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-toy-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-toy-1.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
@@ -1224,7 +1224,7 @@ F-statistic: 563.1 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-toy-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-toy-2" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-toy-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-toy-2.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
@@ -1238,7 +1238,7 @@ F-statistic: 563.1 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="quarto-layout-row">
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-toy-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-toy-3" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-toy-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-toy-3.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
@@ -1250,7 +1250,7 @@ F-statistic: 563.1 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-toy-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-toy-4" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-toy-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="2_linearmodels_files/figure-html/fig-toy-4.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
@@ -1329,7 +1329,7 @@ Click here to see hints.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -1341,7 +1341,7 @@ Click here to see hints.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -1353,7 +1353,7 @@ Click here to see hints.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -1365,7 +1365,7 @@ Click here to see hints.
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p><img src="2_linearmodels_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" style="width:70.0%"></p>
 </figure>
 </div>
 </div>
@@ -1391,10 +1391,10 @@ Click here to see hints.
 </li>
 <li>A study aims to investigate osteoporosis in women before and after menopause. The X-rays of a randomly selected sample of patients taking routine mammograms are analysed. The age of the patient and their menopause status are recorded, along with a measure of bone density calculated from the X-ray. Use the data in the file <em>bmd.csv</em> to model the relationship between age and Tscore, noting that a value of below -2.5 indicates osteoperosis, between -2.5 and -1.0 indicates osteopenia whereas above -1.0 is normal.<br>
 </li>
-<li>A primary school head teaching wishes to investigate the relationship between social skills of children and the ages of their brothers and sisters. The hypothesis is that those with older siblings will be better able to deal with social interaction. The file <em>siblings.csv</em> contains data on the age of the eldest sibling of a class of 6-year old school children along with a <em>social skills</em> score for each child assessed during the school lunch break. Model the relationship between sibling age and social skills.</li>
+<li>A primary school head teaching wishes to investigate the relationship between social skills of children and the ages of their brothers and sisters. The hypothesis is that those with older siblings will be better able to deal with social interaction. The file <em>skills.csv</em> contains data on the age of the eldest sibling of a class of 6-year old school children along with a <em>social skills</em> score for each child assessed during the school lunch break. Model the relationship between sibling age and social skills.</li>
 </ol>
 <p>2.4. In an experiment to investigate Ohm’s Law, <span class="math inline">\(V=IR\)</span> where <span class="math inline">\(V\)</span> is Voltage, I is current and <span class="math inline">\(R\)</span> is resistance of the material, the following data<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> were recorded:</p>
-<div id="tbl-ohmslawdata" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-ohmslawdata" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ohmslawdata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2.4: Experimental verification of Ohm’s Law
@@ -1437,7 +1437,7 @@ Click here to see hints.
 <p>There is no data file prepared for this and so create your own variables, then perform a linear regression. Comment on the quality of fit. Note that Ohm’s Law is a linear function but without intercept and that the resistance is a constant multiplying the current.</p>
 </div>
 <p>2.5 In an investigation<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> into the effect of eating on pulse rate, 6 men and 6 women were tested before and after a meal, with the following results:</p>
-<div id="tbl-pulserate" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-pulserate" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pulserate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2.5: At rest pulse rate before and after a meal for men and women
@@ -1778,7 +1778,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1810,29 +1821,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1840,7 +1829,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
