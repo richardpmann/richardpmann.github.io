@@ -516,18 +516,19 @@ Q_{GCV}(\lambda) = \frac{ \frac{1}{n} \sum_{j=1}^n \left(y_j - \hat{f}_{\lambda}
 <section id="sec-exercises13" class="level2" data-number="13.7">
 <h2 data-number="13.7" class="anchored" data-anchor-id="sec-exercises13"><span class="header-section-number">13.7</span> Exercises</h2>
 <div class="webex-box">
-<p>13.1 The file <code>bmd.csv</code> (<code>https://www.richardpmann.com/MATH3701/Datasets/bmd.csv</code>) contains bone mineral density T-scores for <span class="math inline">\(n=66\)</span> women aged between 40 and 70, along with an indicator of whether each woman has been through menopause.</p>
+<p>13.1 The file <code>bmd.csv</code> (<code>https://www.richardpmann.com/MATH3701/Datasets/bmd.csv</code>) contains bone mineral density T-scores for <span class="math inline">\(n=66\)</span> women aged between 40 and 70, along with an indicator of whether each woman has been through menapause.</p>
 <ol type="a">
 <li>Read in the data and produce a scatter plot of <code>Tscore</code> against <code>age</code>. Comment on the shape of the relationship: does it look linear?</li>
-<li>Fit a cubic smoothing spline of <code>Tscore</code> on <code>age</code> using <code>smooth.spline()</code>, first specifying a very small value of the smoothing parameter (e.g.&nbsp;<code>spar = 0</code>) and then a very large value (e.g.&nbsp;<code>spar = 1</code>). Overlay both fits on your scatter plot and comment on the over- and under-fitting you observe.</li>
+<li>Fit a cubic smoothing spline of <code>Tscore</code> on <code>age</code> using <code>smooth.spline()</code>, first specifying a very small value of the smoothing parameter (e.g.&nbsp;<span class="math inline">\(\lambda=10^{-6}\)</span>) and then a very large value (e.g.&nbsp;<span class="math inline">\(\lambda=10\)</span>). Overlay both fits on your scatter plot and comment on the over- and under-fitting you observe.</li>
 <li>Now fit the smoothing spline letting R choose the smoothing parameter automatically by generalised cross-validation (the default behaviour of <code>smooth.spline()</code>). Report the selected value of <span class="math inline">\(\lambda\)</span> (<code>fit$lambda</code>) and the effective degrees of freedom (<code>fit$df</code>). Does the fitted curve look reasonable?</li>
+<li>By trying a few different values of <span class="math inline">\(\lambda\)</span> between the two extremes used in (b) (e.g.&nbsp;a grid such as <code>10^seq(-6, -1)</code>), choose by eye the value that you think gives the best-looking fit to the data. Produce a plot of the residuals from this fit against <code>age</code>, and comment on whether they look randomly scattered around zero or show any pattern.</li>
 <li>Compare the GCV-selected effective degrees of freedom from (c) to the two extreme cases <span class="math inline">\(\text{edf}=\nu\)</span> and <span class="math inline">\(\text{edf}=n\)</span> discussed in <a href="#sec-edf" class="quarto-xref"><span>Section 13.5</span></a>. Where does the GCV choice lie, and what does this suggest about the relationship between age and bone density?</li>
 </ol>
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
-<p>Use <code>read.csv()</code> to load the data; <code>age</code> is the explanatory variable and <code>Tscore</code> the response. For (b) and (c), <code>smooth.spline(data$age, data$Tscore, spar = ...)</code>, omitting <code>spar</code> lets R choose it automatically via GCV.</p>
+<p>Use <code>read.csv()</code> to load the data; <code>age</code> is the explanatory variable and <code>Tscore</code> the response. For (b), (c) and (d), <code>smooth.spline(data$age, data$Tscore, lambda = ...)</code>, omitting <code>lambda</code> lets R choose it automatically via GCV. Residuals from a <code>smooth.spline</code> fit can be extracted with <code>residuals(fit)</code>.</p>
 </div>
 <p>13.2 The file <code>iron.csv</code> (<code>https://www.richardpmann.com/MATH3701/Datasets/iron.csv</code>) records an annual measurement, <code>iron</code>, for each <code>Year</code> from 1950 to 1999 (<span class="math inline">\(n=50\)</span>).</p>
 <ol type="a">
