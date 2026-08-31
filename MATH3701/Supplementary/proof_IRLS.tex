@@ -1,0 +1,136 @@
+\input{proof_preamble}
+
+\begin{document}
+
+\moduleheader
+
+\begin{center}
+  {\Large\bfseries Supplementary Proof: Derivation of IRLS for GLMs}
+\end{center}
+
+\bigskip
+
+\noindent This note derives the Iteratively Reweighted Least Squares
+(IRLS) algorithm for maximum likelihood estimation in a generalised
+linear model.  The result is used in Chapter~4 of the notes.
+
+\section*{Setup}
+
+Consider a GLM with independent observations $y_1,\dots,y_n$ where
+$y_i$ has an exponential family distribution with canonical parameter
+$\theta_i$ and known dispersion $\phi$.  The three model components are:
+\begin{itemize}
+  \item \textbf{Random:} $\E[Y_i] = \mu_i = b'(\theta_i)$,
+    $\Var[Y_i] = \phi\,b''(\theta_i)$.
+  \item \textbf{Systematic:} linear predictor
+    $\eta_i = \bx_i^T\bbeta$, where $\bx_i$ is the $p\times 1$
+    covariate vector for observation $i$.
+  \item \textbf{Link:} $\eta_i = g(\mu_i)$, so
+    $\mu_i = g^{-1}(\eta_i)$.
+\end{itemize}
+
+\section*{The log-likelihood and score equations}
+
+The log-likelihood is (dropping terms not involving $\bbeta$)
+\[
+  \ell(\bbeta) = \sum_{i=1}^n \frac{y_i\theta_i - b(\theta_i)}{\phi}.
+\]
+Differentiating with respect to $\beta_j$ via the chain rule
+$\partial/\partial\beta_j = (\partial/\partial\mu_i)\cdot(\partial\mu_i/\partial\eta_i)\cdot x_{ij}$,
+\[
+  \frac{\partial\ell}{\partial\beta_j}
+  = \sum_{i=1}^n \frac{y_i - \mu_i}{\phi\,b''(\theta_i)}\cdot
+    \frac{\partial\mu_i}{\partial\eta_i}\cdot x_{ij}.
+\]
+Using $b''(\theta_i) = V(\mu_i)$ (the variance function) and writing
+$\dot{\mu}_i = \partial\mu_i/\partial\eta_i = 1/g'(\mu_i)$,
+the score equations $\partial\ell/\partial\beta_j = 0$ become
+\[
+  \sum_{i=1}^n \frac{(y_i-\mu_i)\,\dot{\mu}_i}{\phi\,V(\mu_i)}\,x_{ij} = 0,
+  \qquad j=1,\dots,p.
+\]
+In matrix form, with $\bX$ the $n\times p$ design matrix,
+\begin{equation}
+  \bX^T \bW (\bz - \bX\bbeta) = \mathbf{0},
+  \label{eq:score-mat}
+\end{equation}
+where we have introduced the \emph{working weights} and
+\emph{working response} as follows.
+
+\section*{Working weights and working response}
+
+Define the $n\times n$ diagonal weight matrix
+\[
+  \bW = \operatorname{diag}(w_1,\dots,w_n),
+  \qquad
+  w_i = \frac{\dot{\mu}_i^2}{\phi\,V(\mu_i)},
+\]
+and the \emph{working (adjusted dependent) variable}
+\[
+  z_i = \eta_i + (y_i - \mu_i)\,g'(\mu_i)
+       = \eta_i + \frac{y_i - \mu_i}{\dot{\mu}_i}.
+\]
+
+\begin{lemma}
+  With the above definitions, the score equations
+  \eqref{eq:score-mat} hold.
+\end{lemma}
+
+\begin{proof}
+  Observe that
+  $w_i(z_i - \bx_i^T\bbeta) = w_i(z_i - \eta_i)
+   = \frac{\dot\mu_i^2}{\phi V(\mu_i)}\cdot\frac{y_i-\mu_i}{\dot\mu_i}
+   = \frac{(y_i-\mu_i)\dot\mu_i}{\phi V(\mu_i)}$,
+  which is exactly the $i$-th summand in the score equation.
+\end{proof}
+
+\section*{The IRLS update}
+
+Equation~\eqref{eq:score-mat} has the form of a \emph{weighted normal
+equation}.  If $\bW$ and $\bz$ were constants (not depending on
+$\bbeta$), the solution would be
+\[
+  \hat\bbeta = (\bX^T\bW\bX)^{-1}\bX^T\bW\bz,
+\]
+the weighted least squares estimator of $\bbeta$ in the regression of
+$\bz$ on $\bX$ with weights $\bW$.
+
+However, both $w_i$ and $z_i$ depend on $\mu_i = g^{-1}(\bx_i^T\bbeta)$
+and hence on $\bbeta$.  The IRLS algorithm resolves this by iterating:
+
+\begin{enumerate}
+  \item Choose initial values $\hat\mu_i^{(0)}$ (e.g.\ $\hat\mu_i^{(0)}=y_i$ with small adjustment if on boundary).
+  \item At iteration $t$, compute $\eta_i^{(t)} = g(\hat\mu_i^{(t)})$,
+        weights $w_i^{(t)}$, and working responses $z_i^{(t)}$.
+  \item Update the parameter estimate:
+        \[
+          \hat\bbeta^{(t+1)}
+          = \left(\bX^T\bW^{(t)}\bX\right)^{-1}\bX^T\bW^{(t)}\bz^{(t)}.
+        \]
+  \item Set $\hat\mu_i^{(t+1)} = g^{-1}(\bx_i^T\hat\bbeta^{(t+1)})$ and
+        return to step~2.
+  \item Repeat until $\|\hat\bbeta^{(t+1)}-\hat\bbeta^{(t)}\| < \varepsilon$
+        for some tolerance $\varepsilon > 0$.
+\end{enumerate}
+
+Under regularity conditions, IRLS converges to the MLE
+$\hat\bbeta$ and is equivalent to Fisher scoring.
+
+\section*{Asymptotic distribution of $\hat\bbeta$}
+
+At convergence, the MLE $\hat\bbeta$ satisfies, asymptotically,
+\[
+  \hat\bbeta \sim \mathcal{N}_p\!\left(\bbeta,\,\mathcal{J}(\bbeta)^{-1}\right),
+\]
+where $\mathcal{J}(\bbeta) = \bX^T\bW\bX/\phi$ is the Fisher information
+matrix evaluated at the true parameter.  Standard errors for
+$\hat\beta_j$ are the square roots of the diagonal elements of
+$(\bX^T\hat\bW\bX)^{-1}$, with $\hat\bW$ evaluated at $\hat\bbeta$.
+
+\begin{remark}
+  The IRLS algorithm is implemented in \texttt{R}'s \texttt{glm}
+  function.  Each call to \texttt{glm} runs IRLS internally; the number
+  of IRLS iterations is reported in \texttt{summary(fit)\$iter}.
+\end{remark}
+
+\end{document}

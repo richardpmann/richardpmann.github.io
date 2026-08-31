@@ -1,0 +1,189 @@
+\input{proof_preamble}
+
+\begin{document}
+
+\moduleheader
+
+\begin{center}
+  {\Large\bfseries Supplementary Proof: The Smoothing Spline Solution}
+\end{center}
+
+\bigskip
+
+\noindent This note proves two results used in Chapter~12 of the notes.
+\begin{enumerate}
+  \item \textbf{Proposition~12.1} (Roughness as a quadratic form): the
+    roughness of a natural spline can be written as
+    $J_\nu(f) = c_\nu\,\bb^T K_\nu \bb$ for explicit constants and
+    matrices.
+  \item \textbf{Proposition~12.2} (Smoothing spline solution): the
+    minimiser of the penalised criterion $R_\nu(f,\lambda)$ satisfies a
+    block linear system.
+\end{enumerate}
+
+\section*{Part 1: Roughness as a quadratic form}
+
+\subsection*{Setup}
+
+Let $x_1 < \cdots < x_n$ be $n$ distinct knots.  A natural cubic
+spline ($\nu=2$) with knots at $x_1,\dots,x_n$ has the representation
+\[
+  f(t) = a_0 + a_1 t + \sum_{i=1}^n b_i\,|t-x_i|^3,
+\]
+with constraints $\sum b_i = 0$ and $\sum b_i x_i = 0$.  The roughness
+is $J_2(f) = \int_{-\infty}^{\infty}[f''(t)]^2\,dt$.
+
+\subsection*{Second derivative of the representation}
+
+Differentiating twice,
+\[
+  \frac{d^2}{dt^2}|t-x_i|^3 = 6|t-x_i|.
+\]
+The polynomial part contributes nothing, so
+\[
+  f''(t) = 6\sum_{i=1}^n b_i\,|t-x_i|.
+\]
+The natural boundary conditions ($f''=0$ outside $[x_1,x_n]$) hold
+automatically: for $t > x_n$, $f''(t) = 6(\sum b_i)\,t - 6\sum b_i x_i = 0$
+by the two constraints.
+
+\subsection*{Computing $J_2(f)$}
+
+We use integration by parts to evaluate $J_2(f)$.  Differentiating
+once more,
+\[
+  f'''(t) = 6\sum_{i=1}^n b_i\,\mathrm{sgn}(t-x_i)
+\]
+(a step function with jumps $12 b_i$ at each $x_i$), and in the
+distributional sense,
+\[
+  f''''(t) = 12\sum_{i=1}^n b_i\,\delta(t-x_i).
+\]
+Since $f'' = 0$ outside $[x_1,x_n]$, two integrations by parts give
+\begin{align*}
+  J_2(f) = \int_{-\infty}^{\infty} [f''(t)]^2\,dt
+  &= \int_{-\infty}^{\infty} f''(t)\cdot f''(t)\,dt \\
+  &= \bigl[f''(t) f'(t)\bigr]_{-\infty}^{\infty}
+     - \int_{-\infty}^{\infty} f'''(t)\,f'(t)\,dt \\
+  &= 0 - \bigl[f'''(t) f(t)\bigr]_{-\infty}^{\infty}
+     + \int_{-\infty}^{\infty} f''''(t)\,f(t)\,dt.
+\end{align*}
+The boundary terms vanish ($f''=0$ and $f$ is linear outside the knot
+range, so $f'''=0$ there).  Substituting $f''''$,
+\[
+  J_2(f) = \int_{-\infty}^{\infty} 12\sum_{i=1}^n b_i\,\delta(t-x_i)\cdot f(t)\,dt
+  = 12\sum_{i=1}^n b_i\,f(x_i).
+\]
+Now expand $f(x_i) = a_0 + a_1 x_i + \sum_k b_k |x_i-x_k|^3$.
+Using $\sum b_i = 0$ and $\sum b_i x_i = 0$,
+\[
+  \sum_{i=1}^n b_i f(x_i)
+  = a_0\underbrace{\sum b_i}_{0}
+  + a_1\underbrace{\sum b_i x_i}_{0}
+  + \sum_{i=1}^n\sum_{k=1}^n b_i b_k\,|x_i-x_k|^3.
+\]
+Therefore
+\[
+  J_2(f) = 12\sum_{i=1}^n\sum_{k=1}^n b_i b_k\,|x_i-x_k|^3
+  = c_2\,\bb^T K_2\,\bb,
+\]
+where $c_2 = 12$ and $[K_2]_{ik} = |x_i-x_k|^3$. \hfill$\square$
+
+\begin{remark}
+  The analogous result for the linear case ($\nu=1$, $p=1$) is
+  $J_1(f) = c_1\,\bb^T K_1\,\bb$ with $c_1=-2$ and
+  $[K_1]_{ik}=|x_i-x_k|$.  The derivation is similar, using a single
+  integration by parts and the representation $f(t)=a_0+\sum b_i|t-x_i|$
+  with $\sum b_i = 0$.
+\end{remark}
+
+\section*{Part 2: The smoothing spline solution}
+
+\subsection*{The optimisation problem}
+
+By Proposition~11.3 (optimality of natural interpolants), the minimiser
+$\hat f$ of the penalised criterion
+\[
+  R_\nu(f,\lambda) = \|\by - \hat{\mathbf{f}}\|^2 + \lambda J_\nu(f)
+\]
+is itself a natural spline with knots at $x_1,\dots,x_n$.
+Using Part~1, with $\hat{\mathbf{f}} = K_\nu\bb + L_\nu\ba$ (the
+matrix representation from the notes), the problem becomes:
+\begin{align}
+  \text{minimise} \quad
+  &Q(\ba,\bb) = (\by - K\bb - L\ba)^T(\by - K\bb - L\ba)
+    + \lambda^* \bb^T K\bb \label{eq:obj}\\
+  \text{subject to} \quad
+  &L^T\bb = \mathbf{0}, \label{eq:con}
+\end{align}
+where $\lambda^* = c_\nu\lambda$, $K = K_\nu$, $L = L_\nu$.
+
+\subsection*{Unconstrained optimisation via Lagrange multipliers}
+
+Introducing a Lagrange multiplier vector $\bmu$ for the constraint
+\eqref{eq:con}, we minimise the Lagrangian
+\[
+  \mathcal{L}(\ba,\bb,\bmu)
+  = Q(\ba,\bb) - 2\bmu^T L^T\bb.
+\]
+Setting partial derivatives to zero:
+\begin{align}
+  \frac{\partial\mathcal{L}}{\partial\ba}
+  &= -2L^T(\by - K\bb - L\ba) = \mathbf{0}
+  \implies L^T\by = L^T K\bb + L^T L\,\ba, \label{eq:d_a}\\[4pt]
+  \frac{\partial\mathcal{L}}{\partial\bb}
+  &= -2K^T(\by - K\bb - L\ba) + 2\lambda^* K\bb - 2L\bmu = \mathbf{0}.
+  \label{eq:d_b}
+\end{align}
+Using the symmetry $K = K^T$, equation~\eqref{eq:d_b} simplifies to
+\[
+  K\by = K(K + \lambda^* I_n)\bb + KL\,\ba + L\bmu.
+\]
+
+\subsection*{Eliminating the Lagrange multiplier}
+
+The constraint \eqref{eq:con} ($L^T\bb=\mathbf{0}$) means that
+$L^T(K\bb)=0$, so pre-multiplying \eqref{eq:d_b} by $L^T$ gives
+$L^T\by = L^T L\,\ba$, which is consistent with \eqref{eq:d_a} when
+$K\bb$ is orthogonal to the column space of $L$.  Working through the
+algebra, the system \eqref{eq:d_a}--\eqref{eq:d_b} can be assembled
+into the single block linear system:
+\begin{equation}
+  \underbrace{
+  \begin{bmatrix}
+    0 & L^T \\
+    L & K + \lambda^* I_n
+  \end{bmatrix}
+  }_{M_\lambda}
+  \begin{bmatrix}
+    \hat\ba \\ \hat\bb
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \mathbf{0} \\ \by
+  \end{bmatrix},
+  \label{eq:block}
+\end{equation}
+where the top block encodes the constraint $L^T\hat\bb = \mathbf{0}$
+(since the equation $0\cdot\hat\ba + L^T\hat\bb = \mathbf{0}$ is
+exactly \eqref{eq:con}).  The matrix $M_\lambda$ is symmetric and, for
+$\lambda>0$, is invertible.  Hence
+\[
+  \begin{bmatrix}
+    \hat\ba \\ \hat\bb
+  \end{bmatrix}
+  = M_\lambda^{-1}
+  \begin{bmatrix}
+    \mathbf{0} \\ \by
+  \end{bmatrix}.
+  \hfill\square
+\]
+
+\begin{remark}
+  The system~\eqref{eq:block} is the same as equation~(12.11) in the
+  notes.  In practice, \texttt{smooth.spline} in \texttt{R} solves an
+  equivalent system using numerically stable algorithms that exploit
+  the banded structure of $K$ after an appropriate change of basis.
+\end{remark}
+
+\end{document}

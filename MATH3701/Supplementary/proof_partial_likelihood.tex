@@ -1,0 +1,128 @@
+\input{proof_preamble}
+
+\begin{document}
+
+\moduleheader
+\textbf{Supplementary Proof: The Cox Partial Likelihood}\\[6pt]
+\textit{This note justifies why the partial likelihood provides a valid basis for inference on $\bbeta$ in the Cox model, without requiring specification of the baseline hazard $h_0(t)$.}
+
+\bigskip
+
+\section*{Setup}
+
+The Cox proportional hazards model is
+\[
+h(t \mid \bx_i) = h_0(t) \exp(\bbeta^T \bx_i), \qquad i = 1, \ldots, n.
+\]
+We observe $(t_i, \delta_i, \bx_i)$ where $t_i$ is the observed time, $\delta_i$ the event indicator, and $\bx_i \in \mathbb{R}^p$ the covariate vector.
+
+Let $t_{(1)} < t_{(2)} < \cdots < t_{(r)}$ be the ordered distinct event times (assuming no ties for simplicity), and let $\mathcal{R}(t_{(j)}) = \{i : t_i \geq t_{(j)}\}$ be the risk set just before $t_{(j)}$.
+
+\section*{Derivation of the partial likelihood}
+
+Cox (1972) proposed to condition on the event times $t_{(1)}, \ldots, t_{(r)}$ and use only the information about which individual experienced the event at each time.
+
+\begin{lemma}
+Under the Cox model, the conditional probability that individual $i_{(j)}$ is the one who dies at time $t_{(j)}$, given that exactly one death occurs in $\mathcal{R}(t_{(j)})$ at that time, is
+\[
+\Prob\bigl(T_{i_{(j)}} = t_{(j)} \mid \text{one death in } \mathcal{R}(t_{(j)})\bigr)
+= \frac{\exp(\bbeta^T \bx_{i_{(j)}})}{\displaystyle\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\bbeta^T \bx_\ell)}.
+\]
+\end{lemma}
+
+\begin{proof}
+For a small interval $[t, t + \delta t)$, the probability that individual $\ell$ dies in this interval, given they are at risk, is approximately $h(t \mid \bx_\ell)\,\delta t = h_0(t)\exp(\bbeta^T\bx_\ell)\,\delta t$.
+
+The probability that individual $i_{(j)}$ dies at $t_{(j)}$ while all others in the risk set survive past $t_{(j)}$ is proportional to $h_0(t_{(j)})\exp(\bbeta^T\bx_{i_{(j)}})$. The probability that \emph{some} individual in $\mathcal{R}(t_{(j)})$ dies at $t_{(j)}$ is proportional to $h_0(t_{(j)})\sum_{\ell \in \mathcal{R}} \exp(\bbeta^T\bx_\ell)$.
+
+Dividing:
+\[
+\Prob(i_{(j)} \text{ dies} \mid \text{one death in } \mathcal{R})
+= \frac{h_0(t_{(j)})\exp(\bbeta^T\bx_{i_{(j)}})}{h_0(t_{(j)})\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\bbeta^T\bx_\ell)}
+= \frac{\exp(\bbeta^T\bx_{i_{(j)}})}{\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\bbeta^T\bx_\ell)}.
+\]
+The baseline hazard $h_0(t_{(j)})$ cancels completely.
+\end{proof}
+
+\begin{remark}
+This cancellation is the key insight: by conditioning on the observed event times, we eliminate the nuisance function $h_0(t)$ entirely. The remaining expression depends only on $\bbeta$.
+\end{remark}
+
+\section*{The partial likelihood}
+
+Multiplying the conditional probabilities across all $r$ event times, the \textbf{partial likelihood} is
+
+\[
+L(\bbeta) = \prod_{j=1}^r \frac{\exp(\bbeta^T\bx_{(j)})}{\displaystyle\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\bbeta^T\bx_\ell)},
+\]
+
+or equivalently, using the event indicators $\delta_i$:
+
+\[
+L(\bbeta) = \prod_{i=1}^n \left[\frac{\exp(\bbeta^T\bx_i)}{\sum_{\ell \in \mathcal{R}(t_i)} \exp(\bbeta^T\bx_\ell)}\right]^{\!\delta_i}.
+\]
+
+The corresponding partial log-likelihood is
+
+\[
+\ell(\bbeta) = \sum_{i=1}^n \delta_i \left\{\bbeta^T\bx_i - \log \sum_{\ell \in \mathcal{R}(t_i)} \exp(\bbeta^T\bx_\ell)\right\}.
+\]
+
+\section*{Score equations}
+
+Differentiating $\ell(\bbeta)$ with respect to $\beta_k$:
+
+\[
+\frac{\partial \ell}{\partial \beta_k} = \sum_{i=1}^n \delta_i \left\{x_{ik} - \frac{\sum_{\ell \in \mathcal{R}(t_i)} x_{\ell k} \exp(\bbeta^T\bx_\ell)}{\sum_{\ell \in \mathcal{R}(t_i)} \exp(\bbeta^T\bx_\ell)}\right\} = 0.
+\]
+
+These $p$ equations are solved numerically (Newton--Raphson) to give the maximum partial likelihood estimator (MPLE) $\hat\bbeta$.
+
+\section*{Asymptotic properties}
+
+\begin{theorem}[Cox 1975; Tsiatis 1981]
+Under standard regularity conditions, the MPLE $\hat\bbeta$ satisfies:
+\begin{enumerate}
+\item \textbf{Consistency:} $\hat\bbeta \xrightarrow{\Prob} \bbeta$ as $n \to \infty$.
+\item \textbf{Asymptotic normality:}
+\[
+\sqrt{n}(\hat\bbeta - \bbeta) \xrightarrow{d} \mathcal{N}_p\!\left(\mathbf{0},\, \mathcal{I}(\bbeta)^{-1}\right),
+\]
+where $\mathcal{I}(\bbeta) = -n^{-1}\,\partial^2\ell/\partial\bbeta\partial\bbeta^T$ is the (per-observation) observed information matrix evaluated at $\hat\bbeta$.
+\item \textbf{Efficiency:} Among all estimators based on the rank ordering of event times, $\hat\bbeta$ is asymptotically efficient.
+\end{enumerate}
+\end{theorem}
+
+The asymptotic normality justifies the Wald confidence intervals reported by \texttt{coxph()} in R:
+\[
+\hat\beta_k \pm z_{1-\alpha/2} \cdot \widehat{\mathrm{sd}}(\hat\beta_k),
+\]
+where $\widehat{\mathrm{sd}}(\hat\beta_k) = \sqrt{[\mathcal{I}(\hat\bbeta)^{-1}]_{kk}}$.
+
+\section*{Partial likelihood ratio test}
+
+For nested models $M_0 \subset M_1$ with $q - p$ additional parameters in $M_1$, the partial likelihood ratio test statistic
+\[
+\Lambda = -2(\hat\ell_0 - \hat\ell_1) \;\dot\sim\; \chi^2_{q-p}
+\]
+has the same asymptotic $\chi^2$ distribution as for standard MLEs, justifying the use of this test in \texttt{coxph()} comparisons.
+
+\section*{Tied event times: Breslow's approximation}
+
+With $d_j$ tied deaths at $t_{(j)}$ with covariate sum $\mathbf{s}_{(j)} = \sum_{k : t_k = t_{(j)}, \delta_k = 1} \bx_k$, Breslow's approximation replaces the exact combinatorial expression with
+
+\[
+L(\bbeta) \approx \prod_{j=1}^r \frac{\exp(\bbeta^T\mathbf{s}_{(j)})}{\left(\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\bbeta^T\bx_\ell)\right)^{d_j}}.
+\]
+
+This approximation is accurate when ties are rare (the typical situation in continuous survival data).
+
+\section*{References}
+
+Cox, D.R.\ (1972). Regression models and life-tables (with discussion). \textit{Journal of the Royal Statistical Society, Series B}, \textbf{34}, 187--220.
+
+Cox, D.R.\ (1975). Partial likelihood. \textit{Biometrika}, \textbf{62}, 269--276.
+
+Tsiatis, A.A.\ (1981). A large sample study of Cox's regression model. \textit{The Annals of Statistics}, \textbf{9}, 93--108.
+
+\end{document}
