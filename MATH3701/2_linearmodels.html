@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MATH3701 Statistical Modelling - 2&nbsp; Essentials of Normal Linear Models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./3_GLM-Theory.html" rel="next">
+<link href="./1_intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+window.MathJax = {
+  tex: {
+    macros: {
+      Prob: "\\mathbb{P}",
+      bbeta: "\\boldsymbol{\\beta}"
+    }
+  }
+};
+</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="webex.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_intro.html">Part I: Generalised Linear Models</a></li><li class="breadcrumb-item"><a href="./2_linearmodels.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATH3701 Statistical Modelling</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weekly schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0_preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Part I: Generalised Linear Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_linearmodels.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_GLM-Theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GLM Theory</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_GLM-Fitting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GLM Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_logisticmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Modelling Proportions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_loglinearmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Loglinear Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_extendedloglinearmodel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Extensions to Loglinear models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_glm_consolidation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">GLM Consolidation and Outlook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Part II: Generalised Additive Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9_nonparametric_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Non-parametric Modelling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_splines_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introducing Splines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_interpolating_splines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Interpolating Splines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_smoothing_splines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Smoothing Splines</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_smoothing_parameter.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Choosing the Smoothing Parameter</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14_GAMs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Generalised Additive Models</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part III: Survival Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_survival_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Introduction to Survival Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16_survival_functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Key Functions in Survival Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17_kaplan_meier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kaplan–Meier Estimator</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18_parametric_families.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Parametric Survival Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19_censored_likelihood.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Maximum Likelihood with Censored Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20_parametric_twosample.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Parametric Two-Sample Comparison</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21_ph_property.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">The Proportional Hazards Property</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./22_ph_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Parametric Proportional Hazards Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./23_cox_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">The Cox Proportional Hazards Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24_cox_diagnostics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Cox Model Diagnostics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./25_model_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Model Selection and Comparison</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26_survival_casestudy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Survival Analysis: Extended Case Study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-essentialsoverview" id="toc-sec-essentialsoverview" class="nav-link active" data-scroll-target="#sec-essentialsoverview"><span class="header-section-number">2.1</span> Overview</a></li>
+  <li><a href="#focus-on-modelling-quiz" id="toc-focus-on-modelling-quiz" class="nav-link" data-scroll-target="#focus-on-modelling-quiz">Focus on modelling quiz</a></li>
+  <li><a href="#linear-models" id="toc-linear-models" class="nav-link" data-scroll-target="#linear-models"><span class="header-section-number">2.2</span> Linear models</a></li>
+  <li><a href="#focus-on-regression-quiz" id="toc-focus-on-regression-quiz" class="nav-link" data-scroll-target="#focus-on-regression-quiz">Focus on regression quiz</a></li>
+  <li><a href="#sec-typesnormalvariable" id="toc-sec-typesnormalvariable" class="nav-link" data-scroll-target="#sec-typesnormalvariable"><span class="header-section-number">2.3</span> Types of normal linear model</a></li>
+  <li><a href="#sec-matrix" id="toc-sec-matrix" class="nav-link" data-scroll-target="#sec-matrix"><span class="header-section-number">2.4</span> Matrix representation of linear models</a></li>
+  <li><a href="#focus-on-matrix-representations-quiz" id="toc-focus-on-matrix-representations-quiz" class="nav-link" data-scroll-target="#focus-on-matrix-representations-quiz">Focus on matrix representations quiz</a></li>
+  <li><a href="#sec-shorthand" id="toc-sec-shorthand" class="nav-link" data-scroll-target="#sec-shorthand"><span class="header-section-number">2.5</span> Model shorthand notation</a></li>
+  <li><a href="#focus-on-model-notation-quiz" id="toc-focus-on-model-notation-quiz" class="nav-link" data-scroll-target="#focus-on-model-notation-quiz">Focus on model notation quiz</a></li>
+  <li><a href="#sec-fittinglm" id="toc-sec-fittinglm" class="nav-link" data-scroll-target="#sec-fittinglm"><span class="header-section-number">2.6</span> Fitting linear models in <strong>R</strong></a></li>
+  <li><a href="#sec-ethics" id="toc-sec-ethics" class="nav-link" data-scroll-target="#sec-ethics"><span class="header-section-number">2.7</span> Ethics in statistics and data science</a></li>
+  <li><a href="#sec-exercises2" id="toc-sec-exercises2" class="nav-link" data-scroll-target="#sec-exercises2"><span class="header-section-number">2.8</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_intro.html">Part I: Generalised Linear Models</a></li><li class="breadcrumb-item"><a href="./2_linearmodels.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-normallinear" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Essentials of Normal Linear Models</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-essentialsoverview" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-essentialsoverview"><span class="header-section-number">2.1</span> Overview</h2>
+<p>In many fields of application, we might assume the response variable is normally distributed. For example: heights, weights, log prices, etc.</p>
+<p>The data<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> in <a href="#tbl-birthweight" class="quarto-xref">Table&nbsp;<span>2.1</span></a> record the birth weights of 12 girls and 12 boys and their gestational ages (time from conception to birth).</p>
+<div id="tbl-birthweight" class="quarto-layout-panel anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-birthweight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.1: Gestational ages (in weeks) and birth weights (in grams) for 24 babies (12 girls and 12 boys).
+</figcaption>
+<div aria-describedby="tbl-birthweight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>Girls</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Gestational Age</th>
+<th style="text-align: center;">Birth weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">3317</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">2729</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">2935</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">2754</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">42</td>
+<td style="text-align: center;">3210</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">2817</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">3126</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">2539</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">2412</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">2991</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">39</td>
+<td style="text-align: center;">2875</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">3231</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="caption-top table">
+<caption>Boys</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Gestational Age</th>
+<th style="text-align: center;">Birth weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">2968</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">2795</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">3163</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">2925</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">2625</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">2847</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">41</td>
+<td style="text-align: center;">3292</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">3473</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">37</td>
+<td style="text-align: center;">2628</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">3176</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">3421</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">38</td>
+<td style="text-align: center;">3975</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</figure>
+</div>
+<p>A key question is: can we predict the birth weight of a baby born at a given gestational age? <a href="#fig-birthweightA" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> shows initial exploratory plots.</p>
+</section>
+<section id="focus-on-modelling-quiz" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="focus-on-modelling-quiz">Focus on modelling quiz</h2>
+<p>Test your knowledge recall and application to reinforce basic ideas and prepare for similar concepts later in the module.</p>
+<div class="webex-box">
+<div class="webex-check">
+<p>For each situation, choose one of the following statements which you think is <strong>most likely</strong> to apply.</p>
+<ol type="1">
+<li><p>What is the most useful graphical summary for identifying a potential relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="">kernel density plot</option><option value="">histogram</option><option value="">boxplot</option><option value="answer">scatter plot</option><option value="">other</option></select></p></li>
+<li><p>What is the most useful numerical summary for identifying a potential linear relationship between two variables? <select class="webex-select"><option value="blank"></option><option value="answer">correlation</option><option value="">sample means</option><option value="">variances</option><option value="">skew</option><option value="">other</option></select></p></li>
+<li><p>Which of the following is a true statement about the correlation coefficient? (Choose any that apply.)</p>
+<div id="radio_MVVDQBKAXI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MVVDQBKAXI" value=""> <span>A value close to -1 means uncorrelated and close to +1 indicates a high correlation</span></label><label><input type="radio" autocomplete="off" name="radio_MVVDQBKAXI" value="answer"> <span>Is always between -1 and +1</span></label><label><input type="radio" autocomplete="off" name="radio_MVVDQBKAXI" value=""> <span>Is always a positive number</span></label><label><input type="radio" autocomplete="off" name="radio_MVVDQBKAXI" value="answer"> <span>Can be positive or negative</span></label><label><input type="radio" autocomplete="off" name="radio_MVVDQBKAXI" value=""> <span>Can take any real number</span></label>
+</div></li>
+<li><p>Which of the following is a true statement about regression? (Choose any that apply.)</p>
+<div id="radio_RZVVFGPQYC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RZVVFGPQYC" value="answer"> <span>A linear model can be fitted to any data set</span></label><label><input type="radio" autocomplete="off" name="radio_RZVVFGPQYC" value=""> <span>A linear regression model will fit well if the correlation is close to zero</span></label><label><input type="radio" autocomplete="off" name="radio_RZVVFGPQYC" value=""> <span>All regression models describe linear relationships</span></label><label><input type="radio" autocomplete="off" name="radio_RZVVFGPQYC" value="answer"> <span>After fitting a regression model we should always consider residuals</span></label><label><input type="radio" autocomplete="off" name="radio_RZVVFGPQYC" value="answer"> <span>A linear regression can sometimes be used to approximate a non-linear relationship</span></label>
+</div></li>
+<li><p>Which of the following is a true statement about statistical modelling? (Choose any that apply.)</p>
+<div id="radio_PLSHWTHQCH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PLSHWTHQCH" value=""> <span>Only use a model that is 100% correct</span></label><label><input type="radio" autocomplete="off" name="radio_PLSHWTHQCH" value=""> <span>Only use a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_PLSHWTHQCH" value=""> <span>Models only involve a statistical distribution</span></label><label><input type="radio" autocomplete="off" name="radio_PLSHWTHQCH" value="answer"> <span>Models are part deterministic and part random</span></label><label><input type="radio" autocomplete="off" name="radio_PLSHWTHQCH" value="answer"> <span>All models are approximations</span></label>
+</div></li>
+</ol>
+</div>
+</div>
+<div class="cell" data-layout="[[1,1],[1]]">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>birthweight <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"https://www.richardpmann.com/MATH3701/Datasets/birthwt-numeric.txt"</span>, <span class="at">header=</span>T)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">=</span> birthweight<span class="sc">$</span>weight</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>age    <span class="ot">=</span> birthweight<span class="sc">$</span>age</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sex    <span class="ot">=</span> birthweight<span class="sc">$</span>sex</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(weight, <span class="at">breaks=</span><span class="dv">6</span>, <span class="at">probability =</span> T, <span class="at">main =</span> <span class="st">""</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Birth weight (grams)"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(weight<span class="sc">~</span>sex, <span class="at">names=</span><span class="fu">c</span>(<span class="st">"Girl"</span>, <span class="st">"Boy"</span>))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(age, weight, <span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Gestational age (weeks)"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Birth weight (grams)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="fig-birthweightA" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-birthweightA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweightA-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweightA-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweightA-1.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweightA-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Weight distribution
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweightA-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweightA-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweightA-2.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweightA-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Weight sub-divided by Sex
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweightA" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div id="fig-birthweightA-3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweightA-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweightA-3.png" class="img-fluid figure-img" data-ref-parent="fig-birthweightA" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweightA-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Relationship between variables
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-birthweightA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Birthweight and gestational age for 24 babies.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>The histogram shows a spread around 2800–3000 g; the boxplot indicates slightly higher birth weights for boys; and the scatter plot shows an increasing relationship with gestational age. Together, these suggest that both gestational age and sex are likely to be useful predictors of birth weight.</p>
+</section>
+<section id="linear-models" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="linear-models"><span class="header-section-number">2.2</span> Linear models</h2>
+<p>We consider four nested candidate models:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 62%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\texttt{Model 0}:\)</span></td>
+<td><span class="math inline">\(\texttt{Weight}=\alpha\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\texttt{Model 1}:\)</span></td>
+<td><span class="math inline">\(\texttt{Weight}=\alpha + \beta\cdot\texttt{Age}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\texttt{Model 2}:\)</span></td>
+<td><span class="math inline">\(\texttt{Weight}=\alpha + \beta\cdot\texttt{Age}+\gamma\cdot\texttt{Sex}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\texttt{Model 3}:\)</span></td>
+<td><span class="math inline">\(\texttt{Weight}=\alpha + \beta\cdot\texttt{Age}+\gamma\cdot\texttt{Sex} + \delta\cdot\texttt{Age}\cdot\texttt{Sex}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Here, <span class="math inline">\(\texttt{Weight}\)</span> is the <em>response</em> variable and <span class="math inline">\(\texttt{Age}\)</span> (continuous) and <span class="math inline">\(\texttt{Sex}\)</span> (a <em>dummy</em> variable: 0 for girls, 1 for boys) are the <em>explanatory</em> variables. Each model is a <em>special case</em> of the next — such models are called <em>nested</em>.</p>
+<p><span class="math inline">\(\gamma\)</span> is the main effect of <span class="math inline">\(\texttt{Sex}\)</span>: the difference in birth weight between boys and girls at the same gestational age. <span class="math inline">\(\delta\)</span> is the <em>interaction</em> between <span class="math inline">\(\texttt{Age}\)</span> and <span class="math inline">\(\texttt{Sex}\)</span>: it captures whether the effect of gestational age on birth weight differs between boys and girls.</p>
+<div class="cell" data-layout="[[1,1],[1,1]]">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>birthweight <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"https://www.richardpmann.com/MATH3701/Datasets/birthwt.txt"</span>, <span class="at">header=</span>T)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">=</span> birthweight<span class="sc">$</span>weight</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>age    <span class="ot">=</span> birthweight<span class="sc">$</span>age</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sex    <span class="ot">=</span> <span class="fu">as.integer</span>(birthweight<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"M"</span>)  <span class="co"># 1=Male, 0=Female</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(age, weight, <span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Gestational age (weeks)"</span>, <span class="at">ylab =</span> <span class="st">"Birth weight (grams)"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">mean</span>(weight))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(age, weight, <span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Gestational age (weeks)"</span>, <span class="at">ylab =</span> <span class="st">"Birth weight (grams)"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>M1.fit <span class="ot">=</span> <span class="fu">lm</span>(weight<span class="sc">~</span>age)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(M1.fit<span class="sc">$</span>coefficients[<span class="dv">1</span>], M1.fit<span class="sc">$</span>coefficients[<span class="dv">2</span>])</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(age, weight, <span class="at">pch=</span><span class="dv">15-11</span><span class="sc">*</span>sex, <span class="at">col=</span><span class="dv">2</span><span class="sc">-</span>sex,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Gestational age (weeks)"</span>, <span class="at">ylab =</span> <span class="st">"Birth weight (grams)"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">41</span>, <span class="dv">2800</span>, <span class="fu">c</span>(<span class="st">"Girl"</span>,<span class="st">"Boy"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">4</span>))</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>M2.fit <span class="ot">=</span> <span class="fu">lm</span>(weight<span class="sc">~</span>age<span class="sc">+</span>sex)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(M2.fit<span class="sc">$</span>coefficients[<span class="dv">1</span>],                         M2.fit<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(M2.fit<span class="sc">$</span>coefficients[<span class="dv">1</span>]<span class="sc">+</span>M2.fit<span class="sc">$</span>coefficients[<span class="dv">3</span>],  M2.fit<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="at">col=</span><span class="dv">1</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(age, weight, <span class="at">pch=</span><span class="dv">15</span><span class="sc">+</span>sex, <span class="at">col=</span><span class="dv">2</span><span class="sc">-</span>sex,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Gestational age (weeks)"</span>, <span class="at">ylab =</span> <span class="st">"Birth weight (grams)"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">41</span>, <span class="dv">2800</span>, <span class="fu">c</span>(<span class="st">"Girl"</span>,<span class="st">"Boy"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">16</span>))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>M3.fit <span class="ot">=</span> <span class="fu">lm</span>(weight<span class="sc">~</span>age<span class="sc">+</span>sex<span class="sc">+</span>age<span class="sc">*</span>sex)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(M3.fit<span class="sc">$</span>coefficients[<span class="dv">1</span>],                         M3.fit<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(M3.fit<span class="sc">$</span>coefficients[<span class="dv">1</span>]<span class="sc">+</span>M3.fit<span class="sc">$</span>coefficients[<span class="dv">3</span>],</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>       M3.fit<span class="sc">$</span>coefficients[<span class="dv">2</span>]<span class="sc">+</span>M3.fit<span class="sc">$</span>coefficients[<span class="dv">4</span>],  <span class="at">col=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="fig-birthweight-fitted" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-birthweight-fitted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweight-fitted-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweight-fitted-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-1.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweight-fitted-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Model 0
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweight-fitted-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweight-fitted-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-2.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweight-fitted-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Model 1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweight-fitted-3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweight-fitted-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-3.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweight-fitted-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Model 2
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-birthweight-fitted" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-birthweight-fitted-4" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-birthweight-fitted-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-birthweight-fitted-4.png" class="img-fluid figure-img" data-ref-parent="fig-birthweight-fitted" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-birthweight-fitted-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Model 3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-birthweight-fitted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: Birthweight data with fitted regression lines from competing models.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>To choose between nested models we use <span class="math inline">\(F\)</span>-tests. Let <span class="math inline">\(R_k\)</span> denote the residual sum of squares (RSS) for Model <span class="math inline">\(k\)</span> with <span class="math inline">\(r_k\)</span> residual degrees of freedom. The test statistic for comparing Model <span class="math inline">\(k+1\)</span> against the simpler Model <span class="math inline">\(k\)</span> is</p>
+<p><span class="math display">\[
+F = \frac{(R_k - R_{k+1})/(r_k - r_{k+1})}{R_{k+1}/r_{k+1}},
+\]</span></p>
+<p>which under <span class="math inline">\(H_0\)</span> (Model <span class="math inline">\(k\)</span> is adequate) follows an <span class="math inline">\(F_{r_k-r_{k+1},\, r_{k+1}}\)</span> distribution. A large <span class="math inline">\(F\)</span> (small <span class="math inline">\(p\)</span>-value) is evidence that the more complex model is needed. In <strong>R</strong>, <code>anova()</code> computes this table directly.</p>
+<p>Fitting Model 1 in <strong>R</strong>:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>birthweight <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"https://www.richardpmann.com/MATH3701/Datasets/birthwt.txt"</span>, <span class="at">header=</span>T)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">=</span> <span class="fu">lm</span>(weight <span class="sc">~</span> age, <span class="at">data=</span>birthweight)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)         age 
+ -1484.9846    115.5283 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: weight
+          Df  Sum Sq Mean Sq F value   Pr(&gt;F)    
+age        1 1013799 1013799   27.33 3.04e-05 ***
+Residuals 22  816074   37094                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The ANOVA table gives <span class="math inline">\(F = 27.3\)</span> (<span class="math inline">\(p &lt; 0.001\)</span>): strong evidence that gestational age is a significant predictor. Fitting Model 2:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">=</span> <span class="fu">lm</span>(weight <span class="sc">~</span> age <span class="sc">+</span> sex, <span class="at">data=</span>birthweight)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)         age        sexM 
+ -1773.3218    120.8943    163.0393 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: weight
+          Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+age        1 1013799 1013799 32.3174 1.213e-05 ***
+sex        1  157304  157304  5.0145   0.03609 *  
+Residuals 21  658771   31370                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The estimate <span class="math inline">\(\hat\gamma = 163\)</span> g is the additional birth weight for boys after adjusting for gestational age, and is statistically significant (<span class="math inline">\(F = 5.01\)</span>, <span class="math inline">\(p = 0.036\)</span>). Comparing Models 2 and 3 is left as an exercise.</p>
+</section>
+<section id="focus-on-regression-quiz" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="focus-on-regression-quiz">Focus on regression quiz</h2>
+<div class="webex-box">
+<div class="webex-check">
+<ol type="1">
+<li>Which of the following is a true statement about correlation and linear regression? (Choose any that apply.)
+<div id="radio_USZRZUZFNC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_USZRZUZFNC" value=""> <span>If the correlation is away from zero then a linear regression should always be used</span></label><label><input type="radio" autocomplete="off" name="radio_USZRZUZFNC" value="answer"> <span>The correlation and the regression slope parameter will have the same sign</span></label><label><input type="radio" autocomplete="off" name="radio_USZRZUZFNC" value="answer"> <span>If the correlation is close to zero then a linear regression will not be useful</span></label><label><input type="radio" autocomplete="off" name="radio_USZRZUZFNC" value=""> <span>The correlation and the slope parameter will have the opposite sign</span></label><label><input type="radio" autocomplete="off" name="radio_USZRZUZFNC" value=""> <span>There is no relationship between correlation and linear regression</span></label>
+</div></li>
+<li>Which of the following is NOT a true statement about model residuals? (Choose any that apply.)
+<div id="radio_HNHCAKEYAY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HNHCAKEYAY" value=""> <span>Can be used to judge how well the model fits the data</span></label><label><input type="radio" autocomplete="off" name="radio_HNHCAKEYAY" value="answer"> <span>All should be zero if the model is a good fit</span></label><label><input type="radio" autocomplete="off" name="radio_HNHCAKEYAY" value=""> <span>Will always sum to zero</span></label><label><input type="radio" autocomplete="off" name="radio_HNHCAKEYAY" value=""> <span>Should always be plotted as part of a data analysis</span></label><label><input type="radio" autocomplete="off" name="radio_HNHCAKEYAY" value=""> <span>Can help to identify unusual data points</span></label>
+</div></li>
+<li>Which of the following is a true statement about prediction using linear regression? (Choose any that apply.)
+<div id="radio_MKIZOMLSAJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MKIZOMLSAJ" value=""> <span>Prediction is always reliable</span></label><label><input type="radio" autocomplete="off" name="radio_MKIZOMLSAJ" value="answer"> <span>Interpolation and extrapolation are both types of prediction</span></label><label><input type="radio" autocomplete="off" name="radio_MKIZOMLSAJ" value="answer"> <span>We should be careful about extrapolating</span></label><label><input type="radio" autocomplete="off" name="radio_MKIZOMLSAJ" value=""> <span>Interpolation should only be used if we know the true relationship is linear</span></label><label><input type="radio" autocomplete="off" name="radio_MKIZOMLSAJ" value="answer"> <span>Interpolation is performed using the fitted model</span></label>
+</div></li>
+<li>Which of the following is NOT an important part of regression model fitting? (Choose any that apply.)
+<div id="radio_VPHYCQSGES" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VPHYCQSGES" value=""> <span>The command <strong>cor</strong> to check for a relationship between variables</span></label><label><input type="radio" autocomplete="off" name="radio_VPHYCQSGES" value="answer"> <span>A histogram of the data</span></label><label><input type="radio" autocomplete="off" name="radio_VPHYCQSGES" value=""> <span>The command <strong>lm</strong> to fit a linear model</span></label><label><input type="radio" autocomplete="off" name="radio_VPHYCQSGES" value=""> <span>A scatter plot of the residuals</span></label><label><input type="radio" autocomplete="off" name="radio_VPHYCQSGES" value=""> <span>A scatter plot of the data</span></label>
+</div></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="sec-typesnormalvariable" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-typesnormalvariable"><span class="header-section-number">2.3</span> Types of normal linear model</h2>
+<p>The dependent variable <span class="math inline">\(y\)</span> is modelled as a linear combination of <span class="math inline">\(p\)</span> explanatory variables <span class="math inline">\(\mathbf{x} =(x_1, x_2,\ldots, x_p)\)</span> plus a random error <span class="math inline">\(\epsilon \sim N(0, \sigma^2)\)</span>. <a href="#tbl-linear_models" class="quarto-xref">Table&nbsp;<span>2.2</span></a> summarises common special cases.</p>
+<div id="tbl-linear_models" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-linear_models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.2: Types of normal linear model and their explanatory variable types, where indicator function <span class="math inline">\(I(x=j)=1\)</span> if <span class="math inline">\(x=j\)</span> and <span class="math inline">\(0\)</span> otherwise.
+</figcaption>
+<div aria-describedby="tbl-linear_models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 27%">
+<col style="width: 45%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(p\)</span></td>
+<td><strong>Explanatory variables</strong></td>
+<td><strong>Model</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td>Quantitative</td>
+<td>Simple linear regression <span class="math inline">\(y=\alpha+\beta x+\epsilon\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">&gt;1</td>
+<td>Quantitative</td>
+<td>Multiple linear regression <span class="math inline">\(y=\alpha+\sum_{i=1}^p\beta_i x_i+\epsilon\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td>Dichotomous (<span class="math inline">\(x=1\)</span> or <span class="math inline">\(2\)</span>)</td>
+<td>Two-sample <span class="math inline">\(t\)</span>-test <span class="math inline">\(y=\alpha+\delta\, I(x=2)+\epsilon\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td>Polytomous, <span class="math inline">\(k\)</span> levels</td>
+<td>One-way ANOVA <span class="math inline">\(y=\alpha+\sum_{j=1}^k \delta_j\, I(x=j)+\epsilon\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">&gt;1</td>
+<td>Qualitative</td>
+<td><span class="math inline">\(p\)</span>-way ANOVA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>For the two-sample <span class="math inline">\(t\)</span>-test model, observations in the two groups have means <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\alpha+\beta_2\)</span> under the <em>corner</em> constraint <span class="math inline">\(\beta_1=0\)</span> — so <span class="math inline">\(\beta_2\)</span> is the difference in means relative to a baseline. For one-way ANOVA with <span class="math inline">\(k\)</span> groups, the corner constraint <span class="math inline">\(\delta_1=0\)</span> means <span class="math inline">\(\delta_j\)</span> is the mean difference between group <span class="math inline">\(j\)</span> and group 1.</p>
+</section>
+<section id="sec-matrix" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-matrix"><span class="header-section-number">2.4</span> Matrix representation of linear models</h2>
+<p>All models in <a href="#tbl-linear_models" class="quarto-xref">Table&nbsp;<span>2.2</span></a> can be written as</p>
+<p><span id="eq-matrix-linear-model"><span class="math display">\[
+\mathbf{Y} = \mathbf{X}\boldsymbol{\beta}+\boldsymbol{\epsilon},
+\tag{2.1}\]</span></span></p>
+<p>where</p>
+<ul>
+<li><span class="math inline">\(\mathbf{Y}\)</span> is an <span class="math inline">\(n\times 1\)</span> vector of observed responses;</li>
+<li><span class="math inline">\(\mathbf{X}\)</span> is an <span class="math inline">\(n\times p\)</span> <em>design</em> matrix;</li>
+<li><span class="math inline">\(\boldsymbol{\beta}\)</span> is a <span class="math inline">\(p\times 1\)</span> vector of parameters;</li>
+<li><span class="math inline">\(\boldsymbol{\epsilon}\)</span> is an <span class="math inline">\(n\times 1\)</span> vector of IID <span class="math inline">\(N(0,\sigma^2)\)</span> errors.</li>
+</ul>
+<p><strong>Constructing the design matrix.</strong> Start with a column of ones (the intercept). For each quantitative variable add one column of values. For each qualitative variable with <span class="math inline">\(k\)</span> levels, add <span class="math inline">\(k\)</span> indicator columns and then delete one to avoid singularity (the <em>corner constraint</em>).</p>
+<p><strong>Example: Simple linear regression.</strong> For <span class="math inline">\(y_i = \alpha+\beta x_i+\epsilon_i\)</span>:</p>
+<p><span class="math display">\[
+\mathbf{X}=\begin{bmatrix}
+1 &amp; x_1\\
+\vdots &amp; \vdots\\
+1 &amp; x_n
+\end{bmatrix},
+\qquad
+\boldsymbol{\beta}=
+\begin{bmatrix}
+\alpha\\
+\beta
+\end{bmatrix}.
+\]</span></p>
+<p><strong>Example: One-way ANOVA with <span class="math inline">\(k\)</span> groups.</strong> If observation <span class="math inline">\(i\)</span> is in group <span class="math inline">\(g_i\)</span>, the design matrix has a column of ones plus <span class="math inline">\(k-1\)</span> indicator columns (after the corner constraint). For a two-group (<span class="math inline">\(k=2\)</span>) example with <span class="math inline">\(n=5\)</span> observations:</p>
+<p><span class="math display">\[
+\mathbf{X}=\begin{bmatrix}
+1 &amp; 1 \\
+1 &amp; 1 \\
+1 &amp; 0 \\
+1 &amp; 1 \\
+1 &amp; 0
+\end{bmatrix},
+\qquad
+\boldsymbol{\beta}=\begin{bmatrix}\alpha\\\delta_2\end{bmatrix},
+\]</span></p>
+<p>where <span class="math inline">\(\delta_2\)</span> is the mean difference between group 2 and group 1.</p>
+<p><strong>OLS estimation.</strong> The ordinary least-squares (OLS) estimator is</p>
+<p><span id="eq-ols"><span class="math display">\[
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{Y},
+\tag{2.2}\]</span></span></p>
+<p>with fitted values <span class="math inline">\(\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{H}\mathbf{Y}\)</span>, where <span class="math inline">\(\mathbf{H} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)</span> is the <em>hat matrix</em>. The residual vector is <span class="math inline">\(\mathbf{r} = \mathbf{Y} - \hat{\mathbf{Y}} = (\mathbf{I}-\mathbf{H})\mathbf{Y}\)</span>.</p>
+</section>
+<section id="focus-on-matrix-representations-quiz" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="focus-on-matrix-representations-quiz">Focus on matrix representations quiz</h2>
+<div class="webex-box">
+<div class="webex-check">
+<ol type="1">
+<li><p>What is the dimension of the design matrix? <select class="webex-select"><option value="blank"></option><option value="">p by 1</option><option value="answer">n by p</option><option value="">X</option><option value="">n by 1</option><option value="">2</option></select></p></li>
+<li><p>What is the distribution of the error term? <select class="webex-select"><option value="blank"></option><option value="">random variable</option><option value="">mean zero</option><option value="">IDD</option><option value="">n by 1</option><option value="answer">normal</option></select></p></li>
+<li><p>Which quantity represents the model parameters? <select class="webex-select"><option value="blank"></option><option value="answer">beta</option><option value="">Y</option><option value="">epsilon</option><option value="">X</option><option value="">n</option></select></p></li>
+<li><p>Which two terms in the model have the same dimensions? <select class="webex-select"><option value="blank"></option><option value="">Y and beta</option><option value="">X and beta</option><option value="">beta and epsilon</option><option value="answer">Y and epsilon</option><option value="">Y and X</option></select></p></li>
+<li><p>Which of the following is a potential problem when using qualitative variables? <select class="webex-select"><option value="blank"></option><option value="">X is full rank</option><option value="answer">X is singular</option><option value="">X can be zero</option><option value="">X is not square</option><option value="">X can be negative</option></select></p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="sec-shorthand" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-shorthand"><span class="header-section-number">2.5</span> Model shorthand notation</h2>
+<p>In R, a qualitative variable is called a <em>factor</em> and its categories are called <em>levels</em>. A convenient compact notation specifies models without writing out the full design matrix. Below, <span class="math inline">\(E\)</span>, <span class="math inline">\(F\)</span> denote generic variables.</p>
+<div id="tbl-shorthand" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-shorthand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.3: Model shorthand notation
+</figcaption>
+<div aria-describedby="tbl-shorthand-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Notation</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(E\)</span></td>
+<td>Include <span class="math inline">\(E\)</span> (one column if quantitative; <span class="math inline">\(k-1\)</span> columns if factor)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(E + F\)</span></td>
+<td>Include <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span> (no interaction)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(E : F\)</span></td>
+<td>Interaction of <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(E * F\)</span></td>
+<td>Shorthand for <span class="math inline">\(1 + E + F + E{:}F\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(E / F\)</span></td>
+<td>Shorthand for <span class="math inline">\(1 + E + E{:}F\)</span> (nested model)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\text{poly}(E, \ell)\)</span></td>
+<td>Orthogonal polynomial in <span class="math inline">\(E\)</span> up to degree <span class="math inline">\(\ell\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(-E\)</span></td>
+<td>Remove term <span class="math inline">\(E\)</span> from the model</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(I(\cdot)\)</span></td>
+<td>Arithmetic expression, e.g.&nbsp;<span class="math inline">\(I(E*F)\)</span> multiplies two variables</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The notation uses <code>~</code> as shorthand for “is modelled by”. Examples:</p>
+<ul>
+<li>Weight regressed on age and sex, no interaction:<br>
+<code>Weight ~ Age + Sex</code></li>
+<li>Wellbeing regressed on age and income with interaction:<br>
+<code>Wellbeing ~ Age * Income</code></li>
+<li>Degree class regressed on school and subject nested within school:<br>
+<code>DegreeClass ~ School/Subject</code></li>
+<li>Yield regressed on variety and a quadratic in rainfall:<br>
+<code>Yield ~ Variety + poly(Rainfall, 2)</code></li>
+</ul>
+</section>
+<section id="focus-on-model-notation-quiz" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="focus-on-model-notation-quiz">Focus on model notation quiz</h2>
+<div class="webex-box">
+<div class="webex-check">
+<ol type="1">
+<li><p>What <strong>R</strong> command can be used to convert numerical values into a nominal variable? <select class="webex-select"><option value="blank"></option><option value="">as.nominal</option><option value="">as.numerical</option><option value="">factorial</option><option value="">as.ordinal</option><option value="answer">as.factor</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, but without an interaction? <select class="webex-select"><option value="blank"></option><option value="answer">Y ~ V1 + V2</option><option value="">V1 + V2 ~ Y</option><option value="">Y ~ V1:V2</option><option value="">Y ~ V1 + V2 + V1:V2</option><option value="">Y ~ V1*V2</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on variables V1 and V2, including a constant and an interaction? <select class="webex-select"><option value="blank"></option><option value="answer">Y ~ V1*V2</option><option value="">Y ~ 1+V1/V2</option><option value="">Y ~ 1+V1:V2</option><option value="">Y ~ V1 + V2 + V1:V2 -1</option><option value="">Y ~ 1 + V1 + V2</option></select></p></li>
+<li><p>Which of the following defines a model regressing Y on the product of V1 and V2? <select class="webex-select"><option value="blank"></option><option value="">Y ~ V1:V2</option><option value="">Y ~ I(V1 + V2)</option><option value="">Y ~ V1.V2</option><option value="answer">Y ~ I(V1*V2)</option><option value="">Y ~ poly(V1,V2)</option></select></p></li>
+<li><p>Which of the following defines a model where variable Y is regressed on a second-order polynomial in V1? <select class="webex-select"><option value="blank"></option><option value="answer">Y ~ poly(V1,2)</option><option value="">Y ~ 1+V1</option><option value="">Y ~ V1*V1</option><option value="">Y ~ I(V1)</option><option value="">Y ~ V1^2</option></select></p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="sec-fittinglm" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="sec-fittinglm"><span class="header-section-number">2.6</span> Fitting linear models in <strong>R</strong></h2>
+<p>The primary command is <code>lm(formula)</code>. Key functions for working with a fitted model object (here called <code>my.lm</code>):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>my.lm = lm(y ~ x + a*b)</code></td>
+<td>Fit the model</td>
+</tr>
+<tr class="even">
+<td><code>summary(my.lm)</code></td>
+<td>Parameter estimates, SEs, <span class="math inline">\(t\)</span>-tests, <span class="math inline">\(R^2\)</span></td>
+</tr>
+<tr class="odd">
+<td><code>anova(my.lm)</code></td>
+<td>ANOVA table with <span class="math inline">\(F\)</span>-tests</td>
+</tr>
+<tr class="even">
+<td><code>coefficients(my.lm)</code></td>
+<td>Parameter estimates</td>
+</tr>
+<tr class="odd">
+<td><code>fitted.values(my.lm)</code></td>
+<td>Fitted values <span class="math inline">\(\hat{\mathbf{Y}}\)</span></td>
+</tr>
+<tr class="even">
+<td><code>residuals(my.lm)</code></td>
+<td>Residuals <span class="math inline">\(\mathbf{r}\)</span></td>
+</tr>
+<tr class="odd">
+<td><code>df.residual(my.lm)</code></td>
+<td>Residual degrees of freedom</td>
+</tr>
+<tr class="even">
+<td><code>model.matrix(y ~ a*b)</code></td>
+<td>Design matrix</td>
+</tr>
+<tr class="odd">
+<td><code>predict(my.lm, newdata)</code></td>
+<td>Predicted values at new <span class="math inline">\(x\)</span> values</td>
+</tr>
+</tbody>
+</table>
+<p>Always check residual plots after fitting. Residuals should show no systematic pattern when plotted against fitted values, should be approximately symmetric, and a normal QQ plot should be approximately linear.</p>
+<div class="cell" data-layout="[[1,1]]">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">273686</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">12</span>, <span class="at">length.out=</span><span class="dv">50</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.2</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(x), <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>my.lm <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(my.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ x)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.38790 -0.12026 -0.01578  0.12751  0.44184 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 1.941552   0.062524   31.05   &lt;2e-16 ***
+x           0.204299   0.008609   23.73   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1972 on 48 degrees of freedom
+Multiple R-squared:  0.9215,    Adjusted R-squared:  0.9198 
+F-statistic: 563.1 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">pch=</span><span class="dv">16</span>); <span class="fu">abline</span>(my.lm)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>resid.sd <span class="ot">=</span> <span class="fu">sd</span>(my.lm<span class="sc">$</span>residuals)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(my.lm<span class="sc">$</span>fitted.values, my.lm<span class="sc">$</span>residuals, <span class="at">pch=</span><span class="dv">16</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Fitted values"</span>, <span class="at">ylab=</span><span class="st">"Residuals"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fl">0.6</span><span class="sc">*</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">2</span><span class="sc">*</span>resid.sd<span class="sc">*</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">lty=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(my.lm<span class="sc">$</span>residuals, <span class="at">probability=</span>T,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fl">0.6</span><span class="sc">*</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(my.lm<span class="sc">$</span>residuals, <span class="at">main=</span><span class="st">""</span>); <span class="fu">qqline</span>(my.lm<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="fig-toy" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-toy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-toy-1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-toy-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-toy-1.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-toy-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Data and fitted model
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-toy-2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-toy-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-toy-2.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-toy-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Residual plot
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-toy-3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-toy-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-toy-3.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-toy-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Histogram of residuals
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-toy" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-toy-4" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-toy-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="2_linearmodels_files/figure-html/fig-toy-4.png" class="img-fluid figure-img" data-ref-parent="fig-toy" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-toy-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Normal QQ plot
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-toy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: Model fitting on a toy example.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>The residual plot shows no systematic pattern and all residuals are within two standard deviations of zero. The histogram and QQ plot support normality. To predict at new values of <span class="math inline">\(x\)</span>:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(my.lm, <span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">6</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1        2 
+2.758747 3.167345 </code></pre>
+</div>
+</div>
+</section>
+<section id="sec-ethics" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="sec-ethics"><span class="header-section-number">2.7</span> Ethics in statistics and data science</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Directed reading.</strong></p>
+<p>In previous modules you will have seen that professional and ethical considerations are important in statistics and data science: how we choose which graph to present, how we handle missing data, and how we deal with suspected outliers. It is important for statisticians and data scientists to be aware of the ethical dimensions of their work.</p>
+<p>Roughly speaking, ethics concerns what we ought to do and the kind of person we ought to be. Questions relevant to data science include:</p>
+<ul>
+<li>How should we collect data in a way that respects participants?</li>
+<li>Why is privacy important? How should data scientists protect privacy?</li>
+<li>How can algorithmic bias wrong members of the public?</li>
+<li>To what extent are data scientists responsible for the impact of their work?</li>
+<li>When and how should data scientists challenge authority in the workplace?</li>
+</ul>
+<p>Please keep these issues in mind throughout any data analysis and modelling work. For further discussion, the Royal Statistical Society and the Alan Turing Institute both publish guidance on data ethics.</p>
+</div>
+</div>
+</section>
+<section id="sec-exercises2" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="sec-exercises2"><span class="header-section-number">2.8</span> Exercises</h2>
+<div class="webex-box">
+<p>2.1 The following situations each involve two variables. For each: explore the data with a suitable plot, calculate the correlation, and decide whether a linear model would be appropriate.</p>
+<ol type="a">
+<li>Use the data in <code>schoolstudy.csv</code> to investigate the relationship between calorie intake and BMI in 11-year-old children.</li>
+<li>Use the data in <code>smartmeter.csv</code> to investigate the relationship between daily electricity and gas consumption in a typical house.</li>
+<li>Use the data in <code>housing.csv</code> (2022–23 UK Housing Survey) to investigate the relationship between number of rooms and household income.</li>
+</ol>
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>For each data set, use <code>read.csv()</code> to load the data, <code>plot()</code> for a scatter plot, <code>cor()</code> for the correlation, and <code>lm()</code> to fit a linear model. Does a straight line seem reasonable?</p>
+</div>
+2.2 An extra model for the birthweight data would be one where <span class="math inline">\(\texttt{Weight}\)</span> differs by sex but does not depend on gestational age. Write down the model equation, fit it in <strong>R</strong>, and test whether sex is statistically significant.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>The model is <span class="math inline">\(\texttt{Weight} = \alpha + \gamma\cdot\texttt{Sex}\)</span>. Use <code>lm()</code> and <code>anova()</code>.</p>
+</div>
+2.3. For each given situation, consider the description and then investigate the suitability of a linear model.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>For each given data set, produce an appropriate graph within RStudio, fit a linear regression model and add the fitted model to the graph. Comment on the quality of fit.</p>
+</div>
+<ol type="a">
+<li>Continuing the childhood obesity example, use the data in file <code>schoolstudy.csv</code> to model the relationship between BMI and calorie intake in 11-year old children.</li>
+<li>To study the profitability of several iron ore (hematite) extraction quarries, small samples are taken from lorries arriving at an iron purification site. The lorries are open-topped with most travelling less than 20 Km but one quarry is more than 100 Km away. A chemical analysis provides a percentage of pure iron in the sample. Quarries with iron content less than 30% are not considered economically viable. The data file <code>iron.csv</code> contains measurements of percentage pure iron arriving at an iron purification site recorded over a 50 year period. Model the relationship between iron purity and time.</li>
+<li>A study aims to investigate osteoporosis in women before and after menopause. The X-rays of a randomly selected sample of patients taking routine mammograms are analysed. The age of the patient and their menopause status are recorded, along with a measure of bone density calculated from the X-ray. Use the data in the file <code>bmd.csv</code> to model the relationship between age and Tscore, noting that a value of below -2.5 indicates osteoperosis, between -2.5 and -1.0 indicates osteopenia whereas above -1.0 is normal.</li>
+<li>A primary school head teaching wishes to investigate the relationship between social skills of children and the ages of their brothers and sisters. The hypothesis is that those with older siblings will be better able to deal with social interaction. The file <code>skills.csv</code> contains data on the age of the eldest sibling of a class of 6-year old school children along with a <em>social skills</em> score for each child assessed during the school lunch break. Model the relationship between sibling age and social skills.</li>
+</ol>
+<p>2.4 In an experiment to investigate Ohm’s Law, <span class="math inline">\(V=IR\)</span>, the following data<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> were recorded:</p>
+<div id="tbl-ohmslawdata" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ohmslawdata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.4: Experimental verification of Ohm’s Law
+</figcaption>
+<div aria-describedby="tbl-ohmslawdata-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td>Voltage (Volts)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">24</td>
+</tr>
+<tr class="even">
+<td>Current (mAmps)</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">53</td>
+<td style="text-align: center;">58.5</td>
+<td style="text-align: center;">70</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+Does this data support Ohm’s Law? What is the resistance of the material?
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Note that Ohm’s Law is a linear function through the origin. To fit a model without intercept, use <code>lm(y ~ x - 1)</code>. The resistance is the reciprocal of the estimated slope.</p>
+</div>
+<p>2.5 In an investigation<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> into the effect of eating on pulse rate, 6 men and 6 women were tested before and after a meal:</p>
+<div id="tbl-pulserate" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-pulserate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.5: Pulse rates before and after a meal
+</figcaption>
+<div aria-describedby="tbl-pulserate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td>Men</td>
+<td>before</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">87</td>
+<td style="text-align: right;">97</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>after</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">87</td>
+<td style="text-align: right;">86</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">101</td>
+</tr>
+<tr class="odd">
+<td>Women</td>
+<td>before</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">73</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">78</td>
+<td style="text-align: right;">86</td>
+<td style="text-align: right;">77</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>after</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">81</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+Suggest a suitable model and write down the corresponding design matrix. Test whether the change in pulse rate due to the meal differs between men and women.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>The explanatory variables are <span class="math inline">\(\texttt{Sex}\)</span> (Men/Women) and <span class="math inline">\(\texttt{Time}\)</span> (before/after), both categorical. Declare them as factors. An interaction between Sex and Time captures whether the before-to-after change differs by sex. Use <code>lm()</code> and <code>anova()</code>.</p>
+</div>
+<p>2.6 A laboratory experiment<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> investigated the effect of seasonal floods on the height of barley seedlings. Three barley varieties (Goldmarker, Midas, Igri) were grown under two watering conditions (Normal and Waterlogged) and on four shelf positions (Top, Second, Third, Bottom). Data are in <code>barley.csv</code>.</p>
+Fit appropriate models to test the importance of: (a) watering condition, (b) barley variety, and (c) shelf position. Do not include interactions involving shelf position. If you find a significant interaction between watering condition and variety, interpret the parameter estimates carefully.
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Declare all three explanatory variables as factors with <code>as.factor()</code>. Fit a model including main effects and the watering-by-variety interaction with <code>lm()</code>, then use <code>anova()</code> to assess significance.</p>
+</div>
+</div>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Dobson and Barnett, 3rd edition, Table 2.3.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Aykroyd, P.J. (1956). Unpublished.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Source unknown.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Source unknown.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./1_intro.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./3_GLM-Theory.html" class="pagination-link" aria-label="GLM Theory">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GLM Theory</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
