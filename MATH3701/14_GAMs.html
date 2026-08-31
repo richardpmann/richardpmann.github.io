@@ -669,14 +669,16 @@ UBRE = 0.083268  Scale est. = 1         n = 462</code></pre>
 <p>14.1 Using the South Africa heart disease data (<code>https://www.richardpmann.com/MATH3701/Datasets/SAheart.txt</code>), fit a GAM that includes smooth terms for all continuous predictors (tobacco, alcohol, obesity, sbp, ldl, adiposity, typea) along with <code>famhist</code> as a parametric term and <code>chd</code> as the binary response.</p>
 <ol type="a">
 <li><p>Report the edf for each smooth term. Which predictors show evidence of non-linearity?</p></li>
-<li><p>Use <code>anova.gam</code> to assess the significance of each smooth term. Which predictors would you retain?</p></li>
-<li><p>Refit the model retaining only the significant smooth terms. Compare the GCV score of this reduced model with that of the full model.</p></li>
+<li><p>Fit a second model with the smooth term for <code>alcohol</code> removed (keeping all other smooth terms and <code>famhist</code>). This model is nested within the full model from part (a). Test whether <code>alcohol</code> should be retained by computing the change in deviance and the change in degrees of freedom between the two models, and comparing this to the appropriate <span class="math inline">\(\chi^2\)</span> reference distribution (as in <a href="4_GLM-Fitting.html#sec-deviance" class="quarto-xref"><span>Section 4.3</span></a>). What do you conclude?</p></li>
+<li><p>Compare the full model and the model without <code>alcohol</code> using their GCV scores. Does this agree with your conclusion from the deviance test in (b)?</p></li>
+<li><p>Repeat parts (b) and (c), but this time removing the smooth term for <code>tobacco</code> instead of <code>alcohol</code>.</p></li>
+<li><p>Compare your conclusions for <code>alcohol</code> and <code>tobacco</code>. Do the deviance test and the GCV comparison agree with each other in both cases? What does this tell you about the roles of these two predictors in the model?</p></li>
 </ol>
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
-<p>Fit the full model with <code>gam(chd ~ s(tobacco,k=10) + s(alcohol,k=10) + ... + famhist, family='binomial')</code>. An edf close to 1 suggests the smooth term is approximately linear and could be replaced by a parametric linear term.</p>
+<p>Fit the full model with <code>gam(chd ~ s(tobacco,k=10) + s(alcohol,k=10) + ... + famhist, family='binomial')</code>. An edf close to 1 suggests the smooth term is approximately linear and could be replaced by a parametric linear term. For (b) and (d), fit the reduced model with the relevant <code>s(...)</code> term simply omitted from the formula; the two models’ deviances are <code>model$deviance</code>, and a reasonable degrees-of-freedom for the test is the difference in their total edf (<code>sum(model$edf)</code>), used as in <span class="math inline">\(D_1-D_2\sim\chi^2_{r_2-r_1}\)</span> even though this edf difference need not be an integer. For (c) and (d), compare <code>model$gcv.ubre</code> for the two models.</p>
 </div>
 <p>14.2 Using the <code>mcycle</code> data set from the <code>MASS</code> package (accelerometer readings from a motorcycle crash test), fit a GAM with <code>times</code> as the explanatory variable and <code>accel</code> as the response.</p>
 <ol type="a">
