@@ -424,7 +424,7 @@ window.Quarto = {
 
 <section id="what-is-survival-analysis" class="level2" data-number="15.1">
 <h2 data-number="15.1" class="anchored" data-anchor-id="what-is-survival-analysis"><span class="header-section-number">15.1</span> What is survival analysis?</h2>
-<p>In many statistical problems the response variable of interest is the time taken for a specific event to occur. We call this a <strong>survival time</strong> and denote it by <span class="math inline">\(T &gt; 0\)</span>. The event is sometimes called the <strong>endpoint</strong>. Although the name “survival analysis” originated in biomedical applications — where the endpoint is literally death — the methods apply far more broadly:</p>
+<p>In many statistical problems the response variable of interest is the time taken for a specific event to occur. We call this a <strong>survival time</strong> and denote it by <span class="math inline">\(T &gt; 0\)</span>. The event is sometimes called the <strong>endpoint</strong>. Although the name “survival analysis” originated in biomedical applications (where the endpoint is literally death), the methods apply far more broadly:</p>
 <ul>
 <li>time from surgery to death or relapse (medicine);</li>
 <li>time to failure of a mechanical or electronic component (reliability);</li>
@@ -469,7 +469,7 @@ Figure&nbsp;15.1: Survival times for the 5-patient AVR data set. Deaths (×) and
 <p>For patients 2 and 4, we know only that <span class="math inline">\(T &gt; t^*\)</span> for some observed time <span class="math inline">\(t^*\)</span>. These observations are <strong>right-censored</strong>.</p>
 <p>Suppose we wish to estimate <span class="math inline">\(\Prob(T &gt; 6)\)</span>, the probability that a randomly chosen future patient survives more than 6 years. Three naive approaches all fail:</p>
 <ol type="1">
-<li><p><strong>Ignore censoring, treat as deaths:</strong> Only 1 of 5 patients died within 6 years, so <span class="math inline">\(\hat p = 4/5\)</span>. But this assumes censored patients did not die after leaving the study — optimistic, and tends to <strong>overestimate</strong> survival.</p></li>
+<li><p><strong>Ignore censoring, treat as deaths:</strong> Only 1 of 5 patients died within 6 years, so <span class="math inline">\(\hat p = 4/5\)</span>. But this assumes censored patients did not die after leaving the study, an optimistic assumption that tends to <strong>overestimate</strong> survival.</p></li>
 <li><p><strong>Treat censored observations as deaths:</strong> 2 of 5 patients “died” within 6 years, so <span class="math inline">\(\hat p = 3/5\)</span>. This is pessimistic and tends to <strong>underestimate</strong> survival.</p></li>
 <li><p><strong>Exclude censored observations:</strong> 1 of 3 observed deaths was before year 6, so <span class="math inline">\(\hat p = 2/3\)</span>. But this discards the information that patient 4 definitely survived beyond 6 years, and would give the nonsensical estimate <span class="math inline">\(\Prob(T &gt; 9) \approx 0\)</span>.</p></li>
 </ol>
@@ -539,7 +539,7 @@ Important
 T_n\)</span> form an independent and identically distributed (i.i.d.) random sample from a common distribution.</p>
 </div>
 </div>
-<p>In many analyses we will additionally observe covariates (explanatory variables) for each individual, and the survival distribution will depend on those covariates. Regression models for this are introduced in <a href="22_ph_regression.html" class="quarto-xref"><span>Chapter 22</span></a>.</p>
+<p>In many analyses we will additionally observe explanatory variables for each individual, and the survival distribution will depend on those explanatory variables. Regression models for this are introduced in <a href="22_ph_regression.html" class="quarto-xref"><span>Chapter 22</span></a>.</p>
 </section>
 <section id="observed-data-structure" class="level2" data-number="15.5">
 <h2 data-number="15.5" class="anchored" data-anchor-id="observed-data-structure"><span class="header-section-number">15.5</span> Observed data structure</h2>
@@ -606,7 +606,7 @@ t_i = \min(T_i,\, C_i), \qquad
 <li><p>What type of censoring applies to the <strong>five patients removed between day 6 and day 7</strong>?</p></li>
 <li><p>The five patients removed between day 6 and day 7 are subject to: <select class="webex-select"><option value="blank"></option><option value="">Right censoring only</option><option value="answer">Right censoring (and the ulcer times themselves are interval-censored)</option><option value="">Interval censoring only</option><option value="">Left censoring</option></select></p></li>
 <li><p>What type of censoring applies to the <strong>ulcer event times themselves</strong> (e.g., an ulcer discovered at the day-8 check)?</p></li>
-<li><p>An ulcer discovered at a daily check is an example of: <select class="webex-select"><option value="blank"></option><option value="">Right censoring</option><option value="">Left censoring</option><option value="answer">Interval censoring</option><option value="">No censoring — the exact time is known</option></select></p></li>
+<li><p>An ulcer discovered at a daily check is an example of: <select class="webex-select"><option value="blank"></option><option value="">Right censoring</option><option value="">Left censoring</option><option value="answer">Interval censoring</option><option value="">No censoring: the exact time is known</option></select></p></li>
 <li><p>Given the combination of censoring types present, which non-parametric survival estimator is most appropriate?</p></li>
 <li><p>The most appropriate estimator for these data is: <select class="webex-select"><option value="blank"></option><option value="">Kaplan–Meier estimator</option><option value="answer">Actuarial (life-table) estimator</option><option value="">Nelson–Aalen estimator</option><option value="">Empirical distribution function</option></select></p></li>
 </ol>

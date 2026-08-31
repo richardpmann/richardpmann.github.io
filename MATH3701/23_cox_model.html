@@ -426,7 +426,7 @@ window.Quarto = {
 
 <section id="motivation" class="level2" data-number="23.1">
 <h2 data-number="23.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">23.1</span> Motivation</h2>
-<p>Parametric models (Chapters 17–22) require us to specify the shape of the baseline hazard <span class="math inline">\(h_0(t)\)</span>. In practice, we may not be confident in this choice, and a misspecified baseline can bias the estimated covariate effects <span class="math inline">\(\hat{\bbeta}\)</span>.</p>
+<p>Parametric models (Chapters 17–22) require us to specify the shape of the baseline hazard <span class="math inline">\(h_0(t)\)</span>. In practice, we may not be confident in this choice, and a misspecified baseline can bias the estimated effects of the explanatory variables <span class="math inline">\(\hat{\bbeta}\)</span>.</p>
 <p>In 1972, Sir David Cox proposed a <strong>semi-parametric</strong> approach that estimates <span class="math inline">\(\bbeta\)</span> without specifying <span class="math inline">\(h_0(t)\)</span> at all. The baseline hazard is treated as an unspecified nuisance function, and inference on <span class="math inline">\(\bbeta\)</span> is based on a <strong>partial likelihood</strong> that eliminates <span class="math inline">\(h_0(t)\)</span>.</p>
 </section>
 <section id="the-cox-model" class="level2" data-number="23.2">
@@ -446,7 +446,7 @@ h(t \mid \mathbf{x}_i) = h_0(t)\exp(\bbeta^T\mathbf{x}_i),
 \]</span> where <span class="math inline">\(h_0(t) \geq 0\)</span> is an <strong>unspecified</strong> baseline hazard function and <span class="math inline">\(\bbeta = (\beta_1, \ldots, \beta_p)^T\)</span> are regression coefficients.</p>
 </div>
 </div>
-<p>The covariate effects are the same as in the parametric PH model (<a href="22_ph_regression.html" class="quarto-xref"><span>Chapter 22</span></a>). What is new is that <span class="math inline">\(h_0(t)\)</span> is left completely unspecified.</p>
+<p>The explanatory-variable effects are the same as in the parametric PH model (<a href="22_ph_regression.html" class="quarto-xref"><span>Chapter 22</span></a>). What is new is that <span class="math inline">\(h_0(t)\)</span> is left completely unspecified.</p>
 </section>
 <section id="partial-likelihood" class="level2" data-number="23.3">
 <h2 data-number="23.3" class="anchored" data-anchor-id="partial-likelihood"><span class="header-section-number">23.3</span> Partial likelihood</h2>
@@ -461,6 +461,7 @@ h(t \mid \mathbf{x}_i) = h_0(t)\exp(\bbeta^T\mathbf{x}_i),
 {\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\bbeta^T\mathbf{x}_\ell)}.
 \]</span></p>
 <p>The baseline hazard <span class="math inline">\(h_0(t_{(j)})\)</span> cancels in the numerator and denominator.</p>
+<p><strong>Proof:</strong> See the supplementary notes <a href="Supplementary/proof_partial_likelihood.pdf"><code>proof_partial_likelihood.pdf</code></a> for a full justification of this conditioning argument.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -475,7 +476,7 @@ Definition: Partial likelihood
 L(\bbeta) = \prod_{j=1}^{r}
 \frac{\exp(\bbeta^T\mathbf{x}_{(j)})}
 {\displaystyle\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\bbeta^T\mathbf{x}_\ell)},
-\]</span> where <span class="math inline">\(\mathbf{x}_{(j)}\)</span> is the covariate vector of the individual who dies at time <span class="math inline">\(t_{(j)}\)</span>.</p>
+\]</span> where <span class="math inline">\(\mathbf{x}_{(j)}\)</span> is the vector of explanatory variables for the individual who dies at time <span class="math inline">\(t_{(j)}\)</span>.</p>
 </div>
 </div>
 <p>This can be written compactly as <span class="math display">\[
@@ -503,7 +504,7 @@ L(\bbeta) = \prod_{i=1}^n \left[
 L(\bbeta) \approx \prod_{j=1}^r
 \frac{\exp(\bbeta^T\mathbf{s}_{(j)})}
 {\left(\displaystyle\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\bbeta^T\mathbf{x}_\ell)\right)^{d_j}},
-\]</span> where <span class="math inline">\(d_j\)</span> is the number of deaths at <span class="math inline">\(t_{(j)}\)</span> and <span class="math inline">\(\mathbf{s}_{(j)}\)</span> is the sum of covariate vectors of those who die.</p>
+\]</span> where <span class="math inline">\(d_j\)</span> is the number of deaths at <span class="math inline">\(t_{(j)}\)</span> and <span class="math inline">\(\mathbf{s}_{(j)}\)</span> is the sum of the explanatory-variable vectors of those who die.</p>
 </section>
 <section id="manual-calculation-coronavirus-example" class="level2" data-number="23.6">
 <h2 data-number="23.6" class="anchored" data-anchor-id="manual-calculation-coronavirus-example"><span class="header-section-number">23.6</span> Manual calculation: coronavirus example</h2>
@@ -672,7 +673,7 @@ Figure&nbsp;23.1: Baseline survival function estimated from the Cox model for th
 <button>
 Click here to see hints.
 </button>
-<p>At each event time <span class="math inline">\(t_{(j)}\)</span>, the partial likelihood contribution is <span class="math inline">\(e^{\beta x_{(j)}} / \sum_{k \in R(t_{(j)})} e^{\beta x_k}\)</span>, where <span class="math inline">\(x_{(j)}\)</span> is the covariate of the subject who had the event. The risk set <span class="math inline">\(R(t_{(j)})\)</span> contains all subjects with <span class="math inline">\(t_k \geq t_{(j)}\)</span>. Multiply contributions over all event times.</p>
+<p>At each event time <span class="math inline">\(t_{(j)}\)</span>, the partial likelihood contribution is <span class="math inline">\(e^{\beta x_{(j)}} / \sum_{k \in R(t_{(j)})} e^{\beta x_k}\)</span>, where <span class="math inline">\(x_{(j)}\)</span> is the value of the explanatory variable for the subject who had the event. The risk set <span class="math inline">\(R(t_{(j)})\)</span> contains all subjects with <span class="math inline">\(t_k \geq t_{(j)}\)</span>. Multiply contributions over all event times.</p>
 </div></li>
 <li>Find the maximum partial likelihood estimator <span class="math inline">\(\hat\beta\)</span>.
 <div class="webex-solution">

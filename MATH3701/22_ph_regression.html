@@ -395,7 +395,7 @@ window.Quarto = {
   <li><a href="#log-likelihood" id="toc-log-likelihood" class="nav-link" data-scroll-target="#log-likelihood"><span class="header-section-number">22.2</span> Log-likelihood</a></li>
   <li><a href="#interpretation-of-coefficients" id="toc-interpretation-of-coefficients" class="nav-link" data-scroll-target="#interpretation-of-coefficients"><span class="header-section-number">22.3</span> Interpretation of coefficients</a></li>
   <li><a href="#fitting-weibull-ph-models-in-r" id="toc-fitting-weibull-ph-models-in-r" class="nav-link" data-scroll-target="#fitting-weibull-ph-models-in-r"><span class="header-section-number">22.4</span> Fitting Weibull PH models in R</a></li>
-  <li><a href="#multiple-covariates-weibull-regression" id="toc-multiple-covariates-weibull-regression" class="nav-link" data-scroll-target="#multiple-covariates-weibull-regression"><span class="header-section-number">22.5</span> Multiple covariates: Weibull regression</a></li>
+  <li><a href="#multiple-explanatory-variables-weibull-regression" id="toc-multiple-explanatory-variables-weibull-regression" class="nav-link" data-scroll-target="#multiple-explanatory-variables-weibull-regression"><span class="header-section-number">22.5</span> Multiple explanatory variables: Weibull regression</a></li>
   <li><a href="#model-checking" id="toc-model-checking" class="nav-link" data-scroll-target="#model-checking"><span class="header-section-number">22.6</span> Model checking</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
   </ul>
@@ -425,9 +425,9 @@ window.Quarto = {
 
 <section id="the-model" class="level2" data-number="22.1">
 <h2 data-number="22.1" class="anchored" data-anchor-id="the-model"><span class="header-section-number">22.1</span> The model</h2>
-<p>The parametric PH regression model specifies both the baseline hazard <span class="math inline">\(h_0(t)\)</span> and the effect of covariates: <span class="math display">\[
+<p>The parametric PH regression model specifies both the baseline hazard <span class="math inline">\(h_0(t)\)</span> and the effect of explanatory variables: <span class="math display">\[
 h(t \mid \mathbf{x}_i) = h_0(t)\exp(\bbeta^T \mathbf{x}_i),
-\]</span> where <span class="math inline">\(\mathbf{x}_i = (x_{i1}, \ldots, x_{ip})^T\)</span> is the covariate vector for individual <span class="math inline">\(i\)</span>.</p>
+\]</span> where <span class="math inline">\(\mathbf{x}_i = (x_{i1}, \ldots, x_{ip})^T\)</span> is the vector of explanatory variables for individual <span class="math inline">\(i\)</span>.</p>
 <p>We use a <strong>Weibull baseline hazard</strong> <span class="math inline">\(h_0(t) = \lambda\gamma
 t^{\gamma-1}\)</span>, giving <span class="math display">\[
 h(t \mid \mathbf{x}_i) = \lambda\gamma t^{\gamma-1} \exp(\bbeta^T \mathbf{x}_i).
@@ -449,7 +449,7 @@ S(t \mid \mathbf{x}_i) = \exp\!\left(-\lambda t^\gamma \exp(\bbeta^T \mathbf{x}_
 </section>
 <section id="interpretation-of-coefficients" class="level2" data-number="22.3">
 <h2 data-number="22.3" class="anchored" data-anchor-id="interpretation-of-coefficients"><span class="header-section-number">22.3</span> Interpretation of coefficients</h2>
-<p>The <strong>hazard ratio</strong> for a one-unit increase in covariate <span class="math inline">\(x_k\)</span>, with all other covariates fixed, is <span class="math display">\[
+<p>The <strong>hazard ratio</strong> for a one-unit increase in explanatory variable <span class="math inline">\(x_k\)</span>, with all other explanatory variables fixed, is <span class="math display">\[
 \psi_k = e^{\beta_k}.
 \]</span></p>
 <ul>
@@ -457,7 +457,7 @@ S(t \mid \mathbf{x}_i) = \exp\!\left(-\lambda t^\gamma \exp(\bbeta^T \mathbf{x}_
 <li><span class="math inline">\(\beta_k &lt; 0\)</span>: higher <span class="math inline">\(x_k\)</span> decreases the hazard (better prognosis).</li>
 <li><span class="math inline">\(\beta_k = 0\)</span>: <span class="math inline">\(x_k\)</span> has no effect on survival.</li>
 </ul>
-<p>For a binary covariate (e.g., group indicator <span class="math inline">\(x_k \in \{0, 1\}\)</span>): <span class="math inline">\(\psi_k = e^{\beta_k}\)</span> is the hazard ratio between groups.</p>
+<p>For a binary explanatory variable (e.g., group indicator <span class="math inline">\(x_k \in \{0, 1\}\)</span>): <span class="math inline">\(\psi_k = e^{\beta_k}\)</span> is the hazard ratio between groups.</p>
 </section>
 <section id="fitting-weibull-ph-models-in-r" class="level2" data-number="22.4">
 <h2 data-number="22.4" class="anchored" data-anchor-id="fitting-weibull-ph-models-in-r"><span class="header-section-number">22.4</span> Fitting Weibull PH models in R</h2>
@@ -475,7 +475,7 @@ S(t \mid \mathbf{x}_i) = \exp\!\left(-\lambda t^\gamma \exp(\bbeta^T \mathbf{x}_
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert AFT to PH parametrisation:</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>gamma_hat  <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> fit<span class="sc">$</span>scale            <span class="co"># shape parameter</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>lambda_hat <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma_hat <span class="sc">*</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>])  <span class="co"># intercept -&gt; baseline</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>beta_hat   <span class="ot">&lt;-</span> <span class="sc">-</span>gamma_hat <span class="sc">*</span> <span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>]      <span class="co"># covariates (note sign)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>beta_hat   <span class="ot">&lt;-</span> <span class="sc">-</span>gamma_hat <span class="sc">*</span> <span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>]      <span class="co"># explanatory variables (note sign)</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>psi_hat    <span class="ot">&lt;-</span> <span class="fu">exp</span>(beta_hat)            <span class="co"># hazard ratios</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% CI for hazard ratios (via delta method):</span></span>
@@ -494,7 +494,7 @@ Note: Sign convention in <code>survreg()</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In <code>survreg()</code>, the covariate effects <span class="math inline">\(\tilde\beta_k\)</span> are in the AFT parametrisation: <span class="math inline">\(\log T = \mu + \tilde\bbeta^T\mathbf{x} +
+<p>In <code>survreg()</code>, the explanatory-variable effects <span class="math inline">\(\tilde\beta_k\)</span> are in the AFT parametrisation: <span class="math inline">\(\log T = \mu + \tilde\bbeta^T\mathbf{x} +
 \sigma\varepsilon\)</span>. The relationship to the PH coefficient is <span class="math inline">\(\beta_k^{PH} = -\hat\gamma \cdot \tilde\beta_k\)</span>, so the <strong>signs are reversed</strong> when converting.</p>
 </div>
 </div>
@@ -516,20 +516,20 @@ Example: Breast cancer data
 </div>
 </div>
 </section>
-<section id="multiple-covariates-weibull-regression" class="level2" data-number="22.5">
-<h2 data-number="22.5" class="anchored" data-anchor-id="multiple-covariates-weibull-regression"><span class="header-section-number">22.5</span> Multiple covariates: Weibull regression</h2>
-<p>With multiple continuous or categorical covariates:</p>
+<section id="multiple-explanatory-variables-weibull-regression" class="level2" data-number="22.5">
+<h2 data-number="22.5" class="anchored" data-anchor-id="multiple-explanatory-variables-weibull-regression"><span class="header-section-number">22.5</span> Multiple explanatory variables: Weibull regression</h2>
+<p>With multiple continuous or categorical explanatory variables:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Weibull model with two covariates</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Weibull model with two explanatory variables</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(t, delta) <span class="sc">~</span> age <span class="sc">+</span> <span class="fu">factor</span>(treatment),</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> mydata, <span class="at">dist =</span> <span class="st">"weibull"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract hazard ratios for each covariate</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract hazard ratios for each explanatory variable</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>gamma_hat <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> fit<span class="sc">$</span>scale</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>beta_ph   <span class="ot">&lt;-</span> <span class="sc">-</span>gamma_hat <span class="sc">*</span> <span class="fu">coef</span>(fit)[<span class="sc">-</span><span class="dv">1</span>]</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(beta_ph)  <span class="co"># hazard ratios</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -540,7 +540,7 @@ Example: Breast cancer data
 <h2 data-number="22.6" class="anchored" data-anchor-id="model-checking"><span class="header-section-number">22.6</span> Model checking</h2>
 <p>After fitting, check:</p>
 <ol type="1">
-<li><strong>Log-cumulative hazard plot</strong>: should be linear in <span class="math inline">\(\log t\)</span> for each group/covariate pattern (Weibull check).</li>
+<li><strong>Log-cumulative hazard plot</strong>: should be linear in <span class="math inline">\(\log t\)</span> for each group or combination of explanatory variables (Weibull check).</li>
 <li><strong>Parallel log-cumulative hazard curves</strong>: should be parallel for different groups (PH check).</li>
 <li><strong>Residual plots</strong>: deviance or Cox–Snell residuals should be approximately exponentially distributed if the model fits.</li>
 </ol>
@@ -557,7 +557,7 @@ Example: Breast cancer data
 <section id="exercises" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="exercises">Exercises</h2>
 <div class="webex-box">
-<strong>22.1.</strong> Consider the survival model with hazard <span class="math inline">\(h(t) = \lambda e^t\)</span> (from Exercise 19.1) extended to a proportional hazards regression model with a single binary covariate <span class="math inline">\(x_i \in \{0,1\}\)</span>: <span class="math display">\[h_i(t) = e^{\beta x_i} \cdot \lambda e^t, \qquad i = 1,\ldots,n.\]</span> There are <span class="math inline">\(r\)</span> uncensored event times and <span class="math inline">\(n-r\)</span> right-censored observations.
+<strong>22.1.</strong> Consider the survival model with hazard <span class="math inline">\(h(t) = \lambda e^t\)</span> (from Exercise 19.1) extended to a proportional hazards regression model with a single binary explanatory variable <span class="math inline">\(x_i \in \{0,1\}\)</span>: <span class="math display">\[h_i(t) = e^{\beta x_i} \cdot \lambda e^t, \qquad i = 1,\ldots,n.\]</span> There are <span class="math inline">\(r\)</span> uncensored event times and <span class="math inline">\(n-r\)</span> right-censored observations.
 <div class="webex-solution">
 <button>
 Click here to see hints.

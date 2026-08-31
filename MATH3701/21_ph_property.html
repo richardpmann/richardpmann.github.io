@@ -468,16 +468,16 @@ Figure&nbsp;21.1: Log-cumulative hazard plots for three scenarios. Left: PH hold
 </section>
 <section id="prognostic-index" class="level2" data-number="21.4">
 <h2 data-number="21.4" class="anchored" data-anchor-id="prognostic-index"><span class="header-section-number">21.4</span> Prognostic index</h2>
-<p>In a multiple regression setting (several covariates <span class="math inline">\(\mathbf{x} =
+<p>In a multiple regression setting (several explanatory variables <span class="math inline">\(\mathbf{x} =
 (x_1, \ldots, x_p)\)</span>), the PH model takes the form <span class="math display">\[
 h(t \mid \mathbf{x}) = h_0(t) \exp(\bbeta^T \mathbf{x}),
-\]</span> where <span class="math inline">\(h_0(t)\)</span> is the <strong>baseline hazard</strong> (the hazard when all covariates are zero) and <span class="math inline">\(\bbeta = (\beta_1, \ldots, \beta_p)^T\)</span> is the parameter vector.</p>
+\]</span> where <span class="math inline">\(h_0(t)\)</span> is the <strong>baseline hazard</strong> (the hazard when all explanatory variables are zero) and <span class="math inline">\(\bbeta = (\beta_1, \ldots, \beta_p)^T\)</span> is the parameter vector.</p>
 <p>The quantity <span class="math inline">\(\bbeta^T \mathbf{x} = \beta_1 x_1 + \cdots + \beta_p x_p\)</span> is called the <strong>prognostic index</strong> or <strong>linear predictor</strong>. Individuals with larger prognostic indices have higher hazard.</p>
-<p>Hazard ratio for two individuals with covariate vectors <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{x}^*\)</span>: <span class="math display">\[
+<p>Hazard ratio for two individuals with vectors of explanatory variables <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{x}^*\)</span>: <span class="math display">\[
 \frac{h(t \mid \mathbf{x})}{h(t \mid \mathbf{x}^*)}
 = \exp\!\bigl(\bbeta^T(\mathbf{x} - \mathbf{x}^*)\bigr),
-\]</span> which is constant in <span class="math inline">\(t\)</span> — the PH property holds for any combination of covariates.</p>
-<p>For a single binary covariate (<span class="math inline">\(x = 0\)</span> or <span class="math inline">\(1\)</span>), the hazard ratio is <span class="math inline">\(\psi = e^\beta\)</span>.</p>
+\]</span> which is constant in <span class="math inline">\(t\)</span>: the PH property holds for any combination of explanatory variables.</p>
+<p>For a single binary explanatory variable (<span class="math inline">\(x = 0\)</span> or <span class="math inline">\(1\)</span>), the hazard ratio is <span class="math inline">\(\psi = e^\beta\)</span>.</p>
 </section>
 <section id="exercises" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="exercises">Exercises</h2>
@@ -485,15 +485,15 @@ h(t \mid \mathbf{x}) = h_0(t) \exp(\bbeta^T \mathbf{x}),
 <p><strong>21.1.</strong> For each of the following hazard functions, determine whether the <strong>proportional hazards (PH)</strong> property holds. Recall that a family <span class="math inline">\(\{h(t;\bbeta)\}\)</span> has the PH property if multiplying the hazard by any positive constant <span class="math inline">\(\psi\)</span> yields another hazard in the same family.</p>
 <p><strong>(i) Gompertz:</strong> <span class="math inline">\(h(t) = \lambda e^{\theta t}\)</span>, <span class="math inline">\(\lambda &gt; 0\)</span>, <span class="math inline">\(\theta \in \mathbb{R}\)</span>.</p>
 <ol type="i">
-<li>Does the Gompertz distribution have the PH property? <select class="webex-select"><option value="blank"></option><option value="answer">Yes — multiplying by ψ just replaces λ with ψλ</option><option value="">No — the ratio h₁(t)/h₂(t) depends on t</option></select></li>
+<li>Does the Gompertz distribution have the PH property? <select class="webex-select"><option value="blank"></option><option value="answer">Yes, since multiplying by ψ just replaces λ with ψλ</option><option value="">No, since the ratio h₁(t)/h₂(t) depends on t</option></select></li>
 </ol>
 <p><strong>(ii) Makeham:</strong> <span class="math inline">\(h(t) = \gamma + \lambda e^{-\theta t}\)</span>, <span class="math inline">\(\gamma &gt; 0\)</span>, <span class="math inline">\(\lambda \geq -\gamma\)</span>, <span class="math inline">\(\theta \geq 0\)</span>.</p>
 <ol start="2" type="i">
-<li>Does the Makeham distribution have the PH property? <select class="webex-select"><option value="blank"></option><option value="answer">Yes — multiplying by ψ scales both γ and λ simultaneously</option><option value="">No — the ratio h₁(t)/h₂(t) depends on t</option></select></li>
+<li>Does the Makeham distribution have the PH property? <select class="webex-select"><option value="blank"></option><option value="answer">Yes, since multiplying by ψ scales both γ and λ simultaneously</option><option value="">No, since the ratio h₁(t)/h₂(t) depends on t</option></select></li>
 </ol>
 <p><strong>(iii) Bathtub:</strong> <span class="math inline">\(h(t) = \alpha t + \beta/(1+\gamma t)\)</span>, <span class="math inline">\(\gamma \geq 0\)</span>, <span class="math inline">\(\alpha \geq 0\)</span>, <span class="math inline">\(\beta &gt; 0\)</span>.</p>
 <ol start="3" type="i">
-<li>Does the Bathtub distribution have the PH property? <select class="webex-select"><option value="blank"></option><option value="answer">Yes — multiplying by ψ scales both α and β simultaneously</option><option value="">No — the ratio h₁(t)/h₂(t) depends on t</option></select></li>
+<li>Does the Bathtub distribution have the PH property? <select class="webex-select"><option value="blank"></option><option value="answer">Yes, since multiplying by ψ scales both α and β simultaneously</option><option value="">No, since the ratio h₁(t)/h₂(t) depends on t</option></select></li>
 </ol>
 <p>For each case that has the PH property, explicitly show how the reparametrisation works: write <span class="math inline">\(\psi h(t)\)</span> in the original functional form with new parameter values.</p>
 </div>

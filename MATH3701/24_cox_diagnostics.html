@@ -428,13 +428,13 @@ window.Quarto = {
 <p>After fitting a Cox model, we should check two key assumptions:</p>
 <ol type="1">
 <li><strong>Proportional hazards</strong>: the hazard ratio between any two individuals is constant over time.</li>
-<li><strong>Linearity</strong>: continuous covariates enter the log-hazard linearly.</li>
+<li><strong>Linearity</strong>: continuous explanatory variables enter the log-hazard linearly.</li>
 </ol>
 <p>Several diagnostic tools are available.</p>
 </section>
 <section id="graphical-check-log-cumulative-hazard-plots" class="level2" data-number="24.2">
 <h2 data-number="24.2" class="anchored" data-anchor-id="graphical-check-log-cumulative-hazard-plots"><span class="header-section-number">24.2</span> Graphical check: log-cumulative hazard plots</h2>
-<p>The simplest PH check for a categorical covariate is the <strong>log-cumulative hazard plot</strong> (introduced in <a href="21_ph_property.html" class="quarto-xref"><span>Chapter 21</span></a>): plot <span class="math inline">\(\log\widehat{H}(t)\)</span> from the KM estimator against <span class="math inline">\(\log t\)</span> for each group. Under PH, the curves should be parallel.</p>
+<p>The simplest PH check for a categorical explanatory variable is the <strong>log-cumulative hazard plot</strong> (introduced in <a href="21_ph_property.html" class="quarto-xref"><span>Chapter 21</span></a>): plot <span class="math inline">\(\log\widehat{H}(t)\)</span> from the KM estimator against <span class="math inline">\(\log t\)</span> for each group. Under PH, the curves should be parallel.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -459,15 +459,15 @@ Definition: Schoenfeld residuals
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>At each event time <span class="math inline">\(t_{(j)}\)</span>, the Schoenfeld residual for covariate <span class="math inline">\(k\)</span> is the observed covariate value minus the risk-set-weighted expected value: <span class="math display">\[
+<p>At each event time <span class="math inline">\(t_{(j)}\)</span>, the Schoenfeld residual for explanatory variable <span class="math inline">\(k\)</span> is the observed value of that variable minus the risk-set-weighted expected value: <span class="math display">\[
 r_{jk} = x_{(j)k} - \frac{\sum_{\ell \in \mathcal{R}(t_{(j)})} x_{\ell k}
 \exp(\hat{\bbeta}^T\mathbf{x}_\ell)}
 {\sum_{\ell \in \mathcal{R}(t_{(j)})} \exp(\hat{\bbeta}^T\mathbf{x}_\ell)}.
 \]</span></p>
 </div>
 </div>
-<p>Under the PH assumption, the Schoenfeld residuals should have mean zero and no trend with time. A <strong>plot of <span class="math inline">\(r_{jk}\)</span> against event time <span class="math inline">\(t_{(j)}\)</span></strong> that shows a systematic trend (increasing, decreasing, or non-linear) suggests that the PH assumption is violated for covariate <span class="math inline">\(k\)</span>.</p>
-<p>The <code>cox.zph()</code> function in R tests formally for a time trend in each covariate’s Schoenfeld residuals.</p>
+<p>Under the PH assumption, the Schoenfeld residuals should have mean zero and no trend with time. A <strong>plot of <span class="math inline">\(r_{jk}\)</span> against event time <span class="math inline">\(t_{(j)}\)</span></strong> that shows a systematic trend (increasing, decreasing, or non-linear) suggests that the PH assumption is violated for explanatory variable <span class="math inline">\(k\)</span>.</p>
+<p>The <code>cox.zph()</code> function in R tests formally for a time trend in each explanatory variable’s Schoenfeld residuals.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -478,13 +478,13 @@ r_{jk} = x_{(j)k} - \frac{\sum_{\ell \in \mathcal{R}(t_{(j)})} x_{\ell k}
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Schoenfeld residual test for PH</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(cox_fit)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ph_test)   <span class="co"># p-values for each covariate + global test</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ph_test)   <span class="co"># p-values for each explanatory variable + global test</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Schoenfeld residuals</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ph_test)    <span class="co"># one plot per covariate + global</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ph_test)    <span class="co"># one plot per explanatory variable + global</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>A small <span class="math inline">\(p\)</span>-value from <code>cox.zph()</code> suggests the PH assumption is violated for that covariate.</p>
+<p>A small <span class="math inline">\(p\)</span>-value from <code>cox.zph()</code> suggests the PH assumption is violated for that explanatory variable.</p>
 </section>
 <section id="martingale-residuals" class="level2" data-number="24.4">
 <h2 data-number="24.4" class="anchored" data-anchor-id="martingale-residuals"><span class="header-section-number">24.4</span> Martingale residuals</h2>
@@ -503,7 +503,7 @@ M_i = \delta_i - \widehat{H}_0(t_i)\exp(\hat{\bbeta}^T\mathbf{x}_i),
 \]</span> where <span class="math inline">\(\widehat{H}_0(t)\)</span> is the Breslow estimate of the baseline cumulative hazard.</p>
 </div>
 </div>
-<p>Martingale residuals lie in <span class="math inline">\((-\infty, 1]\)</span> and sum to zero. Plotting them against a continuous covariate that was assumed to enter linearly can reveal non-linearity: a non-linear trend in the residuals suggests that a transformation of the covariate (or a smooth term) would improve the fit.</p>
+<p>Martingale residuals lie in <span class="math inline">\((-\infty, 1]\)</span> and sum to zero. Plotting them against a continuous explanatory variable that was assumed to enter linearly can reveal non-linearity: a non-linear trend in the residuals suggests that a transformation of the explanatory variable (or a smooth term) would improve the fit.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -511,7 +511,7 @@ M_i = \delta_i - \widehat{H}_0(t_i)\exp(\hat{\bbeta}^T\mathbf{x}_i),
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>null_fit <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(t, delta) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> mydata, <span class="at">ties =</span> <span class="st">"breslow"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>mart_res  <span class="ot">&lt;-</span> <span class="fu">residuals</span>(null_fit, <span class="at">type =</span> <span class="st">"martingale"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot vs continuous covariate to check linearity</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot vs continuous explanatory variable to check linearity</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mydata<span class="sc">$</span>age, mart_res,</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Age"</span>, <span class="at">ylab =</span> <span class="st">"Martingale residual"</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(mydata<span class="sc">$</span>age, mart_res), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
@@ -557,7 +557,7 @@ d_i = \text{sign}(M_i)\sqrt{-2\bigl(M_i + \delta_i\log(\delta_i - M_i)\bigr)}.
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ph_test)</span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ph_test)</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Martingale residuals (all covariates are categorical here)</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Martingale residuals (all explanatory variables are categorical here)</span></span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>mart <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_final, <span class="at">type =</span> <span class="st">"martingale"</span>)</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(fit_final), mart,</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Fitted log-hazard"</span>, <span class="at">ylab =</span> <span class="st">"Martingale residual"</span>)</span>
@@ -592,7 +592,7 @@ Click here to see hints.
 <p>Use <code>coxph()</code> to fit the model, <code>cox.zph()</code> to test PH, <code>plot(cox.zph(fit))</code> to visualise Schoenfeld residuals, and <code>residuals(fit, type="deviance")</code> for deviance residuals.</p>
 </div>
 <ol type="a">
-<li><p>Fit a Cox model with group as the covariate. Run <code>cox.zph()</code> and interpret the output.</p></li>
+<li><p>Fit a Cox model with group as the explanatory variable. Run <code>cox.zph()</code> and interpret the output.</p></li>
 <li><p>Plot the Schoenfeld residuals against time. What pattern would confirm that the PH assumption is satisfied?</p></li>
 <li><p>Plot the deviance residuals against the linear predictor. Identify any potential outliers.</p></li>
 </ol>

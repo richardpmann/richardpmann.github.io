@@ -440,7 +440,7 @@ window.Quarto = {
 <ol type="1">
 <li><p><strong>Random component.</strong> The response variable <span class="math inline">\(Y_i\)</span> follows a distribution from the exponential family: <span class="math display">\[f(y_i;\theta_i,\phi) = \exp\left\{\frac{y_i\theta_i - b(\theta_i)}{\phi} + c(y_i,\phi)\right\}.\]</span> The mean and variance are determined by <span class="math inline">\(b(\theta_i)\)</span>: <span class="math display">\[\mathrm{E}[Y_i] = b'(\theta_i) = \mu_i, \qquad
   \mathrm{Var}[Y_i] = \phi\, b''(\theta_i).\]</span></p></li>
-<li><p><strong>Systematic component.</strong> A linear predictor in the covariates: <span class="math display">\[\eta_i = \mathbf{x}_i^T\boldsymbol{\beta} = \sum_{j=1}^p \beta_j x_{ij}.\]</span></p></li>
+<li><p><strong>Systematic component.</strong> A linear predictor in the explanatory variables: <span class="math display">\[\eta_i = \mathbf{x}_i^T\boldsymbol{\beta} = \sum_{j=1}^p \beta_j x_{ij}.\]</span></p></li>
 <li><p><strong>Link function.</strong> A monotone differentiable function <span class="math inline">\(g\)</span> connecting mean to linear predictor: <span class="math display">\[g(\mu_i) = \eta_i.\]</span> When <span class="math inline">\(g = (b')^{-1}\)</span>, the link is <em>canonical</em> and simplifies the score equations.</p></li>
 </ol>
 <p>The following table summarises the choices for the three distributions we have studied in detail.</p>
@@ -492,7 +492,7 @@ Table&nbsp;8.1: Summary of GLM components for the three standard exponential fam
 </section>
 <section id="fitting-inference-and-model-comparison" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="fitting-inference-and-model-comparison"><span class="header-section-number">8.3</span> Fitting, inference, and model comparison</h2>
-<p><strong>Estimation.</strong> Parameters are estimated by maximum likelihood using the iteratively reweighted least squares (IRLS) algorithm (see supplementary notes for the full derivation). The MLE satisfies asymptotically: <span class="math display">\[\hat{\boldsymbol\beta} \sim N_p\!\left(\boldsymbol\beta,\, \mathcal{J}^{-1}(\boldsymbol\beta)\right).\]</span></p>
+<p><strong>Estimation.</strong> Parameters are estimated by maximum likelihood using the iteratively reweighted least squares (IRLS) algorithm (see the supplementary notes <a href="Supplementary/proof_IRLS.pdf"><code>proof_IRLS.pdf</code></a> for the full derivation). The MLE satisfies asymptotically: <span class="math display">\[\hat{\boldsymbol\beta} \sim N_p\!\left(\boldsymbol\beta,\, \mathcal{J}^{-1}(\boldsymbol\beta)\right).\]</span></p>
 <p><strong>Deviance.</strong> The deviance measures how much a fitted model <span class="math inline">\(M\)</span> falls short of the saturated model: <span class="math display">\[D = 2\phi\left\{l(\tilde{\boldsymbol\theta};\mathbf{y},\phi) -
       l(\hat{\boldsymbol\theta};\mathbf{y},\phi)\right\}.\]</span> For the three standard families, <span class="math inline">\(D\)</span> reduces to:</p>
 <ul>
@@ -729,13 +729,13 @@ Figure&nbsp;8.2: Deviance residuals from the main-effects logistic regression mo
 <section id="looking-ahead-limitations-of-the-linear-predictor" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="looking-ahead-limitations-of-the-linear-predictor"><span class="header-section-number">8.5</span> Looking ahead: limitations of the linear predictor</h2>
 <p>The GLM framework is powerful, but the linearity constraint <span class="math inline">\(\eta_i = \mathbf{x}_i^T\boldsymbol{\beta}\)</span> can be restrictive.</p>
-<p>Consider a situation where the true relationship between a <em>continuous</em> covariate <span class="math inline">\(x\)</span> and the response is smooth but nonlinear. We have two broad options:</p>
+<p>Consider a situation where the true relationship between a <em>continuous</em> explanatory variable <span class="math inline">\(x\)</span> and the response is smooth but nonlinear. We have two broad options:</p>
 <ol type="1">
 <li><p><strong>Polynomial regression:</strong> add <span class="math inline">\(x^2, x^3, \dots\)</span> to the linear predictor. This is easy but can produce unstable fits and the polynomial degree must be chosen in advance.</p></li>
 <li><p><strong>Non-parametric smoothing:</strong> replace <span class="math inline">\(\beta x\)</span> with a smooth function <span class="math inline">\(f(x)\)</span> estimated from the data. This forms the basis of <strong>Generalised Additive Models (GAMs)</strong>, studied in Part II.</p></li>
 </ol>
 <p>The GAM model is written: <span class="math display">\[g(\mu_i) = \alpha + f_1(x_{i1}) + f_2(x_{i2}) + \cdots + f_p(x_{ip}),\]</span> where each <span class="math inline">\(f_j\)</span> is a smooth function (a <em>spline</em>) chosen to fit the data while penalising excessive wiggliness.</p>
-<p>We will see that GAMs retain the interpretability of GLMs while gaining considerable flexibility — and that the estimation and inference methods are natural generalisations of what we have developed in Part I.</p>
+<p>We will see that GAMs retain the interpretability of GLMs while gaining considerable flexibility, and that the estimation and inference methods are natural generalisations of what we have developed in Part I.</p>
 </section>
 <section id="summary" class="level2" data-number="8.6">
 <h2 data-number="8.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">8.6</span> Summary</h2>

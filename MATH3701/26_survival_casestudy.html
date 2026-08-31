@@ -447,7 +447,7 @@ window.Quarto = {
 </section>
 <section id="step-1-exploratory-analysis" class="level2" data-number="26.2">
 <h2 data-number="26.2" class="anchored" data-anchor-id="step-1-exploratory-analysis"><span class="header-section-number">26.2</span> Step 1: Exploratory analysis</h2>
-<p>We begin with Kaplan–Meier estimates for each covariate separately.</p>
+<p>We begin with Kaplan–Meier estimates for each explanatory variable separately.</p>
 <div id="fig-km-eda" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-km-eda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -594,10 +594,10 @@ nephrectomyyes 0.2437888  4.1019116 0.08880618  0.6692436</code></pre>
 <p>Key results from the final model:</p>
 <ul>
 <li><strong>Age 60–70 vs <span class="math inline">\(&lt;60\)</span></strong>: <span class="math inline">\(\hat\psi \approx 1.01\)</span> (95% CI: <span class="math inline">\([0.44,
-2.33]\)</span>) — not significantly different.</li>
+2.33]\)</span>), not significantly different.</li>
 <li><strong>Age <span class="math inline">\(&gt;70\)</span> vs <span class="math inline">\(&lt;60\)</span></strong>: <span class="math inline">\(\hat\psi \approx 3.83\)</span> (95% CI: <span class="math inline">\([1.20,
-12.20]\)</span>) — patients over 70 have nearly 4 times the hazard.</li>
-<li><strong>Nephrectomy (yes vs no)</strong>: <span class="math inline">\(\hat\psi \approx 0.24\)</span> (95% CI: <span class="math inline">\([0.09, 0.67]\)</span>) — nephrectomy reduces hazard by about 76%.</li>
+12.20]\)</span>): patients over 70 have nearly 4 times the hazard.</li>
+<li><strong>Nephrectomy (yes vs no)</strong>: <span class="math inline">\(\hat\psi \approx 0.24\)</span> (95% CI: <span class="math inline">\([0.09, 0.67]\)</span>): nephrectomy reduces hazard by about 76%.</li>
 </ul>
 </section>
 <section id="step-5-diagnostics" class="level2" data-number="26.6">
@@ -642,8 +642,8 @@ nephrectomyyes 0.2437888  4.1019116 0.08880618  0.6692436</code></pre>
 <ol type="1">
 <li><strong>Exploratory analysis</strong>: KM curves by group reveal patterns.</li>
 <li><strong>PH assumption check</strong>: log-cumulative hazard plots support PH.</li>
-<li><strong>Model selection</strong>: LRT identifies which covariates to include.</li>
-<li><strong>Interpretation</strong>: hazard ratios quantify covariate effects.</li>
+<li><strong>Model selection</strong>: LRT identifies which explanatory variables to include.</li>
+<li><strong>Interpretation</strong>: hazard ratios quantify the effects of explanatory variables.</li>
 <li><strong>Diagnostics</strong>: Schoenfeld residuals and deviance residuals confirm model adequacy.</li>
 <li><strong>Sensitivity analysis</strong>: comparison with parametric model confirms robustness.</li>
 </ol>
@@ -661,7 +661,7 @@ nephrectomyyes 0.2437888  4.1019116 0.08880618  0.6692436</code></pre>
 <ol type="a">
 <li><p><strong>Define the endpoint and censoring.</strong> State the event of interest, identify the censoring mechanism, and write down the observed data pairs <span class="math inline">\((t_i, \delta_i)\)</span> for all 16 patients.</p></li>
 <li><p><strong>Kaplan–Meier analysis.</strong> Plot the KM survival curves for both groups. Then use the log-log transformation (<code>fun="cloglog"</code>) to assess whether the proportional hazards assumption is plausible.</p></li>
-<li><p><strong>Cox model.</strong> Fit a Cox PH model with group as the covariate. Write down the estimated hazard ratio with a 95% confidence interval and interpret it in context.</p></li>
+<li><p><strong>Cox model.</strong> Fit a Cox PH model with group as the explanatory variable. Write down the estimated hazard ratio with a 95% confidence interval and interpret it in context.</p></li>
 <li><p><strong>PH diagnostics.</strong> Run <code>cox.zph()</code> and plot the Schoenfeld residuals. Comment on whether the PH assumption appears to be satisfied.</p></li>
 <li><p><strong>Parametric comparison.</strong> Using <code>survreg()</code>, fit a Weibull model and an exponential model. Since the exponential is the Weibull with shape <span class="math inline">\(= 1\)</span>, compare these two nested parametric models using a likelihood ratio test (change in deviance), and state which you would recommend overall.</p></li>
 </ol>
@@ -669,7 +669,7 @@ nephrectomyyes 0.2437888  4.1019116 0.08880618  0.6692436</code></pre>
 <button>
 Click here to see hints.
 </button>
-<p>For (b), <code>plot(km_fit, fun="cloglog")</code> — parallel lines support PH. For (c), <code>exp(coef(cox_fit))</code> gives the hazard ratio. For (d), <code>cox.zph(cox_fit)</code> and <code>plot(cox.zph(cox_fit))</code>. For (e), fit <code>survreg(Surv(t,d)~g, dist="weibull")</code> and <code>survreg(Surv(t,d)~g, dist="exponential")</code>, then compute the deviance of each as <span class="math inline">\(-2\times\)</span> its log-likelihood (<code>logLik()</code>), and compare via a <span class="math inline">\(\chi^2_1\)</span> test exactly as in the change-in-deviance method of <a href="25_model_comparison.html" class="quarto-xref"><span>Chapter 25</span></a>.</p>
+<p>For (b), <code>plot(km_fit, fun="cloglog")</code>: parallel lines support PH. For (c), <code>exp(coef(cox_fit))</code> gives the hazard ratio. For (d), <code>cox.zph(cox_fit)</code> and <code>plot(cox.zph(cox_fit))</code>. For (e), fit <code>survreg(Surv(t,d)~g, dist="weibull")</code> and <code>survreg(Surv(t,d)~g, dist="exponential")</code>, then compute the deviance of each as <span class="math inline">\(-2\times\)</span> its log-likelihood (<code>logLik()</code>), and compare via a <span class="math inline">\(\chi^2_1\)</span> test exactly as in the change-in-deviance method of <a href="25_model_comparison.html" class="quarto-xref"><span>Chapter 25</span></a>.</p>
 </div>
 </div>
 
