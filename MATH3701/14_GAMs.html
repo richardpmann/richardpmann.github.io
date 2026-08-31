@@ -682,9 +682,9 @@ Click here to see hints.
 </div>
 <p>14.2 Using the <code>mcycle</code> data set from the <code>MASS</code> package (accelerometer readings from a motorcycle crash test), fit a GAM with <code>times</code> as the explanatory variable and <code>accel</code> as the response.</p>
 <ol type="a">
-<li><p>Fit the model with GCV-selected smoothing parameter and report the estimated edf.</p></li>
+<li><p>Fit the model using the <code>gam</code> function, allowing the GCV-minimising smoothing parameter to be automatically selected, and report the estimated edf.</p></li>
 <li><p>Plot the fitted smooth function with its 95% confidence band.</p></li>
-<li><p>Compare the GCV-optimal fit with fits obtained using a fixed <code>sp</code> of <span class="math inline">\(10^{-4}\)</span> and <span class="math inline">\(10^2\)</span>. Comment on the differences.</p></li>
+<li><p>Compare the GCV-optimal fit with fits obtained using a fixed smoothing parameter (<code>sp</code>) of <span class="math inline">\(10^{-4}\)</span> and <span class="math inline">\(10^2\)</span> (use the option <code>sp = 1e-4</code> or <code>sp = 1e2</code> in the <code>gam</code> function). Comment on the differences.</p></li>
 </ol>
 <div class="webex-solution">
 <button>
