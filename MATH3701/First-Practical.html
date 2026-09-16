@@ -11,7 +11,7 @@
 
 
 
-<title>MATH3701 Formative (Non-Assessed) Computer Practical - Problem Description</title>
+<title>MATH3701 Formative (Non-Assessed) Computer Practical</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1620,7 +1620,7 @@ display: none;
 
 
 <h1 class="title toc-ignore">MATH3701 Formative (Non-Assessed) Computer
-Practical - Problem Description</h1>
+Practical</h1>
 
 </div>
 
@@ -1649,15 +1649,16 @@ you should round values to 2 decimal places if RStudio returns more
 decimal places. As examples, a calculation from R of 5 should be
 returned as 5; 5.1 should be entered as 5.1; 5.13 should be entered as
 5.13; but 5.138 should be entered as 5.14, etc. The RStudio command
-round can be used, for example round(5.138, 2). Description of the
-problem Exhaust gases from road transport have a major impact on air
-quality and hence on health. For example, in the UK over 20% of total
-carbon dioxide emissions come from cars, vans and lorries. Currently,
-petrol cars are tested annually for three pollutants: hydrocarbons (HC),
-carbon monoxide (CO) and nitrogen oxides (NOX). These measurements are
-recorded in grams per minute (g/min). The testing is controlled by the
-Ministry of Transport (MOT) with cars being awarded a test PASS if the
-level of HC is below 0.6 g/min, CO is below 6 g/min and NOX is below 1.2
+round can be used, for example round(5.138, 2).</p>
+<p><strong>Description of the problem</strong></p>
+<p>Exhaust gases from road transport have a major impact on air quality
+and hence on health. For example, in the UK over 20% of total carbon
+dioxide emissions come from cars, vans and lorries. Currently, petrol
+cars are tested annually for three pollutants: hydrocarbons (HC), carbon
+monoxide (CO) and nitrogen oxides (NOX). These measurements are recorded
+in grams per minute (g/min). The testing is controlled by the Ministry
+of Transport (MOT) with cars being awarded a test PASS if the level of
+HC is below 0.6 g/min, CO is below 6 g/min and NOX is below 1.2
 g/min.</p>
 <p>There is a general belief that a car engine that is working well will
 have low readings on all tests and that badly maintained cars will emit
@@ -1668,8 +1669,15 @@ years old.</p>
 <p>This computer practical investigates the relationships between
 emission levels of different pollutants. A sample of data in the file
 EngineEmissions-N.csv contains gas exhaust emission measurements, in
-grams per minute (g/min), collected from a local MOT testing centre. You
-can find this file in the usual online data folder.</p>
+grams per minute (g/min), collected from a local MOT testing centre.</p>
+<p><strong>Load the data</strong> Read into R the data stored in
+<em>EngineEmissions–</em><span class="math inline">\(\small\texttt{N}\)</span><em>.csv</em>, as defined
+above, from the usual data file location. For example using the
+command:</p>
+<p><span class="math inline">\(\texttt{read.csv(&quot;http://www.richardpmann.com/MATH3701/Datasets/}\)</span><em>EngineEmissions-</em><span class="math inline">\(\small\texttt{N}\)</span><em>.csv</em><span class="math inline">\(\texttt{&quot;)}\)</span>.</p>
+<p>If this command does not work in R, paste the URL into a web browser
+– this should download the data file to your computer and you can load
+it locally.</p>
 <p>Start by calculating the correlation matrix between the variables and
 comment on any important features.</p>
 <p><strong>Record the maximum value of the HC variable (A1) and the
