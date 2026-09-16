@@ -1,0 +1,5 @@
+"poor" "good" "treatment" "centre"
+"1" "93" "52" "placebo" "1"
+"2" "65" "75" "placebo" "2"
+"3" "67" "68" "active" "1"
+"4" "31" "104" "active" "2"
