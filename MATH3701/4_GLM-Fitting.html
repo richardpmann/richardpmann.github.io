@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MATH3701 Statistical Modelling - 4&nbsp; GLM Estimation</title>
+<title>4&nbsp; GLM Estimation – MATH3701 Statistical Modelling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -113,7 +113,7 @@ window.MathJax = {
 };
 </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -152,13 +152,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_intro.html">Part I: Generalised Linear Models</a></li><li class="breadcrumb-item"><a href="./4_GLM-Fitting.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GLM Estimation</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -194,9 +194,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Part I: Generalised Linear Models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -253,9 +253,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Part II: Generalised Additive Models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -300,9 +300,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Part III: Survival Analysis</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -520,11 +520,11 @@ b'(\theta_0) = \mu_0.
 <div class="webex-box">
 <div class="webex-check">
 <ol type="1">
-<li><p>Which of the following statements best describes the purpose of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">To estimate probabilities of unknown events</option><option value="answer">To find good values of unknown model parameters</option><option value="">To calculate the mean of a distribution</option><option value="">To find the true values of model parameters</option><option value="">To summarise a data set</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following mathematical ideas is NOT used in the above maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">Identically distributed</option><option value="">By independence</option><option value="">Taking logs</option><option value="answer">The parameter θ depends on i</option><option value="">Substituting for the probability function</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following terms is used to refer to the fixed parameter Φ? <select class="webex-select"><option value="blank"></option><option value="">Independent</option><option value="">Canonical</option><option value="">Normally distributed</option><option value="answer">Nuisance</option><option value="">Annoyance</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a good property of a parameter estimator? <select class="webex-select"><option value="blank"></option><option value="">Variance decreases as sample size increases</option><option value="">Unbiased</option><option value="">Has expectation equal to the true value</option><option value="answer">Has fixed variance for all sample sizes</option><option value="">Small variance</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following does NOT influence the variance of the estimator of θ? <select class="webex-select"><option value="blank"></option><option value="">The true parameter value</option><option value="answer">c(y,Φ)</option><option value="">b(θ)</option><option value="">The sample size</option><option value="">Φ</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following statements best describes the purpose of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">To summarise a data set</option><option value="">To find the true values of model parameters</option><option value="">To calculate the mean of a distribution</option><option value="">To estimate probabilities of unknown events</option><option value="answer">To find good values of unknown model parameters</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following mathematical ideas is NOT used in the above maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">Substituting for the probability function</option><option value="">By independence</option><option value="answer">The parameter θ depends on i</option><option value="">Taking logs</option><option value="">Identically distributed</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following terms is used to refer to the fixed parameter Φ? <select class="webex-select"><option value="blank"></option><option value="">Normally distributed</option><option value="">Annoyance</option><option value="answer">Nuisance</option><option value="">Canonical</option><option value="">Independent</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a good property of a parameter estimator? <select class="webex-select"><option value="blank"></option><option value="">Has expectation equal to the true value</option><option value="">Small variance</option><option value="">Variance decreases as sample size increases</option><option value="answer">Has fixed variance for all sample sizes</option><option value="">Unbiased</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following does NOT influence the variance of the estimator of θ? <select class="webex-select"><option value="blank"></option><option value="">The sample size</option><option value="">The true parameter value</option><option value="">Φ</option><option value="">b(θ)</option><option value="answer">c(y,Φ)</option><option value="">None of the above</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -630,11 +630,11 @@ l (\boldsymbol{\theta}; \mathbf{y}, \phi) = \sum_{i=1}^n \log f(y_i; \theta_i, \
 <div class="webex-box">
 <div class="webex-check">
 <ol type="1">
-<li><p>Which of the following statements best describes the purpose of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">To find the true values of model parameters</option><option value="">To estimate probabilities of unknown events</option><option value="">To calculate the mean of a distribution</option><option value="">To summarise a data set</option><option value="answer">To find good values of unknown model parameters</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following mathematical ideas is NOT used in the general case of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">Using the independence</option><option value="answer">The parameter θ does not depends on i</option><option value="">Not identically distributed</option><option value="">Usually no closed-form expression</option><option value="">The log-likelihood</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following terms is NOT used in maximum likelihood theory? <select class="webex-select"><option value="blank"></option><option value="">Fisher information</option><option value="">Score function</option><option value="">The log-likelihood function</option><option value="answer">The moment generating function</option><option value="">The likelihood function</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is a true statement about the saturated case? <select class="webex-select"><option value="blank"></option><option value="">The values of θ will be exactly the same as the values of β</option><option value="">The parameters θ and unrelated to the values of β</option><option value="answer">The model fits the data exactly</option><option value="">It should never be considered</option><option value="">Has fewer parameters than data observations</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a true statement about the asymptotic properties of the maximum likelihood estimator of β? <select class="webex-select"><option value="blank"></option><option value="">Follows a normal distribution</option><option value="">Is unbiased</option><option value="">The asymptotic properties are when n tend to infinity</option><option value="answer">Will always be equal to the true value.</option><option value="">The variance can be found form the expected Fisher information</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following statements best describes the purpose of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">To estimate probabilities of unknown events</option><option value="">To calculate the mean of a distribution</option><option value="">To summarise a data set</option><option value="answer">To find good values of unknown model parameters</option><option value="">To find the true values of model parameters</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following mathematical ideas is NOT used in the general case of maximum likelihood estimation? <select class="webex-select"><option value="blank"></option><option value="">Not identically distributed</option><option value="">The log-likelihood</option><option value="">Using the independence</option><option value="">Usually no closed-form expression</option><option value="answer">The parameter θ does not depends on i</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following terms is NOT used in maximum likelihood theory? <select class="webex-select"><option value="blank"></option><option value="answer">The moment generating function</option><option value="">The log-likelihood function</option><option value="">Fisher information</option><option value="">Score function</option><option value="">The likelihood function</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is a true statement about the saturated case? <select class="webex-select"><option value="blank"></option><option value="">Has fewer parameters than data observations</option><option value="">It should never be considered</option><option value="answer">The model fits the data exactly</option><option value="">The parameters θ and unrelated to the values of β</option><option value="">The values of θ will be exactly the same as the values of β</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a true statement about the asymptotic properties of the maximum likelihood estimator of β? <select class="webex-select"><option value="blank"></option><option value="answer">Will always be equal to the true value.</option><option value="">Follows a normal distribution</option><option value="">Is unbiased</option><option value="">The variance can be found form the expected Fisher information</option><option value="">The asymptotic properties are when n tend to infinity</option><option value="">None of the above</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -820,11 +820,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="webex-box">
 <div class="webex-check">
 <ol type="1">
-<li><p>Which of the following is the main R command used to fit generalised linear models? <select class="webex-select"><option value="blank"></option><option value="">formula</option><option value="">fitglm</option><option value="">family</option><option value="answer">glm</option><option value="">lm</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT an option for the model family? <select class="webex-select"><option value="blank"></option><option value="">poisson</option><option value="">Gamma</option><option value="">gaussian</option><option value="">binomial</option><option value="answer">logit</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a link option in a GLM? <select class="webex-select"><option value="blank"></option><option value="">identity</option><option value="">logit</option><option value="answer">constant</option><option value="">probit</option><option value="">log</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT a link option with the binomial family? <select class="webex-select"><option value="blank"></option><option value="">logit</option><option value="">cloglog</option><option value="">cauchit</option><option value="">log</option><option value="answer">inverse</option><option value="">None of the above</option></select></p></li>
-<li><p>Which of the following is NOT an R command used to check model fit? <select class="webex-select"><option value="blank"></option><option value="">summary</option><option value="answer">glm</option><option value="">residuals</option><option value="">deviance</option><option value="">anova</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is the main R command used to fit generalised linear models? <select class="webex-select"><option value="blank"></option><option value="answer">glm</option><option value="">family</option><option value="">fitglm</option><option value="">formula</option><option value="">lm</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT an option for the model family? <select class="webex-select"><option value="blank"></option><option value="">Gamma</option><option value="">poisson</option><option value="">binomial</option><option value="answer">logit</option><option value="">gaussian</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a link option in a GLM? <select class="webex-select"><option value="blank"></option><option value="">logit</option><option value="">probit</option><option value="answer">constant</option><option value="">identity</option><option value="">log</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT a link option with the binomial family? <select class="webex-select"><option value="blank"></option><option value="">log</option><option value="">logit</option><option value="answer">inverse</option><option value="">cauchit</option><option value="">cloglog</option><option value="">None of the above</option></select></p></li>
+<li><p>Which of the following is NOT an R command used to check model fit? <select class="webex-select"><option value="blank"></option><option value="">residuals</option><option value="">summary</option><option value="">anova</option><option value="">deviance</option><option value="answer">glm</option><option value="">None of the above</option></select></p></li>
 </ol>
 </div>
 </div>
@@ -874,7 +874,7 @@ Click here to see hints.
 <p>Start by comparing the notation. Then, replace the RSS terms in the <span class="math inline">\(F\)</span>-statistic with deviances and adjust the notation for degrees of freedom. You should then get very similar expressions. The only difference being from which model <span class="math inline">\(\sigma^2\)</span> is estimated.</p>
 </div>
 <p>4.6 Consider a clinical trial into the effectiveness of Amoxicillin (a widely used antibiotic) against bacterial chest infections in children. A sample of 100 children with chest infections were randomly assigned to one of five groups with Amoxicillin dose levels of 20-100 mg/kg per day. Four weeks later it was recorded whether the child had required a re-treatment with a further dose of antibiotic, or not, with results summarised in <a href="#tbl-antibiotic" class="quarto-xref">Table&nbsp;<span>4.1</span></a></p>
-<div id="tbl-antibiotic" class="quarto-float anchored">
+<div id="tbl-antibiotic" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-antibiotic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4.1: Effectiveness of Amoxicillin against bacterial chest infections in children
@@ -921,6 +921,7 @@ Click here to see hints.
 <p>The linear model part would be straightforward, look at earlier examples if not. For the glm case, use <code>glm()</code> with <code>family = binomial</code> and compare the fit by eye.</p>
 </div>
 </div>
+<!-- [Solutions to the Exercises](Solutions/Solutions_4.html) -->
 <p><br>
 </p>
 
@@ -1175,18 +1176,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1218,7 +1208,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1226,7 +1238,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

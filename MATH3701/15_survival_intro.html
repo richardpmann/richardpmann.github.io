@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>MATH3701 Statistical Modelling - 15&nbsp; Introduction to Survival Analysis</title>
+<title>15&nbsp; Introduction to Survival Analysis – MATH3701 Statistical Modelling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -113,7 +113,7 @@ window.MathJax = {
 };
 </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -152,13 +152,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./15_survival_intro.html">Part III: Survival Analysis</a></li><li class="breadcrumb-item"><a href="./15_survival_intro.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Introduction to Survival Analysis</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -194,9 +194,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Part I: Generalised Linear Models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -253,9 +253,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Part II: Generalised Additive Models</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -300,9 +300,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Part III: Survival Analysis</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -453,7 +453,7 @@ Example: Aortic valve replacement
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-avr" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-avr" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-avr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="15_survival_intro_files/figure-html/fig-avr-1.png" class="img-fluid figure-img" width="672">
@@ -607,21 +607,22 @@ t_i = \min(T_i,\, C_i), \qquad
 <li><p>The five patients removed between day 6 and day 7 are subject to: <select class="webex-select"><option value="blank"></option><option value="">Right censoring only</option><option value="answer">Right censoring (and the ulcer times themselves are interval-censored)</option><option value="">Interval censoring only</option><option value="">Left censoring</option></select></p></li>
 <li><p>What type of censoring applies to the <strong>ulcer event times themselves</strong> (e.g., an ulcer discovered at the day-8 check)?</p></li>
 <li><p>An ulcer discovered at a daily check is an example of: <select class="webex-select"><option value="blank"></option><option value="">Right censoring</option><option value="">Left censoring</option><option value="answer">Interval censoring</option><option value="">No censoring: the exact time is known</option></select></p></li>
-<li><p>Given the combination of censoring types present, which non-parametric survival estimator is most appropriate?</p></li>
-<li><p>The most appropriate estimator for these data is: <select class="webex-select"><option value="blank"></option><option value="">Kaplan–Meier estimator</option><option value="answer">Actuarial (life-table) estimator</option><option value="">Nelson–Aalen estimator</option><option value="">Empirical distribution function</option></select></p></li>
 </ol>
-<strong>15.2.</strong> Using the pressure-ulcer data from Exercise 15.1, compute the actuarial estimate of the survival function <span class="math inline">\(S(t)\)</span> by hand.
+<strong>15.2.</strong> Using the pressure-ulcer data from Exercise 15.1, estimate <span class="math inline">\(p = \Prob(\text{no ulcer within the 12-day study})\)</span> using each of the three naive approaches described in the Motivating Example above.
 <div class="webex-solution">
 <button>
 Click here to see hints.
 </button>
-<p>For each interval <span class="math inline">\([t_{j-1}, t_j)\)</span>: let <span class="math inline">\(n_j\)</span> be the number at risk at the start of the interval, <span class="math inline">\(d_j\)</span> the number of events (ulcers discovered), and <span class="math inline">\(c_j\)</span> the number of censored observations <em>within</em> the interval. The <strong>effective risk set</strong> is <span class="math inline">\(n'_j = n_j - c_j/2\)</span>. The actuarial factor for that interval is <span class="math inline">\((n'_j - d_j)/n'_j\)</span> (set to 1 if <span class="math inline">\(d_j = 0\)</span>). The survival estimate is the product of all factors up to and including interval <span class="math inline">\(j\)</span>.</p>
+<p>There are 20 patients in total: 10 developed an ulcer (an event), 5 were withdrawn between days 6 and 7 (censored, ulcer-free at withdrawal), and 5 completed all 12 days without an ulcer (ulcer-free throughout). For each approach, decide who counts as an ulcer-free “success” and what the denominator is.</p>
 </div>
 <ol type="a">
-<li><p>Construct the actuarial life table, showing columns for interval, <span class="math inline">\(n_j\)</span>, <span class="math inline">\(d_j\)</span>, <span class="math inline">\(c_j\)</span>, <span class="math inline">\(n'_j\)</span>, the interval factor, and the cumulative <span class="math inline">\(\hat{S}(t)\)</span>.</p></li>
-<li><p>State the estimated probability of <em>not</em> developing an ulcer over the 12-day study period.</p></li>
+<li><p><strong>Ignore censoring, treat censored patients as ulcer-free:</strong> compute <span class="math inline">\(\hat p\)</span>.</p></li>
+<li><p><strong>Treat censored observations as if the event occurred at the time of censoring:</strong> compute <span class="math inline">\(\hat p\)</span>.</p></li>
+<li><p><strong>Exclude censored observations from the analysis:</strong> compute <span class="math inline">\(\hat p\)</span>.</p></li>
+<li><p>For each of (a)–(c), state whether the estimate is likely to be an over- or under-estimate of the true probability of remaining ulcer-free, and explain why in one or two sentences. Referring back to the Motivating Example, what would a valid method need to do differently with the censored observations?</p></li>
 </ol>
 </div>
+<!-- [Solutions to the Exercises](Solutions/Solutions_15.html) -->
 
 
 </section>
@@ -868,18 +869,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -911,7 +901,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -919,7 +931,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
