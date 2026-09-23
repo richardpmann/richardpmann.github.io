@@ -680,7 +680,46 @@ Click here to see hints.
 </button>
 <p>Fit the full model with <code>gam(chd ~ s(tobacco,k=10) + s(alcohol,k=10) + ... + famhist, family='binomial')</code>. An edf close to 1 suggests the smooth term is approximately linear and could be replaced by a parametric linear term. For (b) and (d), fit the reduced model with the relevant <code>s(...)</code> term simply omitted from the formula; the two models’ deviances are <code>model$deviance</code>, and a reasonable degrees-of-freedom for the test is the difference in their total edf (<code>sum(model$edf)</code>), used as in <span class="math inline">\(D_1-D_2\sim\chi^2_{r_2-r_1}\)</span> even though this edf difference need not be an integer. For (c) and (d), compare <code>model$gcv.ubre</code> for the two models.</p>
 </div>
-<p>14.2 Using the <code>mcycle</code> data set from the <code>MASS</code> package (accelerometer readings from a motorcycle crash test), fit a GAM with <code>times</code> as the explanatory variable and <code>accel</code> as the response.</p>
+<p>14.2 Using the same data set, a model with a linear predictor for age, and a smooth function for tobacco gives the following summary:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Family: binomial 
+Link function: logit 
+
+Formula:
+chd ~ age + s(tobacco, k = 20) + famhist
+
+Parametric coefficients:
+                Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)    -3.273522   0.471089  -6.949 3.68e-12 ***
+age             0.047544   0.009684   4.910 9.12e-07 ***
+famhistPresent  0.962834   0.223318   4.311 1.62e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Approximate significance of smooth terms:
+            edf Ref.df Chi.sq p-value  
+s(tobacco) 6.08  7.573  17.89  0.0178 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+R-sq.(adj) =  0.212   Deviance explained = 19.1%
+UBRE = 0.083267  Scale est. = 1         n = 462</code></pre>
+</div>
+</div>
+<p>According to this model, for someone aged 22 with family history Absent, and cumulative tobacco consumption of 10kg, their probability of CHD is 0.20 [to 2 significant figures]</p>
+<ol type="a">
+<li><p>Calculate the probability for someone aged 55 with family history Absent, with a cumulative tobacco consumption of 10kg.</p></li>
+<li><p>Calculate at what age someone with family history Present and a cumulative tobacco consumption of 10kg will have a 50% chance of CHD.</p></li>
+</ol>
+<div class="webex-solution">
+<button>
+Click here to see hints.
+</button>
+<p>Although we don’t have an explicit expression for the smooth function, if tobacco consumption is the same in each case, this term will cancel out. You can fit the model yourself in R to check your answers.</p>
+</div>
+<p>14.3 Using the <code>mcycle</code> data set from the <code>MASS</code> package (accelerometer readings from a motorcycle crash test), fit a GAM with <code>times</code> as the explanatory variable and <code>accel</code> as the response.</p>
 <ol type="a">
 <li><p>Fit the model using the <code>gam</code> function, allowing the GCV-minimising smoothing parameter to be automatically selected, and report the estimated edf.</p></li>
 <li><p>Plot the fitted smooth function with its 95% confidence band.</p></li>
