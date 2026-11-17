@@ -511,6 +511,37 @@ h_j(t) = \lambda_j \gamma t^{\gamma - 1}.
 <p>The MLEs of <span class="math inline">\(\lambda_j\)</span> (given <span class="math inline">\(\hat\gamma\)</span>) are <span class="math display">\[
 \hat\lambda_j = \frac{r_j}{\sum_i t_{ji}^{\hat\gamma}},
 \]</span> and <span class="math inline">\(\hat\gamma\)</span> is obtained numerically by maximising the joint log-likelihood.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Note: From AFT to PH for the Weibull model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>R’s <code>survreg()</code> fits the <strong>accelerated failure time</strong> (AFT) form of the model, which is written for the <em>log survival time</em> rather than the hazard. With a group indicator <span class="math inline">\(x \in \{0,1\}\)</span>, <span class="math display">\[
+\log T = \mu + \tilde\beta\, x + \sigma W,
+\]</span> where <span class="math inline">\(W\)</span> has the standard minimum extreme value distribution, with survival function <span class="math inline">\(S_W(w) = \exp(-e^{w})\)</span>. Then <span class="math display">\[
+S(t \mid x) = P(T &gt; t \mid x)
+= P\!\left(W &gt; \frac{\log t - \mu - \tilde\beta x}{\sigma}\right)
+= \exp\!\left\{-\exp\!\left(\frac{\log t - \mu - \tilde\beta x}{\sigma}\right)\right\}.
+\]</span> Setting <span class="math inline">\(\gamma = 1/\sigma\)</span> and <span class="math inline">\(\lambda_x = \exp\{-\gamma(\mu + \tilde\beta x)\}\)</span>, this becomes <span class="math display">\[
+S(t \mid x) = \exp\{-\lambda_x t^{\gamma}\},
+\]</span> which is the Weibull survival function with cumulative hazard <span class="math inline">\(H(t \mid x) = \lambda_x t^\gamma\)</span> and hazard <span class="math inline">\(h(t \mid x) = \lambda_x \gamma t^{\gamma-1}\)</span>. The hazard ratio between the groups is <span class="math display">\[
+\psi = \frac{\lambda_1}{\lambda_0} = e^{-\gamma\tilde\beta},
+\qquad\text{so}\qquad
+\beta^{PH} = \log\psi = -\gamma\tilde\beta = -\tilde\beta/\sigma,
+\]</span> which does not depend on <span class="math inline">\(t\)</span>: the model has proportional hazards. The baseline hazard parameter is <span class="math inline">\(\lambda_0 = e^{-\gamma\mu}\)</span>.</p>
+<p><strong>Two readings of the same model.</strong></p>
+<ul>
+<li><em>AFT:</em> <span class="math inline">\(T \mid (x=1) \overset{d}{=} e^{\tilde\beta}\, T \mid (x=0)\)</span>, so <span class="math inline">\(e^{\tilde\beta}\)</span> is a <strong>time ratio</strong>: the group 1 survival times are stretched (<span class="math inline">\(\tilde\beta &gt; 0\)</span>) or shrunk (<span class="math inline">\(\tilde\beta &lt; 0\)</span>) by a constant factor.</li>
+<li><em>PH:</em> <span class="math inline">\(\psi = e^{\beta^{PH}}\)</span> is a <strong>hazard ratio</strong>.</li>
+</ul>
+<p>The two are linked by <span class="math inline">\(\psi = (e^{\tilde\beta})^{-\gamma}\)</span>. Longer survival (<span class="math inline">\(\tilde\beta &gt; 0\)</span>) corresponds to lower hazard (<span class="math inline">\(\psi &lt; 1\)</span>), which is why the <strong>sign flips</strong> and the coefficient is rescaled by <span class="math inline">\(\gamma\)</span>. For the exponential model, <span class="math inline">\(\gamma = 1\)</span> and <span class="math inline">\(\beta^{PH} = -\tilde\beta\)</span>. The Weibull family is the only one that is both an AFT model and a PH model; for other families (e.g.&nbsp;log-normal) the two forms are different models.</p>
+</div>
+</div>
 </section>
 <section id="fitting-in-r" class="level2" data-number="20.5">
 <h2 data-number="20.5" class="anchored" data-anchor-id="fitting-in-r"><span class="header-section-number">20.5</span> Fitting in R</h2>
