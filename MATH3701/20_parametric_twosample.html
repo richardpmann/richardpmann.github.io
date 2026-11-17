@@ -485,6 +485,8 @@ H_j(t) = \lambda_j t \quad \Rightarrow \quad
 \log H_j(t) = \log\lambda_j + \log t.
 \]</span></p>
 <p>A plot of <span class="math inline">\(\log\widehat{H}(t)\)</span> against <span class="math inline">\(\log t\)</span> should be linear with slope 1 for both groups. If the slopes differ from 1 but are equal to each other, a Weibull model with a common shape <span class="math inline">\(\gamma\)</span> may be more appropriate.</p>
+<p>For two groups with proportional hazards, <span class="math inline">\(\log H_2(t) - \log H_1(t) =
+\log\psi\)</span> is constant, so the two curves should be parallel (a constant vertical gap). Do not expect perfect parallelism: the estimate <span class="math inline">\(\log\widehat{H}(t)\)</span> rests on very few events at small <span class="math inline">\(t\)</span>, so it is noisy there, and curves can even cross early on. Judge parallelism over the range where each group has a reasonable number of events.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-twogroupcheck" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -493,7 +495,7 @@ H_j(t) = \lambda_j t \quad \Rightarrow \quad
 <img src="20_parametric_twosample_files/figure-html/fig-twogroupcheck-1.png" class="img-fluid figure-img" width="576">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-twogroupcheck-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;20.1: Log-cumulative hazard plots for two simulated groups. Parallel lines with approximately the same slope confirm the proportional hazards assumption.
+Figure&nbsp;20.1: Log-cumulative hazard plots for two simulated groups (200 subjects each, Weibull with common shape 1.5). Dashed lines show the true log-cumulative hazards. The estimated curves are roughly parallel, with most wobble at early times where few events have occurred.
 </figcaption>
 </figure>
 </div>
