@@ -399,7 +399,11 @@ window.Quarto = {
   <li><a href="#comparing-two-groups" id="toc-comparing-two-groups" class="nav-link active" data-scroll-target="#comparing-two-groups"><span class="header-section-number">20.1</span> Comparing two groups</a></li>
   <li><a href="#exponential-two-sample-model" id="toc-exponential-two-sample-model" class="nav-link" data-scroll-target="#exponential-two-sample-model"><span class="header-section-number">20.2</span> Exponential two-sample model</a></li>
   <li><a href="#graphical-check-the-log-cumulative-hazard" id="toc-graphical-check-the-log-cumulative-hazard" class="nav-link" data-scroll-target="#graphical-check-the-log-cumulative-hazard"><span class="header-section-number">20.3</span> Graphical check: the log-cumulative hazard</a></li>
-  <li><a href="#weibull-two-sample-model" id="toc-weibull-two-sample-model" class="nav-link" data-scroll-target="#weibull-two-sample-model"><span class="header-section-number">20.4</span> Weibull two-sample model</a></li>
+  <li><a href="#weibull-two-sample-model" id="toc-weibull-two-sample-model" class="nav-link" data-scroll-target="#weibull-two-sample-model"><span class="header-section-number">20.4</span> Weibull two-sample model</a>
+  <ul class="collapse">
+  <li><a href="#the-hazard-ratio" id="toc-the-hazard-ratio" class="nav-link" data-scroll-target="#the-hazard-ratio"><span class="header-section-number">20.4.1</span> The hazard ratio</a></li>
+  <li><a href="#estimation-and-inference" id="toc-estimation-and-inference" class="nav-link" data-scroll-target="#estimation-and-inference"><span class="header-section-number">20.4.2</span> Estimation and inference</a></li>
+  </ul></li>
   <li><a href="#fitting-in-r" id="toc-fitting-in-r" class="nav-link" data-scroll-target="#fitting-in-r"><span class="header-section-number">20.5</span> Fitting in R</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
   </ul>
@@ -504,13 +508,49 @@ Figure&nbsp;20.1: Log-cumulative hazard plots for two simulated groups (200 subj
 </section>
 <section id="weibull-two-sample-model" class="level2" data-number="20.4">
 <h2 data-number="20.4" class="anchored" data-anchor-id="weibull-two-sample-model"><span class="header-section-number">20.4</span> Weibull two-sample model</h2>
-<p>For a common shape <span class="math inline">\(\gamma\)</span> but different scales <span class="math inline">\(\lambda_1, \lambda_2\)</span>: <span class="math display">\[
-h_j(t) = \lambda_j \gamma t^{\gamma - 1}.
-\]</span></p>
-<p>The hazard ratio <span class="math inline">\(\psi = \lambda_2/\lambda_1\)</span> does not depend on <span class="math inline">\(t\)</span> — this is the <strong>proportional hazards</strong> (PH) property, which is explored in detail in <a href="21_ph_property.html" class="quarto-xref"><span>Chapter 21</span></a>.</p>
-<p>The MLEs of <span class="math inline">\(\lambda_j\)</span> (given <span class="math inline">\(\hat\gamma\)</span>) are <span class="math display">\[
-\hat\lambda_j = \frac{r_j}{\sum_i t_{ji}^{\hat\gamma}},
-\]</span> and <span class="math inline">\(\hat\gamma\)</span> is obtained numerically by maximising the joint log-likelihood.</p>
+<p>The exponential model forces a constant hazard in each group. A more flexible model allows the hazard to change over time while keeping the two groups comparable: take a <strong>common shape</strong> <span class="math inline">\(\gamma\)</span> but different scales <span class="math inline">\(\lambda_1, \lambda_2\)</span>, so that <span class="math display">\[
+h_j(t) = \lambda_j \gamma t^{\gamma - 1}, \qquad
+H_j(t) = \lambda_j t^{\gamma}, \qquad
+S_j(t) = \exp(-\lambda_j t^{\gamma}).
+\]</span> The exponential model is the special case <span class="math inline">\(\gamma = 1\)</span>.</p>
+<section id="the-hazard-ratio" class="level3" data-number="20.4.1">
+<h3 data-number="20.4.1" class="anchored" data-anchor-id="the-hazard-ratio"><span class="header-section-number">20.4.1</span> The hazard ratio</h3>
+<p>As before, the hazard ratio is <span class="math display">\[
+\psi = \frac{\lambda_2}{\lambda_1}.
+\]</span> Because the shape is shared, the factor <span class="math inline">\(\gamma t^{\gamma-1}\)</span> cancels: <span class="math display">\[
+\frac{h_2(t)}{h_1(t)} = \frac{\lambda_2 \gamma t^{\gamma-1}}{\lambda_1 \gamma t^{\gamma-1}} = \psi
+\qquad \text{for all } t &gt; 0.
+\]</span> So the same properties hold as for the exponential model, even though the hazards themselves now vary with <span class="math inline">\(t\)</span> (increasing if <span class="math inline">\(\gamma &gt; 1\)</span>, decreasing if <span class="math inline">\(\gamma &lt; 1\)</span>):</p>
+<ul>
+<li><span class="math inline">\(\psi\)</span> is constant in <span class="math inline">\(t\)</span>: this is the <strong>proportional hazards</strong> (PH) property, explored in detail in <a href="21_ph_property.html" class="quarto-xref"><span>Chapter 21</span></a>.</li>
+<li>The cumulative hazards are also proportional, <span class="math inline">\(H_2(t) = \psi H_1(t)\)</span>, and the survival functions are related by <span class="math inline">\(S_2(t) = S_1(t)^{\psi}\)</span>.</li>
+<li><span class="math inline">\(\psi &gt; 1\)</span> means group 2 has the higher hazard (worse survival) at every time, and <span class="math inline">\(\psi &lt; 1\)</span> the reverse; <span class="math inline">\(\psi = 1\)</span> means the groups have identical survival distributions.</li>
+<li>On the log-cumulative hazard plot, <span class="math inline">\(\log H_j(t) = \log\lambda_j + \gamma\log t\)</span>, so the two groups give <strong>parallel straight lines</strong> with common slope <span class="math inline">\(\gamma\)</span> and vertical gap <span class="math inline">\(\log\psi\)</span>.</li>
+</ul>
+<p>If the shapes differ, <span class="math inline">\(\gamma_1 \neq \gamma_2\)</span>, the ratio <span class="math inline">\(h_2(t)/h_1(t) \propto t^{\gamma_2-\gamma_1}\)</span> changes with <span class="math inline">\(t\)</span> and the hazards are <strong>not</strong> proportional. Proportional hazards is therefore a consequence of the common-shape assumption, not of the Weibull family as such.</p>
+</section>
+<section id="estimation-and-inference" class="level3" data-number="20.4.2">
+<h3 data-number="20.4.2" class="anchored" data-anchor-id="estimation-and-inference"><span class="header-section-number">20.4.2</span> Estimation and inference</h3>
+<p>The log-likelihood with censoring is <span class="math display">\[
+\ell(\lambda_1,\lambda_2,\gamma) = \sum_{j=1}^{2}\Bigl\{ r_j\log(\lambda_j\gamma)
++ (\gamma-1)\sum_{i:\,\delta_{ji}=1}\log t_{ji} - \lambda_j\sum_i t_{ji}^{\gamma}\Bigr\}.
+\]</span> For fixed <span class="math inline">\(\gamma\)</span>, maximising over <span class="math inline">\(\lambda_j\)</span> gives <span class="math display">\[
+\hat\lambda_j(\gamma) = \frac{r_j}{\sum_i t_{ji}^{\gamma}},
+\]</span> and <span class="math inline">\(\hat\gamma\)</span> is then found numerically by maximising the resulting profile log-likelihood. Writing <span class="math inline">\(\hat\lambda_j = \hat\lambda_j(\hat\gamma)\)</span>, the estimated hazard ratio is <span class="math display">\[
+\hat\psi = \frac{\hat\lambda_2}{\hat\lambda_1}
+= \frac{r_2 \sum_i t_{1i}^{\hat\gamma}}{r_1 \sum_i t_{2i}^{\hat\gamma}}.
+\]</span> This is exactly the exponential formula <span class="math inline">\(\hat\psi = r_2 v_1/(r_1 v_2)\)</span> with the person-times <span class="math inline">\(v_j\)</span> replaced by <span class="math inline">\(\sum_i t_{ji}^{\hat\gamma}\)</span>. The reason is a useful fact: if <span class="math inline">\(T\)</span> is Weibull with parameters <span class="math inline">\((\lambda,\gamma)\)</span> then <span class="math inline">\(T^{\gamma}\)</span> is exponential with rate <span class="math inline">\(\lambda\)</span>. For a <strong>known</strong> <span class="math inline">\(\gamma\)</span>, the Weibull two-sample problem is therefore the exponential two-sample problem on the transformed times <span class="math inline">\(t^{\gamma}\)</span>, and <span class="math display">\[
+\log\hat\psi \;\dot\sim\; \mathrm{N}\!\left(\log\psi,\;
+\frac{1}{r_1} + \frac{1}{r_2}\right)
+\]</span> as before.</p>
+<p>In practice <span class="math inline">\(\gamma\)</span> is estimated, and this extra uncertainty is not captured by <span class="math inline">\(1/r_1 + 1/r_2\)</span>, which is then a lower bound for the variance of <span class="math inline">\(\log\hat\psi\)</span>. The interval <span class="math inline">\(\exp\bigl(\log\hat\psi \pm
+1.96\sqrt{1/r_1+1/r_2}\bigr)\)</span> is therefore somewhat too narrow, especially for small <span class="math inline">\(r_j\)</span>. For the correct standard error, use the observed information matrix of the full model (and the delta method), as software does; see the code below.</p>
+<p><strong>Likelihood ratio tests.</strong> Each is compared with <span class="math inline">\(\chi^2_1\)</span>:</p>
+<ul>
+<li><span class="math inline">\(H_0: \psi = 1\)</span> (no difference between groups, allowing a common Weibull shape): compare the model with common <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\gamma\)</span> (2 parameters) against the model with separate <span class="math inline">\(\lambda_j\)</span> and common <span class="math inline">\(\gamma\)</span> (3 parameters).</li>
+<li><span class="math inline">\(H_0: \gamma_1 = \gamma_2\)</span> (the common-shape, hence PH, assumption): compare common <span class="math inline">\(\gamma\)</span> against separate <span class="math inline">\(\gamma_j\)</span>, each with separate <span class="math inline">\(\lambda_j\)</span> (3 versus 4 parameters). A small <span class="math inline">\(p\)</span>-value is evidence against proportional hazards within the Weibull family, and is a formal counterpart of the parallel-lines check above.</li>
+<li><span class="math inline">\(H_0: \gamma = 1\)</span> (exponential is adequate): compare the Weibull and exponential fits within the model.</li>
+</ul>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -543,6 +583,7 @@ S(t \mid x) = \exp\{-\lambda_x t^{\gamma}\},
 </div>
 </div>
 </section>
+</section>
 <section id="fitting-in-r" class="level2" data-number="20.5">
 <h2 data-number="20.5" class="anchored" data-anchor-id="fitting-in-r"><span class="header-section-number">20.5</span> Fitting in R</h2>
 <div class="cell">
@@ -563,6 +604,30 @@ S(t \mid x) = \exp\{-\lambda_x t^{\gamma}\},
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_joint)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># coefficient on 'group' = -log(psi)</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># (note: sign convention depends on parametrisation)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>For the Weibull two-sample model, fit with <code>dist = "weibull"</code> and convert from the AFT output to the PH hazard ratio using the box above:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(t, delta) <span class="sc">~</span> group, <span class="at">data =</span> d, <span class="at">dist =</span> <span class="st">"weibull"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_w)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>gamma_hat <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> fit_w<span class="sc">$</span>scale                  <span class="co"># common shape</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>beta_aft  <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_w)[<span class="st">"group"</span>]             <span class="co"># AFT coefficient</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>psi_hat   <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma_hat <span class="sc">*</span> beta_aft)       <span class="co"># hazard ratio</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard error of log(psi) by the delta method, which includes the</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># uncertainty in the shape. vcov() is on the scale of (mu, beta, log sigma);</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># log(psi) = -beta * exp(-log sigma).</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>V    <span class="ot">&lt;-</span> <span class="fu">vcov</span>(fit_w)[<span class="fu">c</span>(<span class="st">"group"</span>, <span class="st">"Log(scale)"</span>), <span class="fu">c</span>(<span class="st">"group"</span>, <span class="st">"Log(scale)"</span>)]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>gamma_hat, beta_aft <span class="sc">*</span> gamma_hat)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">drop</span>(<span class="fu">t</span>(grad) <span class="sc">%*%</span> V <span class="sc">%*%</span> grad))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">log</span>(psi_hat) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.96</span>, <span class="fl">1.96</span>) <span class="sc">*</span> se)       <span class="co"># 95% CI for psi</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood ratio test of psi = 1 (common shape in both models)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>fit_w0 <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(t, delta) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d, <span class="at">dist =</span> <span class="st">"weibull"</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_w0, fit_w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
