@@ -602,7 +602,7 @@ S(t \mid x) = \exp\{-\lambda_x t^{\gamma}\},
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>fit_joint <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(t, delta) <span class="sc">~</span> group, <span class="at">data =</span> d,</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">dist =</span> <span class="st">"exponential"</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_joint)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># coefficient on 'group' = -log(psi)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># coefficient on 'group' = -log(psi)/gamma, and gamma=1 for exponential</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># (note: sign convention depends on parametrisation)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
