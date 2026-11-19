@@ -617,17 +617,9 @@ S(t \mid x) = \exp\{-\lambda_x t^{\gamma}\},
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>beta_aft  <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_w)[<span class="st">"group"</span>]             <span class="co"># AFT coefficient</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>psi_hat   <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>gamma_hat <span class="sc">*</span> beta_aft)       <span class="co"># hazard ratio</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard error of log(psi) by the delta method, which includes the</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># uncertainty in the shape. vcov() is on the scale of (mu, beta, log sigma);</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># log(psi) = -beta * exp(-log sigma).</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>V    <span class="ot">&lt;-</span> <span class="fu">vcov</span>(fit_w)[<span class="fu">c</span>(<span class="st">"group"</span>, <span class="st">"Log(scale)"</span>), <span class="fu">c</span>(<span class="st">"group"</span>, <span class="st">"Log(scale)"</span>)]</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span>gamma_hat, beta_aft <span class="sc">*</span> gamma_hat)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">drop</span>(<span class="fu">t</span>(grad) <span class="sc">%*%</span> V <span class="sc">%*%</span> grad))</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">log</span>(psi_hat) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.96</span>, <span class="fl">1.96</span>) <span class="sc">*</span> se)       <span class="co"># 95% CI for psi</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood ratio test of psi = 1 (common shape in both models)</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>fit_w0 <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(t, delta) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d, <span class="at">dist =</span> <span class="st">"weibull"</span>)</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_w0, fit_w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Likelihood ratio test of psi = 1 (common shape in both models)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>fit_w0 <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(t, delta) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d, <span class="at">dist =</span> <span class="st">"weibull"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_w0, fit_w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
