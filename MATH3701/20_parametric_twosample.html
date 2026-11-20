@@ -641,17 +641,6 @@ Click here to see hints.
 </button>
 <p>Use <code>survfit(Surv(t, d) ~ group)</code> and then <code>plot()</code> with <code>col</code>, <code>lty</code>, and <code>legend()</code>. A lower KM curve means events occur sooner; in this context that is the favourable outcome.</p>
 </div>
-<strong>20.2.</strong> Using the robot surgery data from Exercise 20.1, perform a formal two-sample comparison of the survival curves.
-<div class="webex-solution">
-<button>
-Click here to see hints.
-</button>
-<p>For the log-rank test, at each event time <span class="math inline">\(t_{(j)}\)</span> compute <span class="math inline">\(E_{1j} = n_{1j} d_j / n_j\)</span>. The test statistic is <span class="math inline">\(U_L = \sum_j (O_{1j} - E_{1j})\)</span> with variance <span class="math inline">\(\mathrm{Var}(U_L) = \sum_j n_{1j}n_{2j}d_j(n_j - d_j)/(n_j^2(n_j-1))\)</span>.</p>
-</div>
-<ol type="a">
-<li><p>Carry out the <strong>normal-form log-rank test</strong> at the 10% significance level by hand, showing the calculation table.</p></li>
-<li><p>State the chi-squared form of the test statistic and compare your conclusion with part (a). Verify your result using R.</p></li>
-</ol>
 </div>
 <!-- [Solutions to the Exercises](Solutions/Solutions_20.html) -->
 
